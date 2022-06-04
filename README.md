@@ -2,7 +2,8 @@
 
 Test Project to use Github action and issue form template as ESP3D configuator.
 
-Using github-action / issues form bring too many constraints with not really great user experience,  so will to a standalone htm instead and it will be hosted in github static page area
+Using github-action / issues form bring too many constraints with not really great user experience,  so will go for
+ a standalone html file instead, and it will be hosted in github static page area
 I will use same element as webUI to save time:
 * nodejs
 * webpack

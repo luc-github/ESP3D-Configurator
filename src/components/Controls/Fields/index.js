@@ -1,5 +1,5 @@
 /*
- index.js - ESP3D WebUI App file
+ index.js - ESP3D WebUI controls file
 
  Copyright (c) 2020 Luc Lebosse. All rights reserved.
 
@@ -17,10 +17,18 @@
  License along with This code; if not, write to the Free Software
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-if (process.env.NODE_ENV === "development") {
-    require("preact/debug")
+import { h } from "preact"
+
+import Boolean from "./Boolean"
+import FormGroup from "./FormGroup"
+import Input from "./Input"
+import Select from "./Select"
+import LabelCtrl from "./Label"
+
+export {
+    Boolean,
+    FormGroup,
+    Input,
+    Select,
+    LabelCtrl,
 }
-import { h, render } from "preact"
-import { App } from "./components/App"
-import "./style/index.scss"
-render(<App />, document.body)

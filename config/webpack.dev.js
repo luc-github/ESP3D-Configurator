@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   mode: "development", // this will trigger some webpack default stuffs for dev
@@ -12,7 +13,7 @@ module.exports = {
     historyApiFallback: true, // to make our SPA works after a full reload, so that it serves 'index.html' when 404 response
     open: true,
     static: {
-      directory: path.resolve(__dirname, "./dist"),
+      directory: path.resolve(__dirname, "server", "public"),
     },
     port: 8088,
     proxy: {
@@ -23,6 +24,13 @@ module.exports = {
   stats: "minimal", // default behaviour spit out way too much info. adjust to your need.
   devtool: "source-map", // a sourcemap type. map to original source with line number
   plugins: [
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // all options are optional
+      filename: "[name].css",
+      chunkFilename: "[id].css",
+      ignoreOrder: false, // Enable to remove warnings about conflicting order
+    }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "../src/index.html"),
       inlineSource: ".(js|css)$",
@@ -32,21 +40,32 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         exclude: /(node_modules)/,
         use: {
           loader: "babel-loader",
           options: {
-            presets: ["@babel/preset-env"],
+            presets: ["preact"],
           },
         },
       },
       {
-        test: /\.css$/, // run the loaders below only on .css files
-        // this are the loaders. they interpret files, in this case css. they run from right to left sequence.
-        // css-loader: "interprets @import and url() like import/require() and will resolve them."
-        // style-loader: "Adds CSS to the DOM by injecting a <style> tag". this is fine for development.
-        use: ["style-loader", "css-loader"],
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          { loader: "style-loader" },
+          {
+            loader: "css-loader",
+            options: {
+              sourceMap: true,
+            },
+          },
+          {
+            loader: "sass-loader",
+            options: {
+              sourceMap: true,
+            },
+          },
+        ],
       },
     ],
   },

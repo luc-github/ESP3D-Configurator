@@ -4,41 +4,46 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 const HtmlInlineScriptPlugin = require("html-inline-script-webpack-plugin");
-const HTMLInlineCSSWebpackPlugin = require("html-inline-css-webpack-plugin")
-  .default;
+const HTMLInlineCSSWebpackPlugin =
+  require("html-inline-css-webpack-plugin").default;
 const Compression = require("compression-webpack-plugin");
 
 module.exports = {
+
   mode: "production", // this trigger webpack out-of-box prod optimizations
   entry: path.resolve(__dirname, "../src/index.js"),
   output: {
     filename: `[name].[hash].js`, // [hash] is useful for cache busting!
-    path: path.resolve(__dirname, "../dist"),
+    path: path.resolve(__dirname, "../build"),
   },
   module: {
     rules: [
       {
-        test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          { loader: MiniCssExtractPlugin.loader },
+          {
+            loader: "css-loader",
+            options: {
+              sourceMap: false,
+            },
+          },
+          {
+            loader: "sass-loader",
+            options: {
+              sourceMap: false,
+            },
+          },
+        ],
       },
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: [
           {
             loader: "babel-loader",
             options: {
-              presets: [
-                [
-                  "@babel/preset-env",
-                  {
-                    useBuiltIns: "usage",
-                    debug: false,
-                    corejs: 3,
-                    targets: {"chrome": "88"},
-                  },
-                ],
-              ],
+              presets: ["preact"],
             },
           },
         ],
@@ -55,14 +60,14 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "../src/index.html"),
       inlineSource: ".(js|css)$",
-      inject: true,
+      inject: "body",
     }),
 
     new HtmlInlineScriptPlugin([/\.(js)$/]),
     new HTMLInlineCSSWebpackPlugin(),
     new Compression({
       test: /\.(html)$/,
-      filename: "[path][base].gz",
+      filename: "[path]../dist/[base].gz",
       algorithm: "gzip",
       exclude: /.map$/,
       deleteOriginalAssets: "keep-source-map",
@@ -80,7 +85,6 @@ module.exports = {
         minify: (data, minimizerOptions) => {
           const htmlMinifier = require("html-minifier-terser");
           const [[filename, input]] = Object.entries(data);
-
           return htmlMinifier.minify(input, minimizerOptions);
         },
       }),

@@ -2,7 +2,8 @@
  index.js - ESP3D WebUI App file
 
  Copyright (c) 2020 Luc Lebosse. All rights reserved.
-
+ Original code inspiration : 2021 Alexandre Aussourd
+ 
  This code is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
  License as published by the Free Software Foundation; either
@@ -17,10 +18,30 @@
  License along with This code; if not, write to the Free Software
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-if (process.env.NODE_ENV === "development") {
-    require("preact/debug")
+import { h } from "preact"
+import {
+    RouterContextProvider,
+    UiContextProvider,
+    DatasContextProvider,
+} from "../../contexts"
+import { ToastsContainer } from "../Toast"
+import { Modal } from "../Modal"
+import { ContentContainer } from "../../areas"
+
+const App = () => {
+    return (
+        <div id="app">
+            <DatasContextProvider>
+                    <RouterContextProvider>
+                        <UiContextProvider>
+                            <ToastsContainer />
+                            <Modal />
+                            <ContentContainer />
+                        </UiContextProvider>
+                    </RouterContextProvider>
+            </DatasContextProvider>
+        </div>
+    )
 }
-import { h, render } from "preact"
-import { App } from "./components/App"
-import "./style/index.scss"
-render(<App />, document.body)
+
+export { App }

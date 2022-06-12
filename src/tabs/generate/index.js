@@ -20,21 +20,51 @@
 import { Fragment, h } from "preact"
 
 import { T } from "../../components/Translations"
-import {
-    useUiContext,
-} from "../../contexts"
+import { ButtonImg } from "../../components/Controls"
+import { Save } from "preact-feather"
+import { useDatasContext, useUiContext } from "../../contexts"
+import header from "./header"
+import footer from "./footer"
+
+const configurationFile = header + "Configuration file" + footer
+
+const exportFile = (filecontent, filename) => {
+    const file = new Blob([filecontent], {
+        type: "application/txt",
+    })
+    if (window.navigator.msSaveOrOpenBlob)
+        // IE10+
+        window.navigator.msSaveOrOpenBlob(file, filename)
+    else {
+        // Others
+        const a = document.createElement("a")
+        const url = URL.createObjectURL(file)
+        a.href = url
+        a.download = filename
+        document.body.appendChild(a)
+        a.click()
+        setTimeout(function () {
+            document.body.removeChild(a)
+            window.URL.revokeObjectURL(url)
+        }, 0)
+    }
+}
 
 const GenerateTab = () => {
-    
-
-
     console.log("generate")
+
     return (
         <div id="generate">
-
-         
             <h4 class="title">{T("generate")}</h4>
-            TBD
+            <pre>{configurationFile}</pre>
+            <ButtonImg
+                m2
+                icon={<Save />}
+                label={T("Save")}
+                onclick={() => {
+                    exportFile(configurationFile, "configuration.h")
+                }}
+            />
             <br />
         </div>
     )

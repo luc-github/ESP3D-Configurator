@@ -18,24 +18,57 @@
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 import { Fragment, h } from "preact"
-
+import { FieldGroup, Field } from "../../components/Controls"
 import { T } from "../../components/Translations"
-import {
-    useUiContext,
-} from "../../contexts"
+import { useDatasContext, useUiContext } from "../../contexts"
 
 const FeaturesTab = () => {
-    
-
-
+    const { configuration } = useDatasContext()
     console.log("feature")
     return (
         <div id="features">
-
-         
-            <h4 class="title">{T("S36")}</h4>
-            TBD
-            <br />
+            <div class="center">
+                {configuration.current.features.map((element, index) => {
+                    if (element.type === "group") {
+                        return (
+                            <FieldGroup
+                                id={element.id}
+                                label={T(element.label)}
+                            >
+                                {element.value.map((subelement, subindex) => {
+                                    if (
+                                        typeof subelement.initial ===
+                                        "undefined"
+                                    )
+                                        subelement.initial = subelement.value
+                                    const { label, initial, type, ...rest } =
+                                        subelement
+                                    return (
+                                        <Field
+                                            label={T(label)}
+                                            type={type}
+                                            {...rest}
+                                            setValue={(val, update = false) => {
+                                                if (!update) {
+                                                    subelement.value = val
+                                                }
+                                                /*setvalidation(
+                                                                                            generateValidation(
+                                                                                                subFieldData
+                                                                                            )
+                                                                                        )*/
+                                            }}
+                                        />
+                                    )
+                                })}
+                            </FieldGroup>
+                        )
+                    } else {
+                        return <Fragment>{element.label}</Fragment>
+                    }
+                })}
+                <br />
+            </div>
         </div>
     )
 }

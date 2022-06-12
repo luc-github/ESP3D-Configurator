@@ -22,10 +22,7 @@ import { h } from "preact"
 import { Link } from "../Router"
 import { T } from "../Translations"
 import { AppLogo } from "../Images/logo"
-import {
-    useUiContext,
-    useUiContextFn,
-} from "../../contexts"
+import { useUiContext, useUiContextFn } from "../../contexts"
 import { Camera, Download, HardDrive, Tool, Wifi } from "preact-feather"
 
 /*
@@ -34,32 +31,31 @@ import { Camera, Download, HardDrive, Tool, Wifi } from "preact-feather"
  */
 const defaultLinks = [
     {
-        label: "S36",
+        label: "features",
         icon: <AppLogo height="24px" />,
         href: "/config/features",
     },
     {
         label: "network",
-        icon: <Wifi/>,
+        icon: <Wifi />,
         href: "/config/network",
     },
     {
         label: "filesystems",
-        icon: <HardDrive/>,
+        icon: <HardDrive />,
         href: "/config/filesystems",
     },
     {
         label: "devices",
-        icon: <Camera/>,
+        icon: <Camera />,
         href: "/config/devices",
     },
 
     {
         label: "generate",
-        icon: <Download/>,
+        icon: <Download />,
         href: "/config/generate",
     },
-    
 ]
 const TabBar = () => {
     const { uisettings } = useUiContext()
@@ -67,7 +63,6 @@ const TabBar = () => {
         <ul class="tab tab-block">
             {defaultLinks &&
                 defaultLinks.map(({ label, icon, href }) => {
-                   
                     return (
                         <li class="tab-item">
                             <Link

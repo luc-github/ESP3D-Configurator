@@ -18,6 +18,7 @@
 */
 import { h, createContext } from "preact"
 import { useRef, useContext, useState } from "preact/hooks"
+import defaultConfiguration from "../configuration.json"
 
 /*
  * Local const
@@ -27,9 +28,7 @@ const DatasContext = createContext("DatasContext")
 const useDatasContext = () => useContext(DatasContext)
 
 const DatasContextProvider = ({ children }) => {
-
-const configuration = useRef({})
-    
+    const configuration = useRef(defaultConfiguration)
 
     const store = {
         configuration,

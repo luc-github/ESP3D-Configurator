@@ -16,9 +16,4 @@
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 import { h } from "preact"
-export const webUIversion = "1.0.0-a1"
-export const Version = () => (
-    <span>
-        {webUIversion}
-    </span>
-)
+export const Version = "1.0.0-a1"

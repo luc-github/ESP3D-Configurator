@@ -1,0 +1,78 @@
+{
+    "features": [
+        {
+            "id": "mcu",
+            "description":"Target board",
+            "label":"Board description",
+            "setting":false,
+            "type":"group",
+            "value":[
+                {
+                    "id":"targetmcu",
+                    "define":"TARGET_MCU",
+                    "description":"Target MCU",
+                    "label":"Target MCU",
+                    "type":"select",
+                    "value":"esp32",
+                    "setting":false,
+                    "options": [
+                        {
+                            "label": "ESP8266",
+                            "value": "esp8266"
+                        },
+                        {
+                            "label": "ESP32",
+                            "value": "esp32"
+                        },
+                        {
+                            "label": "ESP32-S2",
+                            "value": "esp32s2"
+                        },
+                        {
+                            "label": "ESP32-S3",
+                            "value": "esp32s3"
+                        },
+                        {
+                            "label": "ESP32-C3",
+                            "value": "esp32c3"
+                        }
+                    ]
+                },
+                {
+                    "id":"targetmcu",
+                    "define":"FLASH_SIZE",
+                    "description":"ESP flash size",
+                    "label":"ESP flash size",
+                    "type":"select",
+                    "value":"4",
+                    "setting":false,
+                    "options": [
+                        {
+                            "label": "1MB",
+                            "value": "1"
+                        },
+                        {
+                            "label": "2MB",
+                            "value": "2"
+                        },
+                        {
+                            "label": "4MB",
+                            "value": "4"
+                        },
+                        {
+                            "label": "8MB",
+                            "value": "8"
+                        },
+                        {
+                            "label": "16MB",
+                            "value": "16"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "filesystems": [],
+    "networks": [],
+    "devices": []
+}

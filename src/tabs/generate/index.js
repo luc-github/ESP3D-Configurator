@@ -80,24 +80,37 @@ const exportFile = (filecontent, filename) => {
     }
 }
 
-const GenerateTab = () => {
+const GenerateTab = ({ previous }) => {
     console.log("generate")
     const { configuration } = useDatasContext()
     return (
         <div id="generate">
             <h4 class="title">{T("generate")}</h4>
             <pre>{configurationFile(configuration.current)}</pre>
-            <ButtonImg
-                m2
-                icon={<Save />}
-                label={T("Save")}
-                onclick={() => {
-                    exportFile(
-                        configurationFile(configuration.current),
-                        "configuration.h"
-                    )
-                }}
-            />
+
+            <div style="display:flex;justify-content:space-around">
+                {previous && (
+                    <ButtonImg
+                        label="Previous"
+                        onclick={() => {
+                            if (document.getElementById(previous)) {
+                                document.getElementById(previous).click()
+                            }
+                        }}
+                    />
+                )}
+                <ButtonImg
+                    m2
+                    icon={<Save />}
+                    label={T("Download")}
+                    onclick={() => {
+                        exportFile(
+                            configurationFile(configuration.current),
+                            "configuration.h"
+                        )
+                    }}
+                />
+            </div>
             <br />
         </div>
     )

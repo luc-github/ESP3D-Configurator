@@ -20,39 +20,53 @@
 */
 import { h } from "preact"
 import { Router } from "../../components/Router"
-import { FeaturesTab } from "../../tabs/features"
-import { NetworkTab } from "../../tabs/network"
-import { FilesystemsTab } from "../../tabs/filesystems"
-import { DevicesTab } from "../../tabs/devices"
+import { StepTab } from "../../tabs/step"
 import { GenerateTab } from "../../tabs/generate"
 import { TabBar } from "../../components/TabBar"
 import { T } from "../../components/Translations"
 
 const routes = {
     FEATURES: {
-        component: <FeaturesTab />,
+        component: <StepTab current="features" next="networkLink" />,
         path: "/config/features",
     },
     NETWORK: {
-        component: <NetworkTab />,
+        component: (
+            <StepTab
+                current="network"
+                previous="featuresLink"
+                next="filesystemsLink"
+            />
+        ),
         path: "/config/network",
     },
     FILESYSTEMS: {
-        component: <FilesystemsTab />,
+        component: (
+            <StepTab
+                current="filesystems"
+                previous="networkLink"
+                next="devicesLink"
+            />
+        ),
         path: "/config/filesystems",
     },
     DEVICES: {
-        component: <DevicesTab />,
+        component: (
+            <StepTab
+                current="devices"
+                previous="filesystemsLink"
+                next="generateLink"
+            />
+        ),
         path: "/config/devices",
     },
     GENERATE: {
-        component: <GenerateTab />,
+        component: <GenerateTab previous="devicesLink" />,
         path: "/config/generate",
     },
 }
 
 const Config = () => {
-
     return (
         <div id="settings" class="container">
             <TabBar />

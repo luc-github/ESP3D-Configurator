@@ -34,27 +34,32 @@ const defaultLinks = [
         label: "features",
         icon: <AppLogo height="24px" />,
         href: "/config/features",
+        id: "featuresLink",
     },
     {
         label: "network",
         icon: <Wifi />,
         href: "/config/network",
+        id: "networkLink",
     },
     {
         label: "filesystems",
         icon: <HardDrive />,
         href: "/config/filesystems",
+        id: "filesystemsLink",
     },
     {
         label: "devices",
         icon: <Camera />,
         href: "/config/devices",
+        id: "devicesLink",
     },
 
     {
         label: "generate",
         icon: <Download />,
         href: "/config/generate",
+        id: "generateLink",
     },
 ]
 const TabBar = () => {
@@ -62,10 +67,11 @@ const TabBar = () => {
     return (
         <ul class="tab tab-block">
             {defaultLinks &&
-                defaultLinks.map(({ label, icon, href }) => {
+                defaultLinks.map(({ label, icon, href, id }) => {
                     return (
                         <li class="tab-item">
                             <Link
+                                id={id}
                                 className="btn btn-link no-box feather-icon-container"
                                 activeClassName="active"
                                 href={href}

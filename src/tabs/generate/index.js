@@ -21,7 +21,7 @@ import { Fragment, h } from "preact"
 
 import { T } from "../../components/Translations"
 import { ButtonImg } from "../../components/Controls"
-import { Save } from "preact-feather"
+import { Save, ArrowLeft } from "preact-feather"
 import { useDatasContext, useUiContext } from "../../contexts"
 import header from "./header"
 import footer from "./footer"
@@ -85,12 +85,13 @@ const GenerateTab = ({ previous }) => {
     const { configuration } = useDatasContext()
     return (
         <div id="generate">
-            <h4 class="title">{T("generate")}</h4>
             <pre>{configurationFile(configuration.current)}</pre>
 
             <div style="display:flex;justify-content:space-around">
                 {previous && (
                     <ButtonImg
+                        m2
+                        icon={<ArrowLeft />}
                         label="Previous"
                         onclick={() => {
                             if (document.getElementById(previous)) {

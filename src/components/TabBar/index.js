@@ -31,32 +31,32 @@ import { Camera, Download, HardDrive, Tool, Wifi } from "preact-feather"
  */
 const defaultLinks = [
     {
-        label: "features",
+        label: "Features",
         icon: <AppLogo height="24px" />,
         href: "/config/features",
         id: "featuresLink",
     },
     {
-        label: "network",
+        label: "Network",
         icon: <Wifi />,
         href: "/config/network",
         id: "networkLink",
     },
     {
-        label: "filesystems",
+        label: "Filesystems",
         icon: <HardDrive />,
         href: "/config/filesystems",
         id: "filesystemsLink",
     },
     {
-        label: "devices",
+        label: "Devices",
         icon: <Camera />,
         href: "/config/devices",
         id: "devicesLink",
     },
 
     {
-        label: "generate",
+        label: "Download",
         icon: <Download />,
         href: "/config/generate",
         id: "generateLink",

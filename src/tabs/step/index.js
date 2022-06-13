@@ -21,6 +21,7 @@ import { Fragment, h } from "preact"
 import { FieldGroup, Field, ButtonImg } from "../../components/Controls"
 import { T } from "../../components/Translations"
 import { useDatasContext, useUiContext } from "../../contexts"
+import { ArrowLeft, ArrowRight } from "preact-feather"
 
 const StepTab = ({ previous, current, next }) => {
     const { configuration } = useDatasContext()
@@ -82,7 +83,9 @@ const StepTab = ({ previous, current, next }) => {
                 <div style="display:flex;justify-content:space-around">
                     {previous && (
                         <ButtonImg
-                            label="Previous"
+                            m2
+                            label={T("Previous")}
+                            icon={<ArrowLeft />}
                             onclick={() => {
                                 if (document.getElementById(previous)) {
                                     document.getElementById(previous).click()
@@ -93,7 +96,10 @@ const StepTab = ({ previous, current, next }) => {
 
                     {next && (
                         <ButtonImg
-                            label="Next"
+                            m2
+                            label={T("Next")}
+                            icon={<ArrowRight />}
+                            iconRight
                             onclick={() => {
                                 if (document.getElementById(next)) {
                                     document.getElementById(next).click()

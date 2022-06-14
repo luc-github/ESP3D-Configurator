@@ -25,16 +25,17 @@ import { useDatasContext, useUiContext } from "../../contexts"
 import { ArrowLeft, ArrowRight } from "preact-feather"
 
 const getHelp = (item, value) => {
-    return item[
-        item.findIndex((element) => {
-            return element.value == value
-        })
-    ].help
+    if (item)
+        return item[
+            item.findIndex((element) => {
+                return element.value == value
+            })
+        ].help
+    return null
 }
 
 const StepTab = ({ previous, current, next }) => {
     const { configuration } = useDatasContext()
-    console.log(current)
     return (
         <div id={current} class="m-2">
             <div class="center">
@@ -63,7 +64,9 @@ const StepTab = ({ previous, current, next }) => {
                                                 ...rest
                                             } = subelement
                                             const [help, setHelp] = useState(
-                                                getHelp(options, value)
+                                                options
+                                                    ? getHelp(options, value)
+                                                    : subelement.description
                                             )
                                             return (
                                                 <Fragment>
@@ -82,12 +85,13 @@ const StepTab = ({ previous, current, next }) => {
                                                             if (!update) {
                                                                 subelement.value =
                                                                     val
-                                                                setHelp(
-                                                                    getHelp(
-                                                                        options,
-                                                                        val
+                                                                if (options)
+                                                                    setHelp(
+                                                                        getHelp(
+                                                                            options,
+                                                                            val
+                                                                        )
                                                                     )
-                                                                )
                                                             }
                                                             /*setvalidation(
                                                                                             generateValidation(
@@ -96,7 +100,22 @@ const StepTab = ({ previous, current, next }) => {
                                                                                         )*/
                                                         }}
                                                     />
-                                                    {help && <div>{help}</div>}
+                                                    {help && (
+                                                        <div class="m-1">
+                                                            {help}
+                                                        </div>
+                                                    )}
+                                                    {subelement.usedescforoptions && (
+                                                        <div class="m-1">
+                                                            {
+                                                                subelement.description
+                                                            }
+                                                        </div>
+                                                    )}
+                                                    <div
+                                                        class="m-1 divider"
+                                                        style="border-color: #dadee4"
+                                                    />
                                                 </Fragment>
                                             )
                                         }

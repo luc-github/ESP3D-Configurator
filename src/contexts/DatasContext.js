@@ -24,12 +24,23 @@ import defaultConfiguration from "../configuration.json"
  * Local const
  *
  */
+const useDatasContextFn = {}
 const DatasContext = createContext("DatasContext")
 const useDatasContext = () => useContext(DatasContext)
 
 const DatasContextProvider = ({ children }) => {
     const configuration = useRef(defaultConfiguration)
+    const getValue = (section, group, item) => {
+        const groupelement =
+            configuration.current[section][
+                configuration.current[section].findIndex((e) => e.id === group)
+            ]
 
+        return groupelement.value[
+            groupelement.value.findIndex((e) => e.id === item)
+        ].value
+    }
+    useDatasContextFn.getValue = getValue
     const store = {
         configuration,
     }
@@ -39,4 +50,4 @@ const DatasContextProvider = ({ children }) => {
     )
 }
 
-export { DatasContextProvider, useDatasContext }
+export { DatasContextProvider, useDatasContext, useDatasContextFn }

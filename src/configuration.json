@@ -131,11 +131,12 @@
                 {
                     "id":"serialbuffer",
                     "define":"SERIAL_RX_BUFFER_SIZE",
-                    "description":"Serial buffer size",
+                    "description":"Maximum size of the serial buffer",
                     "label":"Serial buffer size",
                     "type":"select",
                     "value":"512",
                     "setting":true,
+                    "usedescforoptions":true,
                      "options": [
                         {
                             "label": "0 Byte",
@@ -160,13 +161,158 @@
                     ]
                 }
             ]
+        },
+        {
+            "id": "targetFW",
+            "description":"Targeted firmware that ESP3D will communicate with",
+            "label":"Target firmware",
+            "setting":true,
+            "type":"group",
+            "value":[
+                {
+                    "id":"systemtype",
+                    "define":"SYSTEM_TYPE",
+                    "description":"The type of your system",
+                    "label":"System type",
+                    "type":"select",
+                    "value":"Printer3D",
+                    "setting":false,
+                    "options": [
+                        {
+                            "label": "CNC",
+                            "value": "CNC",
+                            "help":"CNC system used for milling/laser engraving/cutting"
+                        },
+                        {
+                            "label": "3D printer",
+                            "value": "Printer3D",
+                            "help":"3D printer system used with filaments"
+                        },
+                        {
+                            "label": "Sand Table",
+                            "value": "SandTable",
+                            "help":"System doing kinetic art, zen garden, sand table, etc."
+                        }
+                       
+                    ]
+                },
+                {
+                    "id":"defaultfw",
+                    "define":"DEFAULT_FW",
+                    "description":"The firmware that ESP3D will use by default",
+                    "label":"Target firmware",
+                    "type":"select",
+                    "value":"UNKNOWN_FW",
+                    "setting":true,
+                    "options": [
+                        {
+                            "label": "Undefined",
+                            "value": "UNKNOWN_FW",
+                            "help":"Undefined firmware"
+                        },
+                        {
+                            "label": "Marlin",
+                            "value": "MARLIN",
+                            "help":"Marlin 2.x firmware"
+                        },
+                        {
+                            "label": "Repetier",
+                            "value": "REPETIER",
+                            "help":"Repetier 1.x/2.x firmware"
+                        },
+                        {
+                            "label": "Smoothieware",
+                            "value": "SMOOTHIEWARE",
+                            "help":"Smoothieware 1.x/2.x firmware"
+                        },
+                        {
+                            "label": "Grbl",
+                            "value": "GRBL",
+                            "help":"Grbl 1.1 firmware"
+                        }
+                       
+                    ]
+                }
+            ]
         }
     ],
-    "filesystems": [],
+    "filesystems": [
+        {
+            "id": "flash",
+            "description":"Filesystem on flash",
+            "label":"Flash filesystem",
+            "setting":true,
+            "type":"group",
+            "value":[
+                {
+                "id":"flashFS",
+                "define":"FILESYSTEM_FEATURE",
+                "label":"File system type",
+                "description":"Type of file system used by ESP3D to store files",
+                "type":"select",
+                "value":"ESP_LITTLEFS_FILESYSTEM",
+                "setting":true,
+                "usedescforoptions":true,
+                "options": [
+                    {
+                        "label": "LittleFS",
+                        "value": "ESP_LITTLEFS_FILESYSTEM"
+                    },
+                    {
+                        "label": "FatFS",
+                        "value": "ESP_FAT_FILESYSTEM",
+                        "help":"Only on ESP32 with large flash",
+                        "depend":{"id":"targetmcu","value":"!='esp8266'"}
+                    }
+                ]   
+                }
+            ]
+        }
+    ],
     "networks": [],
     "devices": [],
     "security": [],
     "others":[],
-    "default": []
+    "default": [
+        {
+            "id": "default",
+            "description":"Do not edit them",
+            "label":"Default settings for ESP3D",
+            "setting":true,
+            "type":"group",
+            "value":[
+                {
+                    "id":"gcodehost",
+                    "define":"GCODE_HOST_FEATURE",
+                    "label":"Gcode Host Feature",
+                    "description":"This feature allows to process Gcode files like macros.",
+                    "type":"boolean",
+                    "value":true,
+                    "setting":true
+                },
+                {
+                    "id":"settings",
+                    "define":"ESP_SAVE_SETTINGS",
+                    "label":"Settings location",
+                    "description":"Location where ESP3D will save settings",
+                    "type":"select",
+                    "value":"SETTINGS_IN_EEPROM",
+                    "setting":true,
+                    "usedescforoptions":true,
+                    "options": [
+                        {
+                            "label": "EEPROM",
+                            "value": "SETTINGS_IN_EEPROM"
+                        },
+                        {
+                            "label": "NFS",
+                            "value": "SETTINGS_IN_PREFERENCES"
+                        }
+                    ]
+                }
+            ]
+        }
+
+    ]
     
 }

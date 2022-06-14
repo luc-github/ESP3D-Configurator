@@ -20,8 +20,11 @@
 import { h } from "preact"
 import { RouterContextProvider, useRouterContext } from "./RouterContext"
 import { UiContextProvider, useUiContext, useUiContextFn } from "./UiContext"
-import { DatasContextProvider, useDatasContext } from "./DatasContext"
-
+import {
+    DatasContextProvider,
+    useDatasContext,
+    useDatasContextFn,
+} from "./DatasContext"
 
 export {
     RouterContextProvider,
@@ -31,4 +34,5 @@ export {
     useUiContextFn,
     DatasContextProvider,
     useDatasContext,
+    useDatasContextFn,
 }

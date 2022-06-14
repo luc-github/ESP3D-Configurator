@@ -2,16 +2,16 @@
     "features": [
         {
             "id": "mcu",
-            "description":"Target board",
+            "description":"ESP Board  using ESP3D firmware",
             "label":"Board description",
             "setting":false,
             "type":"group",
             "value":[
                 {
                     "id":"targetmcu",
-                    "define":"TARGET_MCU",
-                    "description":"Target MCU",
-                    "label":"Target MCU",
+                    "define":"ESP_MCU",
+                    "description":"MCU",
+                    "label":"MCU",
                     "type":"select",
                     "value":"esp32",
                     "setting":false,
@@ -49,11 +49,13 @@
                     "options": [
                         {
                             "label": "1MB",
-                            "value": "1"
+                            "value": "1",
+                            "help":"No OTA/ Web update possible"
                         },
                         {
                             "label": "2MB",
-                            "value": "2"
+                            "value": "2",
+                            "help":"No OTA/ Web update possible"
                         },
                         {
                             "label": "4MB",
@@ -70,9 +72,42 @@
                     ]
                 }
             ]
+        },
+        {
+            "id": "communication",
+            "description":"Communications settings and protocols",
+            "label":"Communications",
+            "setting":true,
+            "type":"group",
+            "value":[
+                {
+                    "id":"protocol",
+                    "define":"COMMUNICATION_PROTOCOL",
+                    "description":"Communication protocol used by ESP3D to discuss with printer or TFT",
+                    "label":"Communication protocol",
+                    "type":"select",
+                    "value":"RAW_SERIAL",
+                    "setting":true,
+                    "options": [
+                        {
+                            "label": "Raw serial",
+                            "value": "RAW_SERIAL",
+                            "help":"Basic serial protocol, without data change"
+                        },
+                        {
+                            "label": "MKS serial",
+                            "value": "MKS_SERIAL",
+                            "help":"This is a MakerBase communication protocol, used with MKS printers and TFT, it encapsulated data in a custom protocol"
+                        }
+                       
+                    ]
+                }
+            ]
         }
     ],
     "filesystems": [],
     "networks": [],
-    "devices": []
+    "devices": [],
+    "system": []
+    
 }

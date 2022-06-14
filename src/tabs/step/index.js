@@ -18,10 +18,19 @@
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 import { Fragment, h } from "preact"
+import { useState, useEffect } from "preact/hooks"
 import { FieldGroup, Field, ButtonImg } from "../../components/Controls"
 import { T } from "../../components/Translations"
 import { useDatasContext, useUiContext } from "../../contexts"
 import { ArrowLeft, ArrowRight } from "preact-feather"
+
+const getHelp = (item, value) => {
+    return item[
+        item.findIndex((element) => {
+            return element.value == value
+        })
+    ].help
+}
 
 const StepTab = ({ previous, current, next }) => {
     const { configuration } = useDatasContext()
@@ -49,28 +58,46 @@ const StepTab = ({ previous, current, next }) => {
                                                 label,
                                                 initial,
                                                 type,
+                                                options,
+                                                value,
                                                 ...rest
                                             } = subelement
+                                            const [help, setHelp] = useState(
+                                                getHelp(options, value)
+                                            )
                                             return (
-                                                <Field
-                                                    label={T(label)}
-                                                    type={type}
-                                                    {...rest}
-                                                    setValue={(
-                                                        val,
-                                                        update = false
-                                                    ) => {
-                                                        if (!update) {
-                                                            subelement.value =
-                                                                val
-                                                        }
-                                                        /*setvalidation(
+                                                <Fragment>
+                                                    <Field
+                                                        inline
+                                                        className="fit-content"
+                                                        label={T(label)}
+                                                        options={options}
+                                                        value={value}
+                                                        type={type}
+                                                        {...rest}
+                                                        setValue={(
+                                                            val,
+                                                            update = false
+                                                        ) => {
+                                                            if (!update) {
+                                                                subelement.value =
+                                                                    val
+                                                                setHelp(
+                                                                    getHelp(
+                                                                        options,
+                                                                        val
+                                                                    )
+                                                                )
+                                                            }
+                                                            /*setvalidation(
                                                                                             generateValidation(
                                                                                                 subFieldData
                                                                                             )
                                                                                         )*/
-                                                    }}
-                                                />
+                                                        }}
+                                                    />
+                                                    {help && <div>{help}</div>}
+                                                </Fragment>
                                             )
                                         }
                                     )}

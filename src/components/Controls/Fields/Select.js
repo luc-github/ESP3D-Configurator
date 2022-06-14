@@ -33,6 +33,7 @@ const Select = ({
     setValue,
     value,
     button,
+    className,
     ...rest
 }) => {
     const optionList = options.map((option) => <Option {...option} />)
@@ -51,7 +52,7 @@ const Select = ({
     return (
         <Fragment>
             <select
-                class={`form-select ${inline ? "column" : ""}`}
+                class={`form-select ${inline ? "column" : ""} ${className}`}
                 {...props}
                 {...rest}
                 value={value}

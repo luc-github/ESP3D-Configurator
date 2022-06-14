@@ -357,6 +357,10 @@ a label {
   user-select: none;
 }
 
+.fit-content{
+ width: fit-content;
+}
+
 .has-modification svg {
   color: $warning-color;
 }

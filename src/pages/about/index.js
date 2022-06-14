@@ -23,15 +23,14 @@ import { useState } from "preact/hooks"
 
 import { T } from "../../components/Translations"
 
-
-
-
 const About = () => {
     console.log("about")
 
     return (
         <div id="about" class="container">
-            About
+            <div style="min-height:200px;height:100%;display:flex; flex-flow: column; justify-content:center; align-items:middle">
+                <center>{T("about")}</center>
+            </div>
             <br />
         </div>
     )

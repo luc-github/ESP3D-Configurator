@@ -75,16 +75,16 @@
         },
         {
             "id": "communication",
-            "description":"Communications settings and protocols",
-            "label":"Communications",
+            "description":"Settings and protocols",
+            "label":"Serial Communications",
             "setting":true,
             "type":"group",
             "value":[
                 {
-                    "id":"protocol",
+                    "id":"serialprotocol",
                     "define":"COMMUNICATION_PROTOCOL",
                     "description":"Communication protocol used by ESP3D to discuss with printer or TFT",
-                    "label":"Communication protocol",
+                    "label":"Serial Communication protocol",
                     "type":"select",
                     "value":"RAW_SERIAL",
                     "setting":true,
@@ -101,6 +101,63 @@
                         }
                        
                     ]
+                },
+                {
+                    "id":"serialport",
+                    "define":"ESP_SERIAL_OUTPUT",
+                    "description":"Which serial port ESP3D use to communicate with printer or TFT",
+                    "label":"Serial port",
+                    "type":"select",
+                    "value":"USE_SERIAL_0",
+                    "setting":true,
+                    "depend":{"id":"targetmcu","value":[{"id":"esp32","value":3},{"id":"esp32s2","value":2},{"id":"esp32s3","value":3},{"id":"esp32c3","value":2},{"id":"esp8266","value":1}]},
+                    "options": [
+                        {
+                            "label": "0",
+                            "value": "USE_SERIAL_0",
+                            "help":"Also used by bootloader output, so consider to make it quiet" 
+                        },
+                        {
+                            "label": "1",
+                            "value": "USE_SERIAL_1"
+                            
+                        },
+                        {
+                            "label": "2",
+                            "value": "USE_SERIAL_2"
+                        }
+                    ]
+                },
+                {
+                    "id":"serialbuffer",
+                    "define":"SERIAL_RX_BUFFER_SIZE",
+                    "description":"Serial buffer size",
+                    "label":"Serial buffer size",
+                    "type":"select",
+                    "value":"512",
+                    "setting":true,
+                     "options": [
+                        {
+                            "label": "0 Byte",
+                            "value": "0"
+                        },
+                        {
+                            "label": "128 Bytes",
+                            "value": "128"
+                        },
+                        {
+                            "label": "256 Bytes",
+                            "value": "256"
+                        },
+                        {
+                            "label": "512 Bytes",
+                            "value": "512"
+                        },
+                        {
+                            "label": "1024 Bytes",
+                            "value": "1024"
+                        }
+                    ]
                 }
             ]
         }
@@ -108,6 +165,8 @@
     "filesystems": [],
     "networks": [],
     "devices": [],
-    "system": []
+    "security": [],
+    "others":[],
+    "default": []
     
 }

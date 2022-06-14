@@ -23,7 +23,7 @@ import { Link } from "../Router"
 import { T } from "../Translations"
 import { AppLogo } from "../Images/logo"
 import { useUiContext, useUiContextFn } from "../../contexts"
-import { Camera, Download, HardDrive, Tool, Wifi } from "preact-feather"
+import { Camera, Download, HardDrive, Tool, Wifi, Lock } from "preact-feather"
 
 /*
  * Local const
@@ -55,6 +55,18 @@ const defaultLinks = [
         id: "devicesLink",
     },
 
+    {
+        label: "Security",
+        icon: <Lock />,
+        href: "/config/security",
+        id: "securityLink",
+    },
+    {
+        label: "Others",
+        icon: <Tool />,
+        href: "/config/others",
+        id: "othersLink",
+    },
     {
         label: "Download",
         icon: <Download />,

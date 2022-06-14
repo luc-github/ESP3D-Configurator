@@ -32,7 +32,7 @@ const configurationFile = (data) => {
 }
 
 const sectionFormated = (title, description) => {
-    return `\n/************************************\n*\n* ${title}\n*\n* ${description}\n*\n************************************/\n\n`
+    return `\n/************************************\n*\n* ${title}\n*\n* ${description}\n*\n************************************/\n`
 }
 
 const getLabel = (item, value) => {
@@ -65,13 +65,15 @@ const convertToText = (data) => {
                     item2.value.reduce((acc3, element) => {
                         if (element.setting) {
                             //TODO check if active
+                            const help = getHelp(element.options, element.value)
+                            const label = getLabel(
+                                element.options,
+                                element.value
+                            )
                             return (
                                 acc3 +
-                                `// ${element.label}\n` +
-                                `// ${getHelp(
-                                    element.options,
-                                    element.value
-                                )}\n` +
+                                `\n// ${element.label}\n` +
+                                `// ${help ? help : label}\n` +
                                 `#define ${element.define} ${element.value}\n`
                             )
                         } else {
@@ -116,7 +118,7 @@ const GenerateTab = ({ previous }) => {
     console.log("generate")
     const { configuration } = useDatasContext()
     return (
-        <div id="generate">
+        <div id="generate" class="m-2">
             <code>
                 <pre>{configurationFile(configuration.current)}</pre>
             </code>

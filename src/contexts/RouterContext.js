@@ -26,7 +26,7 @@ import { useContext, useState, useRef } from "preact/hooks"
 const RouterContext = createContext("RouterContext")
 const useRouterContext = () => useContext(RouterContext)
 const RouterContextProvider = ({ children }) => {
-    const defaultRoute = useRef("/about")
+    const defaultRoute = useRef("/config")
     const activeTab = useRef("/config/features")
     const [activeRoute, setActiveRoute] = useState(defaultRoute.current)
     const [routes, setRoutes] = useState({})

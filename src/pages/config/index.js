@@ -55,13 +55,33 @@ const routes = {
             <StepTab
                 current="devices"
                 previous="filesystemsLink"
-                next="generateLink"
+                next="securityLink"
             />
         ),
         path: "/config/devices",
     },
+    SECURITY: {
+        component: (
+            <StepTab
+                current="security"
+                previous="devicesLink"
+                next="othersLink"
+            />
+        ),
+        path: "/config/security",
+    },
+    OTHERS: {
+        component: (
+            <StepTab
+                current="others"
+                previous="securityLink"
+                next="generateLink"
+            />
+        ),
+        path: "/config/others",
+    },
     GENERATE: {
-        component: <GenerateTab previous="devicesLink" />,
+        component: <GenerateTab previous="othersLink" />,
         path: "/config/generate",
     },
 }

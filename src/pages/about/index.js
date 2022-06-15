@@ -20,8 +20,10 @@
 */
 import { h } from "preact"
 import { useState } from "preact/hooks"
-
+import { Version } from "../../components/App/version"
 import { T } from "../../components/Translations"
+import { Github } from "preact-feather"
+import { ButtonImg } from "../../components/Controls"
 
 const About = () => {
     console.log("about")
@@ -29,7 +31,21 @@ const About = () => {
     return (
         <div id="about" class="container">
             <div style="min-height:200px;height:100%;display:flex; flex-flow: column; justify-content:center; align-items:middle">
-                <center>{T("about")}</center>
+                <center>
+                    <div class="m-2 text-primary">
+                        ESP3D-Configurator V{Version}{" "}
+                        <ButtonImg
+                            icon={<Github />}
+                            onclick={() => {
+                                window.open(
+                                    "https://github.com/luc-github/ESP3D-Configurator",
+                                    "_BLANK"
+                                )
+                            }}
+                        />
+                    </div>
+                    {T("about")}
+                </center>
             </div>
             <br />
         </div>

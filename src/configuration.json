@@ -110,7 +110,6 @@
                     "type":"select",
                     "value":"USE_SERIAL_0",
                     "setting":true,
-                    "depend":{"id":"targetmcu","value":[{"id":"esp32","value":3},{"id":"esp32s2","value":2},{"id":"esp32s3","value":3},{"id":"esp32c3","value":2},{"id":"esp8266","value":1}]},
                     "options": [
                         {
                             "label": "0",
@@ -119,12 +118,13 @@
                         },
                         {
                             "label": "1",
-                            "value": "USE_SERIAL_1"
-                            
+                            "value": "USE_SERIAL_1",
+                            "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3","esp32c3"]}
                         },
                         {
                             "label": "2",
-                            "value": "USE_SERIAL_2"
+                            "value": "USE_SERIAL_2",
+                            "depend":{"id":"targetmcu","value":["esp32","esp32s3"]}
                         }
                     ]
                 },
@@ -213,22 +213,26 @@
                         {
                             "label": "Marlin",
                             "value": "MARLIN",
-                            "help":"Marlin 2.x firmware"
+                            "help":"Marlin 2.x firmware",
+                            "depend":{"id":"systemtype","value":["Printer3D"]}
                         },
                         {
                             "label": "Repetier",
                             "value": "REPETIER",
-                            "help":"Repetier 1.x/2.x firmware"
+                            "help":"Repetier 1.x/2.x firmware",
+                            "depend":{"id":"systemtype","value":["Printer3D"]}
                         },
                         {
                             "label": "Smoothieware",
                             "value": "SMOOTHIEWARE",
-                            "help":"Smoothieware 1.x/2.x firmware"
+                            "help":"Smoothieware 1.x/2.x firmware",
+                            "depend":{"id":"systemtype","value":["Printer3D"]}
                         },
                         {
                             "label": "Grbl",
                             "value": "GRBL",
-                            "help":"Grbl 1.1 firmware"
+                            "help":"Grbl 1.1 firmware",
+                            "depend":{"id":"systemtype","value":["CNC","SandTable"]}
                         }
                        
                     ]
@@ -262,10 +266,74 @@
                         "label": "FatFS",
                         "value": "ESP_FAT_FILESYSTEM",
                         "help":"Only on ESP32 with large flash",
-                        "depend":{"id":"targetmcu","value":[{"id":"esp32","value":"esp32"}]}
+                        "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3","esp32c3"]}
                     }
                 ]   
                 }
+            ]
+        },
+        {
+            "id": "sd",
+            "description":"Filesystem on SD card",
+            "label":"SD filesystem",
+            "setting":true,
+            "type":"group",
+            "value":[
+                {
+                "id":"sdconnection",
+                "define":"SD_DEVICE_CONNECTION",
+                "label":"SD card connection",
+                "description":"Does your system has SD card and how it is connected to your ESP3D",
+                "type":"select",
+                "value":"-1",
+                "setting":true,
+                "usedescforoptions":true,
+                "options": [
+                    {
+                        "label": "None",
+                        "value": "-1",
+                        "help":"Your ESP does not have SDcard but your system may have one"
+                    },
+                    {
+                        "label": "Direct connection",
+                        "value": "ESP_DIRECT_SD",
+                        "help":"Only your ESP board has SDCard"
+                    },
+                    {
+                        "label": "Shared connection",
+                        "value": "ESP_SHARED_SD",
+                        "help":"Your system has SDCard and your ESP is connected to it"
+                    }
+                ]   
+                },
+                {
+                    "id":"sdfs",
+                    "define":"SD_DEVICE",
+                    "label":"SD card library",
+                    "description":"Library used by SD card driver",
+                    "type":"select",
+                    "value":"ESP_SDFAT2",
+                    "depend":{"id":"sdconnection","value":["ESP_SHARED_SD","ESP_DIRECT_SD"]},
+                    "setting":true,
+                    "options": [
+                        {
+                            "label": "Native from core",
+                            "value": "ESP_SD_NATIVE",
+                            "help":"No additionnal library required"
+                        },
+                        {
+                            "label": "SDFat",
+                            "value": "ESP_SDFAT2",
+                            "help":"SDFat 2 library required"
+                        },
+                        {
+                            "label": "SDIO",
+                            "value": "ESP_SDIO",
+                            "help": "Used by SDMMC",
+                            "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3","esp32c3"]}
+                        }
+                    ]   
+                    }
             ]
         }
     ],
@@ -294,7 +362,7 @@
                 "type":"boolean",
                 "value":false,
                 "setting":true,
-                "depend":{"id":"targetmcu","value":[{"id":"esp32","value":"esp32"}]}
+                "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3","esp32c3"]}
                 }
                 ,
                 {
@@ -305,7 +373,7 @@
                 "type":"boolean",
                 "value":false,
                 "setting":true,
-                "depend":{"id":"targetmcu","value":[{"id":"esp32","value":"esp32"}]}
+                "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3","esp32c3"]}
                 }
             ]
         },

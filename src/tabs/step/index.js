@@ -21,28 +21,50 @@ import { Fragment, h } from "preact"
 import { useState, useEffect } from "preact/hooks"
 import { FieldGroup, Field, ButtonImg } from "../../components/Controls"
 import { T } from "../../components/Translations"
-import { useDatasContext, useUiContext } from "../../contexts"
+import {
+    useDatasContext,
+    useDatasContextFn,
+    useUiContext,
+} from "../../contexts"
 import { ArrowLeft, ArrowRight } from "preact-feather"
 
 const getHelp = (item, value) => {
-    if (item)
-        return item[
-            item.findIndex((element) => {
-                return element.value == value
-            })
-        ].help
+    if (item) {
+        const index = item.findIndex((element) => {
+            return element.value == value
+        })
+        if (index > -1) return item[index].help
+    }
     return null
+}
+
+const canshow = (depend) => {
+    if (depend) {
+        const val = useDatasContextFn.getValueId(depend.id)
+        return depend.value.includes(val)
+    }
+    return true
 }
 
 const StepTab = ({ previous, current, next }) => {
     const { configuration } = useDatasContext()
     console.log(current)
+    const generateValidation = (fieldData) => {
+        const validation = {
+            message: "",
+            valid: true,
+            modified: false,
+        }
+        return validation
+    }
     return (
         <div id={current} class="m-2">
             <div class="center">
                 {configuration.current[current] &&
                     configuration.current[current].map((element, index) => {
                         if (element.type === "group") {
+                            if (!canshow(element.depend)) return null
+
                             return (
                                 <FieldGroup
                                     id={element.id}
@@ -50,6 +72,8 @@ const StepTab = ({ previous, current, next }) => {
                                 >
                                     {element.value.map(
                                         (subelement, subindex) => {
+                                            if (!canshow(subelement.depend))
+                                                return null
                                             if (
                                                 typeof subelement.initial ===
                                                 "undefined"
@@ -64,21 +88,34 @@ const StepTab = ({ previous, current, next }) => {
                                                 value,
                                                 ...rest
                                             } = subelement
+                                            const filteredOptions = options
+                                                ? options.filter((opt) => {
+                                                      return canshow(opt.depend)
+                                                  })
+                                                : null
+
                                             const [help, setHelp] = useState(
                                                 options
                                                     ? getHelp(options, value)
                                                     : subelement.description
                                             )
+                                            const [validation, setvalidation] =
+                                                useState()
                                             return (
                                                 <Fragment>
                                                     <Field
                                                         inline
                                                         className="fit-content"
                                                         label={T(label)}
-                                                        options={options}
+                                                        options={
+                                                            filteredOptions
+                                                        }
                                                         value={value}
                                                         type={type}
                                                         {...rest}
+                                                        validationfn={
+                                                            generateValidation
+                                                        }
                                                         setValue={(
                                                             val,
                                                             update = false
@@ -94,12 +131,13 @@ const StepTab = ({ previous, current, next }) => {
                                                                         )
                                                                     )
                                                             }
-                                                            /*setvalidation(
-                                                                                            generateValidation(
-                                                                                                subFieldData
-                                                                                            )
-                                                                                        )*/
+                                                            setvalidation(
+                                                                generateValidation(
+                                                                    subelement
+                                                                )
+                                                            )
                                                         }}
+                                                        validation={validation}
                                                     />
                                                     {help && (
                                                         <div class="m-1">

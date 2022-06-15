@@ -40,7 +40,62 @@ const DatasContextProvider = ({ children }) => {
             groupelement.value.findIndex((e) => e.id === item)
         ].value
     }
+    const getValueId = (Id) => {
+        if (!Id) return undefined
+        const settingsobject = configuration.current
+        if (settingsobject) {
+            for (let key in settingsobject) {
+                if (Array.isArray(settingsobject[key])) {
+                    for (
+                        let index = 0;
+                        index < settingsobject[key].length;
+                        index++
+                    ) {
+                        if (settingsobject[key][index].id == Id) {
+                            return settingsobject[key][index].value
+                        }
+                        if (Array.isArray(settingsobject[key][index].value)) {
+                            for (
+                                let subindex = 0;
+                                subindex <
+                                settingsobject[key][index].value.length;
+                                subindex++
+                            ) {
+                                if (
+                                    settingsobject[key][index].value[subindex]
+                                        .id == Id
+                                ) {
+                                    return settingsobject[key][index].value[
+                                        subindex
+                                    ].value
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    for (let subkey in settingsobject[key]) {
+                        if (Array.isArray(settingsobject[key][subkey])) {
+                            for (
+                                let index = 0;
+                                index < settingsobject[key][subkey].length;
+                                index++
+                            ) {
+                                if (
+                                    settingsobject[key][subkey][index].id == Id
+                                ) {
+                                    return settingsobject[key][subkey][index]
+                                        .value
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return undefined
+    }
     useDatasContextFn.getValue = getValue
+    useDatasContextFn.getValueId = getValueId
     const store = {
         configuration,
     }

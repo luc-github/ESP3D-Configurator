@@ -55,13 +55,21 @@ const getLabel = (item, value) => {
 }
 
 const getHelp = (item, value) => {
-    if (item)
-        return item[
-            item.findIndex((element) => {
-                return element.value == value
-            })
-        ].help
+    if (item) {
+        const index = item.findIndex((element) => {
+            return element.value == value
+        })
+        if (index > -1) return item[index].help
+    }
     return null
+}
+
+const canshow = (depend) => {
+    if (depend) {
+        const val = useDatasContextFn.getValueId(depend.id)
+        return depend.value.includes(val)
+    }
+    return true
 }
 
 const convertToText = (data) => {
@@ -69,65 +77,66 @@ const convertToText = (data) => {
     return Object.keys(data).reduce((acc, item) => {
         return data[item].reduce((acc2, item2) => {
             if (item2.type == "group") {
-                return (
-                    acc2 +
-                    sectionFormated(item2.label, item2.description) +
-                    item2.value.reduce((acc3, element) => {
-                        if (element.setting) {
-                            if (element.type == "select") {
-                                const help = getHelp(
-                                    element.options,
-                                    element.value
-                                )
-                                const label = getLabel(
-                                    element.options,
-                                    element.value
-                                )
-                                return (
-                                    acc3 +
-                                    `\n// ${element.label}\n` +
-                                    `${
-                                        help
-                                            ? "// " + help + "\n"
-                                            : label
-                                            ? "// " + label + "\n"
-                                            : ""
-                                    }` +
-                                    `${
-                                        element.usedescforoptions
-                                            ? "// " + element.description + "\n"
-                                            : ""
-                                    }` +
-                                    `#define ${element.define} ${element.value}\n`
-                                )
-                            }
-                            if (element.type == "boolean") {
-                                return (
-                                    acc3 +
-                                    `\n// ${element.label}\n` +
-                                    `// ${element.description}\n` +
-                                    `#define ${element.define} ${element.value}\n`
-                                )
-                            }
-                            if (element.type == "text") {
-                                return (
-                                    acc3 +
-                                    `\n// ${element.label}\n` +
-                                    `// ${element.description}\n` +
-                                    `#define ${element.define} ${element.value}\n`
-                                )
-                            }
-                        } else {
+                const content = item2.value.reduce((acc3, element) => {
+                    if (!canshow(element.depend)) return acc3
+                    if (element.setting) {
+                        if (element.value == "-1") return acc3
+                        if (element.type == "select") {
+                            const help = getHelp(element.options, element.value)
+                            const label = getLabel(
+                                element.options,
+                                element.value
+                            )
+
                             return (
                                 acc3 +
-                                `// ${element.label}=${getLabel(
-                                    element.options,
-                                    element.value
-                                )}\n`
+                                `\n// ${element.label}\n` +
+                                `${
+                                    help
+                                        ? "// " + help + "\n"
+                                        : label
+                                        ? "// " + label + "\n"
+                                        : ""
+                                }` +
+                                `${
+                                    element.usedescforoptions
+                                        ? "// " + element.description + "\n"
+                                        : ""
+                                }` +
+                                `#define ${element.define} ${element.value}\n`
                             )
                         }
-                    }, "")
-                )
+                        if (element.type == "boolean") {
+                            return (
+                                acc3 +
+                                `\n// ${element.label}\n` +
+                                `// ${element.description}\n` +
+                                `#define ${element.define} ${element.value}\n`
+                            )
+                        }
+                        if (element.type == "text") {
+                            return (
+                                acc3 +
+                                `\n// ${element.label}\n` +
+                                `// ${element.description}\n` +
+                                `#define ${element.define} ${element.value}\n`
+                            )
+                        }
+                    } else {
+                        return (
+                            acc3 +
+                            `// ${element.label}=${getLabel(
+                                element.options,
+                                element.value
+                            )}\n`
+                        )
+                    }
+                }, "")
+                return content.length == 0
+                    ? acc2
+                    : acc2 +
+                          sectionFormated(item2.label, item2.description) +
+                          content
             } else {
                 console.log("Group definition is missing for " + item2.label)
             }

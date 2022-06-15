@@ -93,7 +93,17 @@ const StepTab = ({ previous, current, next }) => {
                                                       return canshow(opt.depend)
                                                   })
                                                 : null
-
+                                            if (
+                                                filteredOptions &&
+                                                filteredOptions.findIndex(
+                                                    (op) =>
+                                                        op.value ==
+                                                        subelement.value
+                                                ) == -1
+                                            ) {
+                                                subelement.value =
+                                                    filteredOptions[0].value
+                                            }
                                             const [help, setHelp] = useState(
                                                 options
                                                     ? getHelp(options, value)

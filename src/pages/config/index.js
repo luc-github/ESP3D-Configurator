@@ -45,16 +45,26 @@ const routes = {
             <StepTab
                 current="filesystems"
                 previous="networkLink"
-                next="devicesLink"
+                next="updateLink"
             />
         ),
         path: "/config/filesystems",
+    },
+    UPDATE: {
+        component: (
+            <StepTab
+                current="update"
+                previous="filesystemsLink"
+                next="devicesLink"
+            />
+        ),
+        path: "/config/update",
     },
     DEVICES: {
         component: (
             <StepTab
                 current="devices"
-                previous="filesystemsLink"
+                previous="updateLink"
                 next="securityLink"
             />
         ),

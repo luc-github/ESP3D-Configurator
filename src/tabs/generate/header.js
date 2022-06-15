@@ -19,7 +19,7 @@
 */
 import { h } from "preact"
 const header =
-    "\n\
+    '\n\
 /*\n\
   configuration.h - ESP3D configuration file\n\
 \n\
@@ -41,7 +41,21 @@ const header =
 */\n\
 #ifndef _CONFIGURATION_H\n\
 #define _CONFIGURATION_H\n\
+//Setup station as default, use AP mode first if not done\n\
+//Note: need both defined to enable it\n\
+//Uncomment and edit them to define\n\
+//#define STATION_WIFI_SSID "*********"\n\
+//#define STATION_WIFI_PASSWORD "*********"\n\
 \n\
-"
+//You can also use a different config file for SSID/password\n\
+//Just save it in same location as this configuration.h\n\
+//This file is ignored by github\n\
+#if defined __has_include\n\
+#  if __has_include ("myconfig.h")\n\
+#    include "myconfig.h"\n\
+#  endif\n\
+#endif\n\
+\n\
+'
 
 export default header

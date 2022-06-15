@@ -23,7 +23,15 @@ import { Link } from "../Router"
 import { T } from "../Translations"
 import { AppLogo } from "../Images/logo"
 import { useUiContext, useUiContextFn } from "../../contexts"
-import { Camera, Download, HardDrive, Tool, Wifi, Lock } from "preact-feather"
+import {
+    Camera,
+    Download,
+    HardDrive,
+    Tool,
+    Wifi,
+    Lock,
+    Upload,
+} from "preact-feather"
 
 /*
  * Local const
@@ -47,6 +55,12 @@ const defaultLinks = [
         icon: <HardDrive />,
         href: "/config/filesystems",
         id: "filesystemsLink",
+    },
+    {
+        label: "Update",
+        icon: <Upload />,
+        href: "/config/update",
+        id: "updateLink",
     },
     {
         label: "Devices",

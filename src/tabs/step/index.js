@@ -36,6 +36,7 @@ const getHelp = (item, value) => {
 
 const StepTab = ({ previous, current, next }) => {
     const { configuration } = useDatasContext()
+    console.log(current)
     return (
         <div id={current} class="m-2">
             <div class="center">

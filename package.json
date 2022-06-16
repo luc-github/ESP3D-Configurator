@@ -47,7 +47,7 @@
     "webpack-dev-server": "^4.7.3"
   },
   "dependencies": {
-    "preact": "^10.6.6",
+    "preact": "^10.8.0",
     "preact-feather": "^4.2.1",
     "spectre.css": "luc-github/spectre"
   }

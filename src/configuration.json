@@ -297,12 +297,12 @@
                     {
                         "label": "Direct connection",
                         "value": "ESP_DIRECT_SD",
-                        "help":"Only your ESP board has SDCard"
+                        "help":"Only your ESP board is connected to SDCard"
                     },
                     {
                         "label": "Shared connection",
                         "value": "ESP_SHARED_SD",
-                        "help":"Your system has SDCard and your ESP is connected to it"
+                        "help":"Your system has SDCard and your ESP is connected to it using sharing solution"
                     }
                 ]   
                 },

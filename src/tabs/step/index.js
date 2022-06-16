@@ -105,12 +105,26 @@ const StepTab = ({ previous, current, next }) => {
                                                     filteredOptions[0].value
                                             }
                                             const [help, setHelp] = useState(
-                                                options
-                                                    ? getHelp(options, value)
+                                                subelement.options
+                                                    ? getHelp(
+                                                          subelement.options,
+                                                          subelement.value
+                                                      )
                                                     : subelement.description
                                             )
                                             const [validation, setvalidation] =
                                                 useState()
+                                            //workaround to useState not always updating help at begining and use another one from another page...
+                                            useEffect(() => {
+                                                setHelp(
+                                                    subelement.options
+                                                        ? getHelp(
+                                                              subelement.options,
+                                                              subelement.value
+                                                          )
+                                                        : subelement.description
+                                                )
+                                            }, [subelement.value])
                                             return (
                                                 <Fragment>
                                                     <Field
@@ -133,13 +147,15 @@ const StepTab = ({ previous, current, next }) => {
                                                             if (!update) {
                                                                 subelement.value =
                                                                     val
-                                                                if (options)
-                                                                    setHelp(
-                                                                        getHelp(
-                                                                            options,
-                                                                            val
-                                                                        )
-                                                                    )
+
+                                                                setHelp(
+                                                                    options
+                                                                        ? getHelp(
+                                                                              options,
+                                                                              val
+                                                                          )
+                                                                        : subelement.description
+                                                                )
                                                             }
                                                             setvalidation(
                                                                 generateValidation(

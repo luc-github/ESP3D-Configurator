@@ -239,7 +239,8 @@
                 }
             ]
         }
-    ], "network": [
+    ], 
+    "network": [
         {
             "id": "radiomode",
             "description":"The radio mode ESP3D communicate with the network",
@@ -403,6 +404,16 @@
                         "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3","esp32c3"]}
                     }
                 ]   
+                },
+                {
+                "id":"flashTimestamp",
+                "define":"FILESYSTEM_TIMESTAMP_FEATURE",
+                "label":"Enable date/time on files",
+                "description":"Set date/time on files using SNTP or last webui connection",
+                "type":"boolean",
+                "value":false,
+                "disableiffalse":true,
+                "setting":true
                 }
             ]
         },
@@ -477,7 +488,17 @@
                     "value":true,
                     "depend":{"id":"sdfs","value":["ESP_SDIO"]},
                     "setting":true  
-                }
+                },
+                {
+                    "id":"sdtimestamp",
+                    "define":"SD_TIMESTAMP_FEATURE",
+                    "label":"Enable date/time on files",
+                    "description":"Set date/time on files using SNTP or last webui connection",
+                    "type":"boolean",
+                    "value":false,
+                    "disableiffalse":true,
+                    "setting":true
+                    }
                 
             ]
         },
@@ -645,7 +666,243 @@
         ]
     }
     ],
-    "devices": [],
+    "devices": [
+        {
+            "id": "screens",
+            "description":"Rendering screens",
+            "label":"Display settings",
+            "setting":true,
+            "type":"group",
+            "value":[
+                {
+                    "id":"printerscreen",
+                    "define":"PRINTER_HAS_DISPLAY",
+                    "label":"Printer screen",
+                    "description":"Your printer has a display",
+                    "type":"boolean",
+                    "value":true,
+                    "depend":{"id":"systemtype","value":["Printer3D"]},
+                    "disableiffalse":true,
+                    "setting":true  
+                },
+                {
+                    "id":"displaytype",
+                    "define":"DISPLAY_DEVICE",
+                    "label":"ESP3D screen",
+                    "description":"Screen connected to ESP board",
+                    "type":"select",
+                    "value":"-1",
+                    "setting":true,
+                    "usedescforoptions":true,
+                    "options": [
+
+                        {
+                            "label": "None",
+                            "value": "-1"
+                        },
+                        {
+                            "label": "OLED I2C SSD1306 128X64",
+                            "value": "OLED_I2C_SSD1306_128X64"
+                        },
+                        {
+                            "label": "OLED I2C SSDSH1106 132X64",
+                            "value": "OLED_I2C_SSDSH1106_132X64"
+                        },
+                        {
+                            "label": "TFT SPI ST7789 240X240",
+                            "value": "TFT_SPI_ST7789_240X240"
+                        },
+                        {
+                            "label": "TFT SPI ST7789 135X240",
+                            "value": "TFT_SPI_ST7789_135X240"
+                        }
+                    ]
+                },
+                {
+                    "id":"flipdisplay",
+                    "define":"DISPLAY_FLIP_VERTICALY",
+                    "label":"Flip screen",
+                    "description":"Flip/rotate screen",
+                    "type":"boolean",
+                    "value":false,
+                    "depend":{"id":"displaytype","notvalue":["-1"]},
+                    "disableiffalse":true,
+                    "setting":true  
+                },
+                {
+                    "id":"i2caddressoled",
+                    "define":"DISPLAY_I2C_ADDR",
+                    "label":"Display i2C address",
+                    "description":"Wire address of display",
+                    "type":"text",
+                    "value":"0x3c",
+                    "depend":{"id":"displaytype","value":["OLED_I2C_SSD1306_128X64","OLED_I2C_SSDSH1106_132X64"]},
+                    "setting":true  
+                },
+                {
+                    "id":"oledrstpin",
+                    "define":"DISPLAY_I2C_PIN_RST",
+                    "label":"Display reset pin",
+                    "description":"The pin used to reset the screen (optional)",
+                    "type":"select",
+                    "ispin":true,
+                    "value":"-1",
+                    "depend":{"id":"displaytype","value":["OLED_I2C_SSD1306_128X64","OLED_I2C_SSDSH1106_132X64"]},
+                    "setting":true,
+                    "usedescforoptions":true
+                },
+                {
+                    "id":"tftledpin",
+                    "define":"DISPLAY_LED_PIN",
+                    "label":"TFT led pin",
+                    "description":"The pin used for the backlight",
+                    "type":"select",
+                    "ispin":true,
+                    "value":"-1",
+                    "depend":{"id":"displaytype","value":["TFT_SPI_ST7789_135X240","TFT_SPI_ST7789_240X240"]},
+                    "setting":true,
+                    "usedescforoptions":true
+                }
+            ]
+        },
+        {
+            "id": "buzzer",
+            "description":"Buzzer feature",
+            "label":"Audio settings",
+            "setting":true,
+            "type":"group",
+            "value":[
+                {
+                    "id":"buzzerfeature",
+                    "define":"BUZZER_DEVICE",
+                    "label":"Enable buzzer",
+                    "description":"Your esp board has a passive buzzer",
+                    "type":"boolean",
+                    "value":false,
+                    "disableiffalse":true,
+                    "setting":true  
+                },
+                {
+                    "id":"buzzerpin",
+                    "define":"ESP3D_BUZZER_PIN",
+                    "label":"Buzzer pin",
+                    "description":"The pin used for the passive buzzer",
+                    "type":"select",
+                    "ispin":true,
+                    "value":"-1",
+                    "depend":{"id":"buzzerfeature","value":[true]},
+                    "setting":true,
+                    "usedescforoptions":true
+                }
+            ]
+
+        },
+        {
+            "id": "sensor",
+            "description":"Sensor feature",
+            "label":"Sensor settings",
+            "setting":true,
+            "type":"group",
+            "value":[
+                {
+                    "id":"sensortype",
+                    "define":"SENSOR_DEVICE",
+                    "label":"ESP3D connected sensor",
+                    "description":"Sensor connected to ESP board",
+                    "type":"select",
+                    "value":"-1",
+                    "setting":true,
+                    "usedescforoptions":true,
+                    "options": [
+
+                        {
+                            "label": "None",
+                            "value": "-1"
+                        },
+                        {
+                            "label": "DHT11",
+                            "value": "DHT11_DEVICE"
+                        },
+                        {
+                            "label": "DHT22",
+                            "value": "DHT22_DEVICE"
+                        },
+                        {
+                            "label": "BMP280",
+                            "value": "BMP280_DEVICE"
+                        },
+                        {
+                            "label": "BME280",
+                            "value": "BME280_DEVICE"
+                        },
+                        {
+                            "label": "Analog sensor",
+                            "value": "ANALOG_DEVICE"
+                        }
+                    ]
+                },
+                {
+                    "id":"i2caddresssensor",
+                    "define":"SENSOR_ADDR",
+                    "label":"Sensor i2C address",
+                    "description":"Wire address of sensor",
+                    "type":"text",
+                    "value":"0x76",
+                    "depend":{"id":"sensortype","notvalue":["-1","ANALOG_DEVICE"]},
+                    "setting":true  
+                },
+                {
+                    "id":"sensorpin",
+                    "define":"ESP3D_SENSOR_PIN",
+                    "label":"Sensor pin",
+                    "description":"The pin used for the sensor",
+                    "type":"select",
+                    "ispin":true,
+                    "value":"-1",
+                    "depend":{"id":"sensortype","notvalue":["-1"]},
+                    "setting":true,
+                    "usedescforoptions":true
+                },
+                {
+                    "id":"analogsensorconverter",
+                    "define":"SENSOR_CONVERTER(v)",
+                    "label":"Conversion formula",
+                    "description":"v is the value read from sensor",
+                    "type":"text",
+                    "value":"v*0.588",
+                    "depend":{"id":"sensortype","value":["ANALOG_DEVICE"]},
+                    "setting":true  
+                },
+                {
+                    "id":"sensorunit",
+                    "define":"SENSOR__UNIT",
+                    "label":"Unit",
+                    "description":"Unit of the sensor result",
+                    "type":"select",
+                    "depend":{"id":"sensortype","notvalue":["-1"]},
+                    "value": "C",
+                    "usedescforoptions":true,
+                    "options":[
+                        {
+                        "label": "C",
+                        "value": "C"
+                       },
+                       {
+                        "label": "K",
+                        "value": "K"
+                       },
+                       {
+                        "label": "V",
+                        "value": "V",
+                        "depend":{"id":"sensortype","value":["ANALOG_DEVICE"]}
+                       }
+                    ],
+                    "setting":true  
+                }
+            ]
+
+        }
+    ],
     "security": [
         {
             "id": "security",
@@ -678,7 +935,26 @@
         }
         
     ],
-    "others":[],
+    "others":[ {
+        "id": "additional",
+        "description":"Extra settings",
+        "label":"Additional features",
+        "setting":true,
+        "type":"group",
+        "value":[
+            {
+                "id":"directpins",
+                "define":"DIRECT_PIN_FEATURE",
+                "label":"Enable direct control pin",
+                "description":"Controls pins using [ESP201]",
+                "type":"boolean",
+                "value":true,
+                "disableiffalse":true,
+                "setting":true  
+            }
+        ]
+    }
+    ],
     "default": [
         {
             "id": "default",

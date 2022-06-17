@@ -18,8 +18,23 @@
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 import { h } from "preact"
-const footer = "\n\
+const footer =
+    '\n\
 \n\
-#endif //_CONFIGURATION_H\n"
+\n/************************************\n\
+*\n\
+* Sanity checks \n\
+* Do not modify \n\
+************************************/\n\
+\n\
+#if defined (SD_TIMESTAMP_FEATURE) || defined (FILESYSTEM_TIMESTAMP_FEATURE)\n\
+    #define TIMESTAMP_FEATURE true\n\
+#endif //SD_TIMESTAMP_FEATURE || FILESYSTEM_TIMESTAMP_FEATURE \n\
+\n\
+#if defined(PRINTER_HAS_DISPLAY)\n\
+#define HAS_SERIAL_DISPLAY ""\n\
+#endif // PRINTER_HAS_DISPLAY\n\
+\n\
+#endif //_CONFIGURATION_H\n'
 
 export default footer

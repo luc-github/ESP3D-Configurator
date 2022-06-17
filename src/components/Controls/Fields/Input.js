@@ -23,10 +23,7 @@ import { Eye, EyeOff, Search, ChevronDown, HelpCircle } from "preact-feather"
 import { ButtonImg } from "../../Controls"
 import { T } from "./../../Translations"
 import { showModal } from "../../Modal"
-import {
-    useUiContext,
-    useUiContextFn,
-} from "../../../contexts"
+import { useUiContext, useUiContextFn } from "../../../contexts"
 
 const Reveal = ({ applyTo }) => {
     const [reveal, setReveal] = useState(false)
@@ -69,9 +66,9 @@ const Input = ({
     help,
     button,
     disabled,
+    className,
     ...rest
 }) => {
-    
     const { step } = rest
     const inputref = useRef()
     const onInput = (e) => {
@@ -87,7 +84,6 @@ const Input = ({
         value,
         step: step ? step : "any",
     }
-
 
     useEffect(() => {
         //to update state when import- but why ?
@@ -178,11 +174,11 @@ const Input = ({
             data-tooltip={T(help)}
         >
             <input
+                class={"form-input " + className}
                 disabled={disabled}
                 spellcheck="false"
                 autocorrect="off"
                 autocomplete="off"
-                class="form-input"
                 {...props}
                 {...rest}
                 onInput={onInput}

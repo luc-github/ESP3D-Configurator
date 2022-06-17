@@ -1,0 +1,238 @@
+[
+    {
+        "label": "None",
+        "value": "-1"
+    },
+    {
+        "label": "GPIO 0",
+        "value": "0"
+    },
+    {
+        "label": "GPIO 1",
+        "value": "1",
+        "depend":{"id":"targetmcu","value":["esp32s2","esp32s3","esp32c3"]}
+    },
+    {
+        "label": "GPIO 2",
+        "value": "2"
+    },
+    {
+        "label": "GPIO 3",
+        "value": "3",
+        "depend":{"id":"targetmcu","value":["esp32s2","esp32s3","esp32c3"]}
+    },
+    {
+        "label": "GPIO 4",
+        "value": "4"
+    },
+    {
+        "label": "GPIO 5",
+        "value": "5"
+    },
+    
+    {
+        "label": "GPIO 6",
+        "value": "6",
+        "depend":{"id":"targetmcu","value":["esp32s2","esp32s3","esp32c3"]}
+    },
+    {
+        "label": "GPIO 7",
+        "value": "7",
+        "depend":{"id":"targetmcu","value":["esp32s2","esp32s3","esp32c3"]}
+    },
+    {
+        "label": "GPIO 8",
+        "value": "8",
+        "depend":{"id":"targetmcu","value":["esp32s2","esp32s3","esp32c3"]}
+    },
+    {
+        "label": "GPIO 9",
+        "value": "9",
+        "depend":{"id":"targetmcu","value":["esp32s2","esp32s3","esp32c3"]}
+    },
+    {
+        "label": "GPIO 10",
+        "value": "10",
+        "depend":{"id":"targetmcu","value":["esp32s2","esp32s3","esp32c3"]}
+    },
+    {
+        "label": "GPIO 11",
+        "value": "11",
+        "depend":{"id":"targetmcu","value":["esp32s2","esp32s3"]}
+    },
+    {
+        "label": "GPIO 12",
+        "value": "12",
+        "depend":{"id":"targetmcu","value":["esp8266","esp32","esp32s2","esp32s3"]}
+    },
+    {
+        "label": "GPIO 13",
+        "value": "13",
+        "depend":{"id":"targetmcu","value":["esp8266","esp32","esp32s2","esp32s3"]}
+    },
+    {
+        "label": "GPIO 14",
+        "value": "14",
+        "depend":{"id":"targetmcu","value":["esp8266","esp32","esp32s2","esp32s3"]}
+    },
+    {
+        "label": "GPIO 15",
+        "value": "15",
+        "depend":{"id":"targetmcu","value":["esp8266","esp32","esp32s2","esp32s3"]}
+    },
+    {
+        "label": "GPIO 16",
+        "value": "16",
+        "depend":{"id":"targetmcu","value":["esp8266","esp32","esp32s2","esp32s3"]}
+    },
+    {
+        "label": "GPIO 17",
+        "value": "17",
+        "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3"]}
+    },
+    {
+        "label": "GPIO 18",
+        "value": "18",
+        "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3","esp32c3"]}
+    },
+    {
+        "label": "GPIO 19",
+        "value": "19",
+        "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3","esp32c3"]}
+    },
+    {
+        "label": "GPIO 21",
+        "value": "21",
+        "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3","esp32c3"]}
+    },
+    {
+        "label": "GPIO 22",
+        "value": "22",
+        "depend":{"id":"targetmcu","value":["esp32"]}
+    },
+    {
+        "label": "GPIO 23",
+        "value": "23",
+        "depend":{"id":"targetmcu","value":["esp32","esp32s3"]}
+    },
+    {
+        "label": "GPIO 25",
+        "value": "25",
+        "depend":{"id":"targetmcu","value":["esp32"]}
+    },
+    {
+        "label": "GPIO 26",
+        "value": "26",
+        "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3"]}
+    },
+    {
+        "label": "GPIO 27",
+        "value": "27",
+        "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3"]}
+    },
+    {
+        "label": "GPIO 28",
+        "value": "28",
+        "depend":{"id":"targetmcu","value":["esp32s3"]}
+    },
+    {
+        "label": "GPIO 29",
+        "value": "29",
+        "depend":{"id":"targetmcu","value":["esp32s3"]}
+    },
+    {
+        "label": "GPIO 30",
+        "value": "30",
+        "depend":{"id":"targetmcu","value":["esp32s3"]}
+    },
+    {
+        "label": "GPIO 31",
+        "value": "31",
+        "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3"]}
+    },
+    {
+        "label": "GPIO 32",
+        "value": "32",
+        "depend":{"id":"targetmcu","value":["esp32","esp32s3"]}
+    },
+    {
+        "label": "GPIO 33",
+        "value": "33",
+        "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3"]}
+    },
+    {
+        "label": "GPIO 34",
+        "value": "34",
+        "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3"]}
+    },
+    {
+        "label": "GPIO 35",
+        "value": "35",
+        "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3"]}
+    },
+    {
+        "label": "GPIO 36",
+        "value": "36",
+        "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3"]}
+    },
+    {
+        "label": "GPIO 37",
+        "value": "37",
+        "depend":{"id":"targetmcu","value":["esp32s2","esp32s3"]}
+    },
+    {
+        "label": "GPIO 38",
+        "value": "38",
+        "depend":{"id":"targetmcu","value":["esp32s2","esp32s3"]}
+    },
+    {
+        "label": "GPIO 39",
+        "value": "39",
+        "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3"]}
+    },
+    {
+        "label": "GPIO 40",
+        "value": "40",
+        "depend":{"id":"targetmcu","value":["esp32s2","esp32s3"]}
+    },
+    {
+        "label": "GPIO 41",
+        "value": "41",
+        "depend":{"id":"targetmcu","value":["esp32s2","esp32s3"]}
+    },
+    {
+        "label": "GPIO 42",
+        "value": "42",
+        "depend":{"id":"targetmcu","value":["esp32s2","esp32s3"]}
+    },
+    {
+        "label": "GPIO 43",
+        "value": "43",
+        "depend":{"id":"targetmcu","value":["esp32s2","esp32s3"]}
+    },
+    {
+        "label": "GPIO 44",
+        "value": "44",
+        "depend":{"id":"targetmcu","value":["esp32s2","esp32s3"]}
+    },
+    {
+        "label": "GPIO 45",
+        "value": "45",
+        "depend":{"id":"targetmcu","value":["esp32s2","esp32s3"]}
+    },
+    {
+        "label": "GPIO 46",
+        "value": "46",
+        "depend":{"id":"targetmcu","value":["esp32s2","esp32s3"]}
+    },
+    {
+        "label": "GPIO 47",
+        "value": "47",
+        "depend":{"id":"targetmcu","value":["esp32s3"]}
+    },
+    {
+        "label": "GPIO 48",
+        "value": "48",
+        "depend":{"id":"targetmcu","value":["esp32s3"]}
+    }
+]   

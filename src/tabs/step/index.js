@@ -28,6 +28,30 @@ import {
 } from "../../contexts"
 import { ArrowLeft, ArrowRight } from "preact-feather"
 
+import pinsList from "./pins.json"
+
+const mergePinsOptions = (pins, options) => {
+    if (pins) {
+        const newList = JSON.parse(JSON.stringify(pins))
+        if (options) {
+            options.forEach((option) => {
+                const index = newList.findIndex((element) => {
+                    return element.value == option.value
+                })
+                if (index > -1) {
+                    //just update depend label and value should stay the same
+                    newList[index].depend = option.depend
+                } else {
+                    //allow to add new option
+                    newList.push(option)
+                }
+            })
+        }
+        return newList
+    }
+    return null
+}
+
 const getHelp = (item, value) => {
     if (item) {
         const index = item.findIndex((element) => {
@@ -48,7 +72,6 @@ const canshow = (depend) => {
 
 const StepTab = ({ previous, current, next }) => {
     const { configuration } = useDatasContext()
-    console.log(current)
     const generateValidation = (fieldData) => {
         const validation = {
             message: "",
@@ -88,8 +111,14 @@ const StepTab = ({ previous, current, next }) => {
                                                 value,
                                                 ...rest
                                             } = subelement
-                                            const filteredOptions = options
-                                                ? options.filter((opt) => {
+                                            const optionsList = subelement.ispin
+                                                ? mergePinsOptions(
+                                                      pinsList,
+                                                      options
+                                                  )
+                                                : options
+                                            const filteredOptions = optionsList
+                                                ? optionsList.filter((opt) => {
                                                       return canshow(opt.depend)
                                                   })
                                                 : null
@@ -107,7 +136,7 @@ const StepTab = ({ previous, current, next }) => {
                                             const [help, setHelp] = useState(
                                                 subelement.options
                                                     ? getHelp(
-                                                          subelement.options,
+                                                          optionsList,
                                                           subelement.value
                                                       )
                                                     : subelement.description
@@ -117,9 +146,9 @@ const StepTab = ({ previous, current, next }) => {
                                             //workaround to useState not always updating help at begining and use another one from another page...
                                             useEffect(() => {
                                                 setHelp(
-                                                    subelement.options
+                                                    optionsList
                                                         ? getHelp(
-                                                              subelement.options,
+                                                              optionsList,
                                                               subelement.value
                                                           )
                                                         : subelement.description
@@ -151,7 +180,7 @@ const StepTab = ({ previous, current, next }) => {
                                                                 setHelp(
                                                                     options
                                                                         ? getHelp(
-                                                                              options,
+                                                                              optionsList,
                                                                               val
                                                                           )
                                                                         : subelement.description

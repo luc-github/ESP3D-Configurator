@@ -551,7 +551,38 @@
         }
     ],
    
-    "update": [],
+    "update": [{
+        "id": "reset",
+        "description":"Reset ESP3D settings",
+        "label":"Reset ESP3D",
+        "setting":true,
+        "type":"group",
+        "value":[
+            {
+                "id":"resetfeature",
+                "define":"PIN_RESET_FEATURE",
+                "label":"Enable pin reset feature",
+                "description":"Use a pin to reset ESP3D settings",
+                "type":"boolean",
+                "value":true,
+                "disableiffalse":true,
+                "setting":true  
+            },
+            {
+                "id":"resetpin",
+                "define":"ESP3D_RESET_PIN",
+                "label":"Reset pin",
+                "description":"The pin used to reset ESP3D setting if set to low for more than 1 second at start",
+                "type":"select",
+                "ispin":true,
+                "depend":{"id":"resetfeature","value":[true]},
+                "value":"-1",
+                "setting":true,
+                "usedescforoptions":true
+            }
+        ]
+    }
+    ],
     "devices": [],
     "security": [],
     "others":[],

@@ -45,12 +45,12 @@ const sectionFormated = (title, description) => {
 }
 
 const getLabel = (item, value) => {
-    if (item)
-        return item[
-            item.findIndex((element) => {
-                return element.value == value
-            })
-        ].label
+    if (item) {
+        const index = item.findIndex((element) => {
+            return element.value == value
+        })
+        if (index > -1) return item[index].label
+    }
     return null
 }
 
@@ -89,7 +89,11 @@ const convertToText = (data) => {
                 const content = item2.value.reduce((acc3, element) => {
                     if (!canshow(element.depend)) return acc3
                     if (element.setting) {
-                        if (element.value == "-1") return acc3
+                        if (
+                            element.value == "-1" ||
+                            (!element.value && element.disableiffalse)
+                        )
+                            return acc3
                         if (element.type == "select") {
                             const help = getHelp(element.options, element.value)
                             const label = getLabel(

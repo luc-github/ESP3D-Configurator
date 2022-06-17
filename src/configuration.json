@@ -457,7 +457,18 @@
                     "value":true,
                     "depend":{"id":"sdfs","value":["ESP_SDIO"]},
                     "setting":true  
-                },
+                }
+                
+            ]
+        },
+        {
+            "id": "sdpins",
+            "description":"SD card pins",
+            "label":"SD card pins",
+            "setting":true,
+            "type":"group",
+            "depend":{"id":"sdconnection","value":["ESP_SHARED_SD","ESP_DIRECT_SD"]},
+            "value":[
                 {
                     "id":"detectsdpin",
                     "define":"ESP_DETECT_PIN",
@@ -523,6 +534,18 @@
                             "value": "0"
                         }
                     ]   
+                },
+                {
+                    "id":"sdcspin",
+                    "define":"ESP_SD_CS_PIN",
+                    "label":"SD card CS pin",
+                    "description":"The pin used to select SD card in SPI mode",
+                    "type":"select",
+                    "ispin":true,
+                    "value":"-1",
+                    "depend":{"id":"sdfs","notvalue":["ESP_SDIO"]},
+                    "setting":true,
+                    "usedescforoptions":true
                 }
             ]
         }

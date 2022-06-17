@@ -65,7 +65,10 @@ const getHelp = (item, value) => {
 const canshow = (depend) => {
     if (depend) {
         const val = useDatasContextFn.getValueId(depend.id)
-        return depend.value.includes(val)
+        if (depend.value) return depend.value.includes(val)
+        if (depend.notvalue) {
+            return !depend.notvalue.includes(val)
+        }
     }
     return true
 }

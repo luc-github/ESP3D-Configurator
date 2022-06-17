@@ -239,6 +239,120 @@
                 }
             ]
         }
+    ], "network": [
+        {
+            "id": "radiomode",
+            "description":"The radio mode ESP3D communicate with the network",
+            "label":"Radio mode of ESP3D",
+            "setting":true,
+            "type":"group",
+            "value":[
+                {
+                "id":"wifi",
+                "define":"WIFI_FEATURE",
+                "label":"Use WiFi ",
+                "description":"Enable wifi communications",
+                "type":"boolean",
+                "value":true,
+                "setting":true
+                },
+                {
+                "id":"ethernet",
+                "define":"ETH_FEATURE",
+                "label":"Use Ethernet ",
+                "description":"Enable ethernet communications",
+                "type":"boolean",
+                "value":false,
+                "setting":true,
+                "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3","esp32c3"]}
+                }
+                ,
+                {
+                "id":"bluetooth",
+                "define":"BLUETOOTH_FEATURE",
+                "label":"Use Bluetooth ",
+                "description":"Enable serial bluetooth communications",
+                "type":"boolean",
+                "value":false,
+                "setting":true,
+                "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3","esp32c3"]}
+                }
+            ]
+        },
+        {
+            "id": "channels",
+            "description":"The way ESP3D communicate",
+            "label":"Channels of ESP3D",
+            "setting":true,
+            "type":"group",
+            "value":[
+                {
+                "id":"http",
+                "define":"HTTP_FEATURE",
+                "label":"Use webserver",
+                "description":"Enable http server",
+                "type":"boolean",
+                "value":true,
+                "setting":true
+                },
+                {
+                "id":"telnet",
+                "define":"TELNET_FEATURE",
+                "label":"Use telnet server",
+                "description":"Enable telnet light (raw tcp) communications",
+                "type":"boolean",
+                "value":true,
+                "setting":true
+                }
+                ,
+                {
+                "id":"websocket",
+                "define":"WS_DATA_FEATURE",
+                "label":"Use Websocket server",
+                "description":"Enable websocket communications",
+                "type":"boolean",
+                "value":false,
+                "setting":true
+                }
+            ]
+        },
+        {
+            "id": "discovery",
+            "description":"The discovery methods of ESP3D",
+            "label":"Discovery methods of ESP3D",
+            "setting":true,
+            "type":"group",
+            "value":[
+                {
+                "id":"captive",
+                "define":"CAPTIVE_PORTAL_FEATURE",
+                "label":"Use captive portal ",
+                "description":"Enable captive portal in AP mode",
+                "type":"boolean",
+                "value":true,
+                "setting":true
+                },
+                {
+                "id":"mdns",
+                "define":"MDNS_FEATURE",
+                "label":"Use mDNS discovery",
+                "description":"This method need `bonjour` protocol on windows, or `avahi` on linux",
+                "type":"boolean",
+                "value":true,
+                "setting":true
+                }
+                ,
+                {
+                "id":"ssdp",
+                "define":"SSDP_FEATURE",
+                "label":"Use Simple Service Discovery Protocol",
+                "description":"It is supported on Windows out of the box",
+                "type":"boolean",
+                "value":true,
+                "setting":true
+                }
+            ]
+        }
     ],
     "filesystems": [
         {
@@ -376,125 +490,44 @@
                             "value": "0"
                         }
                     ]   
+                },
+                {
+                    "id":"shareflagsdpin",
+                    "define":"ESP_FLAG_SHARED_SD_PIN",
+                    "label":"SD shared flag pin",
+                    "description":"The pin used to enable SD card for ESP board",
+                    "type":"select",
+                    "ispin":true,
+                    "value":"-1",
+                    "depend":{"id":"sdconnection","value":["ESP_SHARED_SD"]},
+                    "setting":true,
+                    "usedescforoptions":true
+                },
+                {
+                    "id":"shareflagsdvalue",
+                    "define":"ESP_FLAG_SHARED_SD_VALUE",
+                    "label":"Pin value",
+                    "description":"State of SD card share pin for ESP board",
+                    "type":"select",
+                    "value":"0",
+                    "depend":{"id":"shareflagsdpin","notvalue":["-1"]},
+                    "setting":true,
+                    "usedescforoptions":true,
+                    "options": [
+                        {
+                            "label": "High",
+                            "value": "1"
+                        },
+                        {
+                            "label": "Low",
+                            "value": "0"
+                        }
+                    ]   
                 }
             ]
         }
     ],
-    "network": [
-        {
-            "id": "radiomode",
-            "description":"The radio mode ESP3D communicate with the network",
-            "label":"Radio mode of ESP3D",
-            "setting":true,
-            "type":"group",
-            "value":[
-                {
-                "id":"wifi",
-                "define":"WIFI_FEATURE",
-                "label":"Use WiFi ",
-                "description":"Enable wifi communications",
-                "type":"boolean",
-                "value":true,
-                "setting":true
-                },
-                {
-                "id":"ethernet",
-                "define":"ETH_FEATURE",
-                "label":"Use Ethernet ",
-                "description":"Enable ethernet communications",
-                "type":"boolean",
-                "value":false,
-                "setting":true,
-                "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3","esp32c3"]}
-                }
-                ,
-                {
-                "id":"bluetooth",
-                "define":"BLUETOOTH_FEATURE",
-                "label":"Use Bluetooth ",
-                "description":"Enable serial bluetooth communications",
-                "type":"boolean",
-                "value":false,
-                "setting":true,
-                "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3","esp32c3"]}
-                }
-            ]
-        },
-        {
-            "id": "channels",
-            "description":"The way ESP3D communicate",
-            "label":"Channels of ESP3D",
-            "setting":true,
-            "type":"group",
-            "value":[
-                {
-                "id":"http",
-                "define":"HTTP_FEATURE",
-                "label":"Use webserver",
-                "description":"Enable http server",
-                "type":"boolean",
-                "value":true,
-                "setting":true
-                },
-                {
-                "id":"telnet",
-                "define":"TELNET_FEATURE",
-                "label":"Use telnet server",
-                "description":"Enable telnet light (raw tcp) communications",
-                "type":"boolean",
-                "value":true,
-                "setting":true
-                }
-                ,
-                {
-                "id":"websocket",
-                "define":"WS_DATA_FEATURE",
-                "label":"Use Websocket server",
-                "description":"Enable websocket communications",
-                "type":"boolean",
-                "value":false,
-                "setting":true
-                }
-            ]
-        },
-        {
-            "id": "discovery",
-            "description":"The discovery methods of ESP3D",
-            "label":"Discovery methods of ESP3D",
-            "setting":true,
-            "type":"group",
-            "value":[
-                {
-                "id":"captive",
-                "define":"CAPTIVE_PORTAL_FEATURE",
-                "label":"Use captive portal ",
-                "description":"Enable captive portal in AP mode",
-                "type":"boolean",
-                "value":true,
-                "setting":true
-                },
-                {
-                "id":"mdns",
-                "define":"MDNS_FEATURE",
-                "label":"Use mDNS discovery",
-                "description":"This method need `bonjour` protocol on windows, or `avahi` on linux",
-                "type":"boolean",
-                "value":true,
-                "setting":true
-                }
-                ,
-                {
-                "id":"ssdp",
-                "define":"SSDP_FEATURE",
-                "label":"Use Simple Service Discovery Protocol",
-                "description":"It is supported on Windows out of the box",
-                "type":"boolean",
-                "value":true,
-                "setting":true
-                }
-            ]
-        }
-    ],
+   
     "update": [],
     "devices": [],
     "security": [],

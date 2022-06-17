@@ -64,10 +64,19 @@ const getHelp = (item, value) => {
     return null
 }
 
-const canshow = (depend) => {
+const canshow = (depend, pinvalue, currentvalue) => {
+    if (pinvalue && pinvalue != "-1") {
+        if (pinvalue == currentvalue && canshow(depend)) return true
+        if (usedPinsList.current.includes(pinvalue)) return false
+    }
     if (depend) {
         const val = useDatasContextFn.getValueId(depend.id)
-        return depend.value.includes(val)
+        if (depend.value) {
+            return depend.value.includes(val)
+        }
+        if (depend.notvalue) {
+            return !depend.notvalue.includes(val)
+        }
     }
     return true
 }

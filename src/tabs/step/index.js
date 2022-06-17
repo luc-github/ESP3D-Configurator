@@ -30,6 +30,20 @@ import { ArrowLeft, ArrowRight } from "preact-feather"
 
 import pinsList from "./pins.json"
 
+const usedPinsList = {}
+usedPinsList.current = []
+
+const removeUsedPin = (pin) => {
+    if (pin == "-1") return
+    usedPinsList.current = usedPinsList.current.filter(
+        (element) => element != pin
+    )
+}
+const addUsedPin = (pin) => {
+    if (pin == "-1") return
+    usedPinsList.current.push(pin)
+}
+
 const mergePinsOptions = (pins, options) => {
     if (pins) {
         const newList = JSON.parse(JSON.stringify(pins))
@@ -62,10 +76,16 @@ const getHelp = (item, value) => {
     return null
 }
 
-const canshow = (depend) => {
+const canshow = (depend, pinvalue, currentvalue) => {
+    if (pinvalue && pinvalue != "-1") {
+        if (pinvalue == currentvalue && canshow(depend)) return true
+        if (usedPinsList.current.includes(pinvalue)) return false
+    }
     if (depend) {
         const val = useDatasContextFn.getValueId(depend.id)
-        if (depend.value) return depend.value.includes(val)
+        if (depend.value) {
+            return depend.value.includes(val)
+        }
         if (depend.notvalue) {
             return !depend.notvalue.includes(val)
         }
@@ -122,7 +142,15 @@ const StepTab = ({ previous, current, next }) => {
                                                 : options
                                             const filteredOptions = optionsList
                                                 ? optionsList.filter((opt) => {
-                                                      return canshow(opt.depend)
+                                                      return canshow(
+                                                          opt.depend,
+                                                          subelement.ispin
+                                                              ? opt.value
+                                                              : null,
+                                                          subelement.ispin
+                                                              ? subelement.value
+                                                              : null
+                                                      )
                                                   })
                                                 : null
                                             if (
@@ -133,6 +161,11 @@ const StepTab = ({ previous, current, next }) => {
                                                         subelement.value
                                                 ) == -1
                                             ) {
+                                                if (subelement.ispin) {
+                                                    removeUsedPin(
+                                                        subelement.value
+                                                    )
+                                                }
                                                 subelement.value =
                                                     filteredOptions[0].value
                                             }
@@ -177,6 +210,19 @@ const StepTab = ({ previous, current, next }) => {
                                                             update = false
                                                         ) => {
                                                             if (!update) {
+                                                                if (
+                                                                    subelement.ispin
+                                                                ) {
+                                                                    removeUsedPin(
+                                                                        subelement.value
+                                                                    )
+                                                                    addUsedPin(
+                                                                        val
+                                                                    )
+                                                                    console.log(
+                                                                        usedPinsList.current
+                                                                    )
+                                                                }
                                                                 subelement.value =
                                                                     val
 

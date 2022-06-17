@@ -39,7 +39,7 @@
                     ]
                 },
                 {
-                    "id":"targetmcu",
+                    "id":"targetflashsize",
                     "define":"FLASH_SIZE",
                     "description":"ESP flash size",
                     "label":"ESP flash size",
@@ -254,6 +254,7 @@
                 "description":"Enable wifi communications",
                 "type":"boolean",
                 "value":true,
+                "disableiffalse":true,
                 "setting":true
                 },
                 {
@@ -263,6 +264,7 @@
                 "description":"Enable ethernet communications",
                 "type":"boolean",
                 "value":false,
+                "disableiffalse":true,
                 "setting":true,
                 "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3","esp32c3"]}
                 }
@@ -274,6 +276,7 @@
                 "description":"Enable serial bluetooth communications",
                 "type":"boolean",
                 "value":false,
+                "disableiffalse":true,
                 "setting":true,
                 "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3","esp32c3"]}
                 }
@@ -293,6 +296,7 @@
                 "description":"Enable http server",
                 "type":"boolean",
                 "value":true,
+                "disableiffalse":true,
                 "setting":true
                 },
                 {
@@ -302,6 +306,7 @@
                 "description":"Enable telnet light (raw tcp) communications",
                 "type":"boolean",
                 "value":true,
+                "disableiffalse":true,
                 "setting":true
                 }
                 ,
@@ -312,6 +317,18 @@
                 "description":"Enable websocket communications",
                 "type":"boolean",
                 "value":false,
+                "disableiffalse":true,
+                "setting":true
+                }
+                ,
+                {
+                "id":"notifications",
+                "define":"NOTIFICATION_FEATURE",
+                "label":"Enable notifications",
+                "description":"Allows to send notifications to the user",
+                "type":"boolean",
+                "value":true,
+                "disableiffalse":true,
                 "setting":true
                 }
             ]
@@ -330,6 +347,7 @@
                 "description":"Enable captive portal in AP mode",
                 "type":"boolean",
                 "value":true,
+                "disableiffalse":true,
                 "setting":true
                 },
                 {
@@ -339,6 +357,7 @@
                 "description":"This method need `bonjour` protocol on windows, or `avahi` on linux",
                 "type":"boolean",
                 "value":true,
+                "disableiffalse":true,
                 "setting":true
                 }
                 ,
@@ -349,6 +368,7 @@
                 "description":"It is supported on Windows out of the box",
                 "type":"boolean",
                 "value":true,
+                "disableiffalse":true,
                 "setting":true
                 }
             ]
@@ -551,7 +571,8 @@
         }
     ],
    
-    "update": [{
+    "update": [
+        {
         "id": "reset",
         "description":"Reset ESP3D settings",
         "label":"Reset ESP3D",
@@ -581,10 +602,82 @@
                 "usedescforoptions":true
             }
         ]
+      },
+      {
+        "id": "update",
+        "description":"Update ESP3D firmware",
+        "label":"Update ESP3D",
+        "setting":true,
+        "depend":{"id":"targetflashsize","notvalue":["1","2"]},
+        "type":"group",
+        "value":[
+            {
+                "id":"ota",
+                "define":"OTA_FEATURE",
+                "label":"Enable OTA",
+                "description":"Over The Air Update (OTA)",
+                "type":"boolean",
+                "value":false,
+                "disableiffalse":true,
+                "setting":true  
+            },
+            {
+                "id":"webupdate",
+                "define":"WEB_UPDATE_FEATURE",
+                "label":"Enable Web Update",
+                "description":"Update firmware using WebUI",
+                "type":"boolean",
+                "value":true,
+                "disableiffalse":true,
+                "setting":true  
+            },
+            {
+                "id":"sdupdate",
+                "define":"SD_UPDATE_FEATURE",
+                "label":"Enable SD card Update",
+                "description":"Update firmware and settings using file on SDCard",
+                "type":"boolean",
+                "depend":{"id":"sdconnection","notvalue":["-1"]},
+                "value":true,
+                "disableiffalse":true,
+                "setting":true  
+            }
+        ]
     }
     ],
     "devices": [],
-    "security": [],
+    "security": [
+        {
+            "id": "security",
+            "description":"How commands are allowed to be sent to ESP3D",
+            "label":"Levels of security",
+            "setting":true,
+            "type":"group",
+            "value":[
+                {
+                    "id":"serialcmdfeature",
+                    "define":"SERIAL_COMMAND_FEATURE",
+                    "label":"Enable serial commands",
+                    "description":"Allow commands to be sent to ESP3D via serial port",
+                    "type":"boolean",
+                    "value":true,
+                    "disableiffalse":true,
+                    "setting":true  
+                },
+                {
+                    "id":"authentication",
+                    "define":"AUTHENTICATION_FEATURE",
+                    "label":"Enable authentication",
+                    "description":"Force usage of authentication for commands",
+                    "type":"boolean",
+                    "value":false,
+                    "disableiffalse":true,
+                    "setting":true  
+                }
+            ]
+        }
+        
+    ],
     "others":[],
     "default": [
         {

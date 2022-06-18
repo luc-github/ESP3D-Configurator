@@ -589,9 +589,90 @@
                     "usedescforoptions":true
                 }
             ]
+        },
+        {
+            "id": "remote",
+            "description":"Remote filesystem access",
+            "label":"Remote access",
+            "setting":true,
+            "type":"group",
+            "value":[
+                {
+                    "id":"globalFS",
+                    "define":"GLOBAL_FILESYSTEM_FEATURE",
+                    "label":"Enable global filesystem",
+                    "description":"Allows to access to all filesystems fromsame location",
+                    "type":"boolean",
+                    "value":false,
+                    "depend":{"id":"sdconnection","notvalue":["-1"]},
+                    "disableiffalse":true,
+                    "setting":true  
+                },
+                {
+                    "id":"webdav",
+                    "define":"WEBDAV_FEATURE",
+                    "label":"WebDav access",
+                    "description":"Use WebDav to access to your filesystem",
+                    "type":"select",
+                    "value":"-1",
+                    "setting":true,
+                    "usedescforoptions":true,
+                    "options": [
+
+                        {
+                            "label": "None",
+                            "value": "-1"
+                        },
+                        {
+                            "label": "All filesystems",
+                            "value": "FS_ROOT",
+                            "depend":{"id":"globalFS","value":[true]}
+                        },
+                        {
+                            "label": "ESP3D Flash",
+                            "value": "FS_FLASH"
+                        },
+                        {
+                            "label": "ESP3D SD",
+                            "value": "FS_SD",
+                            "depend":{"id":"sdconnection","notvalue":["-1"]}
+                        }
+                    ]
+                },
+                {
+                    "id":"ftp",
+                    "define":"FTP_FEATURE",
+                    "label":"FTP access",
+                    "description":"Use FTP to access to your filesystem (1 connection only)",
+                    "type":"select",
+                    "value":"-1",
+                    "setting":true,
+                    "usedescforoptions":true,
+                    "options": [
+
+                        {
+                            "label": "None",
+                            "value": "-1"
+                        },
+                        {
+                            "label": "All filesystems",
+                            "value": "FS_ROOT",
+                            "depend":{"id":"globalFS","value":[true]}
+                        },
+                        {
+                            "label": "ESP3D Flash",
+                            "value": "FS_FLASH"
+                        },
+                        {
+                            "label": "ESP3D SD",
+                            "value": "FS_SD",
+                            "depend":{"id":"sdconnection","notvalue":["-1"]}
+                        }
+                    ]
+                }
+            ]
         }
     ],
-   
     "update": [
         {
         "id": "reset",
@@ -1028,6 +1109,5 @@
             ]
         }
 
-    ]
-    
+    ] 
 }

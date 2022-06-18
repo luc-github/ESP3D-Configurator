@@ -183,9 +183,27 @@ const GenerateTab = ({ previous }) => {
     const { configuration } = useDatasContext()
     return (
         <div id="generate" class="m-2">
-            <code>
-                <pre>{configurationFile(configuration.current)}</pre>
-            </code>
+            <div class="accordion">
+                <input
+                    type="checkbox"
+                    id="accordion-1"
+                    name="accordion-checkbox"
+                    hidden
+                />
+                <label
+                    class="accordion-header"
+                    for="accordion-1"
+                    style="cursor:pointer"
+                >
+                    <i class="icon icon-arrow-right mr-1"></i>
+                    Configuration.h
+                </label>
+                <div class="accordion-body">
+                    <code>
+                        <pre>{configurationFile(configuration.current)}</pre>
+                    </code>
+                </div>
+            </div>
 
             <div style="display:flex;justify-content:space-around">
                 {previous && (

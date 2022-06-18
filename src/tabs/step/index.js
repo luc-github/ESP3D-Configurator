@@ -93,6 +93,39 @@ const canshow = (depend, pinvalue, currentvalue) => {
     return true
 }
 
+const NavButtons = ({ previous, next }) => {
+    return (
+        <div style="display:flex;justify-content:space-around">
+            {previous && (
+                <ButtonImg
+                    m2
+                    label={T("Previous")}
+                    icon={<ArrowLeft />}
+                    onclick={() => {
+                        if (document.getElementById(previous)) {
+                            document.getElementById(previous).click()
+                        }
+                    }}
+                />
+            )}
+
+            {next && (
+                <ButtonImg
+                    m2
+                    label={T("Next")}
+                    icon={<ArrowRight />}
+                    iconRight
+                    onclick={() => {
+                        if (document.getElementById(next)) {
+                            document.getElementById(next).click()
+                        }
+                    }}
+                />
+            )}
+        </div>
+    )
+}
+
 const StepTab = ({ previous, current, next }) => {
     const { configuration } = useDatasContext()
     const generateValidation = (fieldData) => {
@@ -106,6 +139,7 @@ const StepTab = ({ previous, current, next }) => {
     return (
         <div id={current} class="m-2">
             <div class="center">
+                <NavButtons previous={previous} next={next} />
                 {configuration.current[current] &&
                     configuration.current[current].map((element, index) => {
                         if (element.type === "group") {
@@ -269,34 +303,7 @@ const StepTab = ({ previous, current, next }) => {
                             return <Fragment>{element.label}</Fragment>
                         }
                     })}
-                <div style="display:flex;justify-content:space-around">
-                    {previous && (
-                        <ButtonImg
-                            m2
-                            label={T("Previous")}
-                            icon={<ArrowLeft />}
-                            onclick={() => {
-                                if (document.getElementById(previous)) {
-                                    document.getElementById(previous).click()
-                                }
-                            }}
-                        />
-                    )}
-
-                    {next && (
-                        <ButtonImg
-                            m2
-                            label={T("Next")}
-                            icon={<ArrowRight />}
-                            iconRight
-                            onclick={() => {
-                                if (document.getElementById(next)) {
-                                    document.getElementById(next).click()
-                                }
-                            }}
-                        />
-                    )}
-                </div>
+                <NavButtons previous={previous} next={next} />
                 <br />
             </div>
         </div>

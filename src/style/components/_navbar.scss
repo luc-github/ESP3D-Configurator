@@ -17,6 +17,10 @@ li .active {
   background-color: $bg-color-dark;
 }
 
+.tab-item{
+  pointer-events: none;
+}
+
 .tab {
   .tab-item {
     .btn {

@@ -1136,8 +1136,81 @@
                 "disableiffalse":true,
                 "setting":true  
             }
-        ]
-    }
+           
+            ]
+        },
+        {
+            "id": "scripting",
+            "description":"Scripting on ESP3D",
+            "label":"Scripting settings",
+            "setting":true,
+            "type":"group",
+            "value":[
+                {
+                    "id":"autorunscript",
+                    "define":"AUTOSTART_SCRIPT_FEATURE",
+                    "label":"Enable Autostart script",
+                    "description":"Automaticaly launch script when ESP3D is started",
+                    "type":"select",
+                    "value": "-1",
+                    "usedescforoptions":true,
+                    "options":[
+                        {
+                        "label": "None",
+                        "value": "-1"
+                       },
+                       {
+                        "label": "Commands",
+                        "value": "commandsautoscript"
+                       },
+                       {
+                        "label": "File",
+                        "value": "fileautoscript"
+                       }
+                    ]
+                },
+                {
+                    "id":"autostartcommands",
+                    "define":"ESP_AUTOSTART_SCRIPT",
+                    "label":"Commands to run on startup",
+                    "description":"Separate commands with ';'",
+                    "depend":{"id":"autorunscript","value":["commandsautoscript"]},
+                    "type":"text",
+                    "value":"M117 Mounting SD;M21",
+                    "disableiffalse":true,
+                    "setting":true  
+                },
+                {
+                    "id":"autostartfile",
+                    "define":"ESP_AUTOSTART_SCRIPT",
+                    "label":"File to run on startup",
+                    "description":"The file should be on ESP3D filesystem",
+                    "depend":{"id":"autorunscript","value":["fileautoscript"]},
+                    "type":"text",
+                    "value":"autorun.gco",
+                    "disableiffalse":true,
+                    "setting":true  
+                },
+                {
+                    "id":"luainterpreter",
+                    "define":"ESP_LUA_INTERPRETER_FEATURE",
+                    "label":"Enable lua interpreter",
+                    "description":"Allow to use lua interpreter on ESP3D",
+                    "type":"boolean",
+                    "value":false,
+                    "disableiffalse":true,
+                    "setting":true  
+                }
+            ]
+        },
+        {
+            "id": "customization",
+            "description":"Customize your ESP3D",
+            "label":"Customization settings",
+            "setting":true,
+            "type":"group",
+            "value":[]
+        }
     ],
     "default": [
         {

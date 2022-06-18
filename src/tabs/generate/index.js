@@ -30,6 +30,7 @@ import {
 import header from "./header"
 import footer from "./footer"
 import { Version } from "../../components/App/version"
+import { useEffect, useState } from "preact/hooks"
 
 const configurationFile = (data) => {
     return (
@@ -179,10 +180,14 @@ const exportFile = (filecontent, filename) => {
     }
 }
 
+let showconfig = false
+
 const GenerateTab = ({ previous }) => {
     const { configuration } = useDatasContext()
+    const [showContent, setshowContent] = useState(showconfig)
     return (
         <div id="generate" class="m-2">
+            <code></code>
             <div class="accordion">
                 <input
                     type="checkbox"
@@ -194,15 +199,24 @@ const GenerateTab = ({ previous }) => {
                     class="accordion-header"
                     for="accordion-1"
                     style="cursor:pointer"
+                    onclick={() => {
+                        showconfig = !showconfig
+                        setshowContent(showconfig)
+                    }}
                 >
-                    <i class="icon icon-arrow-right mr-1"></i>
+                    {!showContent && <i class="icon icon-arrow-right mr-1"></i>}
+                    {showContent && <i class="icon icon-arrow-down mr-1"></i>}
                     Configuration.h
                 </label>
-                <div class="accordion-body">
-                    <code>
-                        <pre>{configurationFile(configuration.current)}</pre>
-                    </code>
-                </div>
+                {showContent && (
+                    <div class="accordion-body">
+                        <code>
+                            <pre>
+                                {configurationFile(configuration.current)}
+                            </pre>
+                        </code>
+                    </div>
+                )}
             </div>
 
             <div style="display:flex;justify-content:space-around">

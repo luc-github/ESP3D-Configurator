@@ -241,7 +241,17 @@ const StepTab = ({ previous, current, next }) => {
                                                               )
                                                             : subelement.description
                                                     )
-                                                }, [subelement.value])
+                                                }, [])
+                                                useEffect(() => {
+                                                    setHelp(
+                                                        optionsList
+                                                            ? getHelp(
+                                                                  optionsList,
+                                                                  subelement.value
+                                                              )
+                                                            : subelement.description
+                                                    )
+                                                }, [subelement.value, current])
                                                 return (
                                                     <Fragment>
                                                         <Field

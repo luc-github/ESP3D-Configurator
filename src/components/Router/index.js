@@ -36,7 +36,16 @@ const Router = ({ children, routesList, localDefault }) => {
         if (typeof window !== "undefined") {
             const location = window.location.hash.slice(1).toLowerCase()
             if (location == "/config") {
-                window.location.href = "/#" + activeTab.current
+                if (window.location.protocol == "file:") {
+                    window.location.href =
+                        window.location.protocol +
+                        "//" +
+                        window.location.pathname +
+                        "#" +
+                        activeTab.current
+                } else {
+                    window.location.href = "/#" + activeTab.current
+                }
                 return activeTab.current
             } else {
                 return location
@@ -84,7 +93,16 @@ const Router = ({ children, routesList, localDefault }) => {
             }
         }
         if (!found) {
-            window.location.href = "/#" + localDefaultRoute
+            if (window.location.protocol == "file:") {
+                window.location.href =
+                    window.location.protocol +
+                    "//" +
+                    window.location.pathname +
+                    "#" +
+                    localDefaultRoute
+            } else {
+                window.location.href = "/#" + localDefaultRoute
+            }
         }
     }
     useEffect(() => {

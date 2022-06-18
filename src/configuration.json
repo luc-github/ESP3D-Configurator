@@ -338,6 +338,7 @@
                     "label":"Notification message when online",
                     "description":"The message that will be sent when the ESP is online",
                     "type":"text",
+                    "needquote":true,
                     "value":"Hi, %ESP_NAME% is now online at %ESP_IP%",
                     "setting":true,
                     "depend":{"id":"notifications","value":[true]}
@@ -348,6 +349,7 @@
                     "label":"Notification title message",
                     "description":"The title of notification",
                     "type":"text",
+                    "needquote":true,
                     "value":"ESP3D Notification",
                     "setting":true,
                     "depend":{"id":"notifications","value":[true]}
@@ -391,6 +393,79 @@
                 "value":true,
                 "disableiffalse":true,
                 "setting":true
+                }
+            ]
+        }
+        ,
+        {
+            "id": "customizationSSDP",
+            "description":"Customize your ESP3D",
+            "label":"SSDP Customization settings",
+            "setting":true,
+            "depend":{"id":"ssdp","value":[true]},
+            "type":"group",
+            "value":[
+                {
+                    "id":"ssdpmodelename32",
+                    "define":"ESP_MODEL_NAME",
+                    "label":"Model name",
+                    "description":"Modele name of device",
+                    "type":"text",
+                    "value":"ESP32",
+                    "needquote":true,
+                    "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3","esp32c3"]},
+                    "setting":true  
+                },
+                {
+                    "id":"ssdpmodelename",
+                    "define":"ESP_MODEL_NAME",
+                    "label":"Model name",
+                    "description":"Modele name of device",
+                    "type":"text",
+                    "value":"ESP8266",
+                    "needquote":true,
+                    "depend":{"id":"targetmcu","value":["esp8266"]},
+                    "setting":true  
+                },
+                {
+                    "id":"ssdpmodelenamenumber",
+                    "define":"ESP_MODEL_NUMBER",
+                    "label":"Model number",
+                    "description":"Modele number of device",
+                    "type":"text",
+                    "needquote":true,
+                    "value":"ESP3D 3.0",
+                    "setting":true  
+                },
+                {
+                    "id":"ssdpmodeleurl",
+                    "define":"ESP_MODEL_URL",
+                    "label":"Model url",
+                    "description":"Modele url of device",
+                    "type":"text",
+                    "needquote":true,
+                    "value":"https://www.espressif.com/en/products/devkits",
+                    "setting":true  
+                },
+                {
+                    "id":"ssdpmodelemanufacturername",
+                    "define":"ESP_MANUFACTURER_NAME",
+                    "label":"Manufacturer name",
+                    "description":"Manufacturer name of device",
+                    "type":"text",
+                    "needquote":true,
+                    "value":"Espressif Systems",
+                    "setting":true 
+                },
+                {
+                    "id":"ssdpmodelemanufacturerurl",
+                    "define":"ESP_MANUFACTURER_URL",
+                    "label":"Manufacturer url",
+                    "description":"Manufacturer url of device",
+                    "type":"text",
+                    "needquote":true,
+                    "value":"https://www.espressif.com",
+                    "setting":true 
                 }
             ]
         }
@@ -947,7 +1022,7 @@
                     "define":"SENSOR_ADDR",
                     "label":"Sensor i2C address",
                     "description":"Wire address of sensor",
-                    "type":"text",
+                    "needquote":true,
                     "value":"0x76",
                     "depend":{"id":"sensortype","notvalue":["-1","ANALOG_DEVICE"]},
                     "setting":true  
@@ -1196,6 +1271,7 @@
                     "description":"Separate commands with ';'",
                     "depend":{"id":"autorunscript","value":["commandsautoscript"]},
                     "type":"text",
+                    "needquote":true,
                     "value":"M117 Mounting SD;M21",
                     "disableiffalse":true,
                     "setting":true  
@@ -1207,6 +1283,7 @@
                     "description":"The file should be on ESP3D filesystem",
                     "depend":{"id":"autorunscript","value":["fileautoscript"]},
                     "type":"text",
+                    "needquote":true,
                     "value":"autorun.gco",
                     "disableiffalse":true,
                     "setting":true  
@@ -1222,14 +1299,6 @@
                     "setting":true  
                 }
             ]
-        },
-        {
-            "id": "customization",
-            "description":"Customize your ESP3D",
-            "label":"Customization settings",
-            "setting":true,
-            "type":"group",
-            "value":[]
         }
     ],
     "default": [
@@ -1275,7 +1344,7 @@
                     "define":"BEARSSL_MFLN_SIZE",
                     "label":"Bear SSL buffer size",
                     "description":"Using BearSSL need to decrease default size of packet to not be out of memory on ESP8266",
-                    "type":"text",
+                    "type":"number",
                     "value":512,
                     "setting":true,
                     "depend":{"id":"targetmcu","value":["esp8266"]}
@@ -1286,7 +1355,7 @@
                     "define":"BEARSSL_MFLN_SIZE_FALLBACK",
                     "label":"Bear SSL buffer size fallback",
                     "description":"Using BearSSL need to decrease default fallback size of packet to not be out of memory on ESP8266",
-                    "type":"text",
+                    "type":"number",
                     "value":4096,
                     "setting":true,
                     "depend":{"id":"targetmcu","value":["esp8266"]}

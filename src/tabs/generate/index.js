@@ -133,7 +133,11 @@ const convertToText = (data) => {
                                 acc3 +
                                 `\n// ${element.label}\n` +
                                 `// ${element.description}\n` +
-                                `#define ${element.define} ${element.value}\n`
+                                `#define ${element.define} ${
+                                    element.needquote ? '"' : ""
+                                }${element.value}${
+                                    element.needquote ? '"' : ""
+                                }\n`
                             )
                         }
                     } else {

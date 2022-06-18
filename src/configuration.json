@@ -982,6 +982,99 @@
                 }
             ]
 
+        },
+        {
+            "id": "camera",
+            "description":"Connected camera",
+            "label":"Camera settings",
+            "setting":true,
+            "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3"]},
+            "type":"group",
+            "value":[
+                {
+                    "id":"cameratype",
+                    "define":"CAMERA_DEVICE",
+                    "label":"Camera type",
+                    "description":"Camera connected to ESP board, only ones with PSRAM are supported",
+                    "type":"select",
+                    "value":"-1",
+                    "setting":true,
+                    "usedescforoptions":true,
+                    "options": [
+                        {
+                            "label": "None",
+                            "value": "-1"
+                        },
+                        {
+                            "label": "AI Thinker (ESP32-Cam)",
+                            "value": "CAMERA_MODEL_AI_THINKER",
+                            "depend":{"id":"targetmcu","value":["esp32"]}
+                        },
+                        {
+                            "label": "ESP-Eye",
+                            "value": "CAMERA_MODEL_ESP_EYE",
+                            "depend":{"id":"targetmcu","value":["esp32"]}
+                        },
+                        {
+                            "label": "ESP-Eye",
+                            "value": "CAMERA_MODEL_ESP32S3_EYE",
+                            "depend":{"id":"targetmcu","value":["esp32s3"]}
+                        },
+                        {
+                            "label": "M5Stack",
+                            "value": "CAMERA_MODEL_M5STACK_PSRAM",
+                            "depend":{"id":"targetmcu","value":["esp32"]}
+                        },
+                        {
+                            "label": "M5Stack V2",
+                            "value": "CAMERA_MODEL_M5STACK_V2_PSRAM",
+                            "depend":{"id":"targetmcu","value":["esp32"]}
+                        },
+                        {
+                            "label": "Wrover Kit",
+                            "value": "CAMERA_MODEL_WROVER_KIT",
+                            "depend":{"id":"targetmcu","value":["esp32"]}
+                        },
+                        {
+                            "label": "Espressif Camera",
+                            "value": "CAMERA_MODEL_ESP32_CAM_BOARD",
+                            "depend":{"id":"targetmcu","value":["esp32"]}
+                        },
+                        {
+                            "label": "Espressif Camera",
+                            "value": "CAMERA_MODEL_ESP32S2_CAM_BOARD",
+                            "depend":{"id":"targetmcu","value":["esp32s2"]}
+                        },
+                        {
+                            "label": "Espressif Camera",
+                            "value": "CAMERA_MODEL_ESP32S3_CAM_LCD",
+                            "depend":{"id":"targetmcu","value":["esp32s3"]}
+                        }
+                    ]
+                },
+                {
+                    "id":"cameraflipverticaly",
+                    "define":"CAMERA_DEVICE_FLIP_VERTICALY",
+                    "label":"Flip vertically",
+                    "description":"Flip camera verticaly",
+                    "type":"boolean",
+                    "depend":{"id":"cameratype","notvalue":["-1"]},
+                    "value":true,
+                    "disableiffalse":true,
+                    "setting":true  
+                },
+                {
+                    "id":"camerafliphorizontaly",
+                    "define":"CAMERA_DEVICE_FLIP_HORIZONTALY",
+                    "label":"Flip horizontally",
+                    "description":"Flip camera horizontally",
+                    "type":"boolean",
+                    "depend":{"id":"cameratype","notvalue":["-1"]},
+                    "value":true,
+                    "disableiffalse":true,
+                    "setting":true  
+                }
+            ]
         }
     ],
     "security": [

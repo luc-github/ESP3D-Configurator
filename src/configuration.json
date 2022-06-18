@@ -331,6 +331,26 @@
                 "value":true,
                 "disableiffalse":true,
                 "setting":true
+                },
+                {
+                    "id":"notificationonline",
+                    "define":"NOTIFICATION_ESP_ONLINE",
+                    "label":"Notification message when online",
+                    "description":"The message that will be sent when the ESP is online",
+                    "type":"text",
+                    "value":"Hi, %ESP_NAME% is now online at %ESP_IP%",
+                    "setting":true,
+                    "depend":{"id":"notifications","value":[true]}
+                },
+                {
+                    "id":"notificationtitlemsg",
+                    "define":"ESP_NOTIFICATION_TITLE",
+                    "label":"Notification title message",
+                    "description":"The title of notification",
+                    "type":"text",
+                    "value":"ESP3D Notification",
+                    "setting":true,
+                    "depend":{"id":"notifications","value":[true]}
                 }
             ]
         },
@@ -1258,7 +1278,7 @@
                     "type":"text",
                     "value":512,
                     "setting":true,
-                    "depend":{"id":"targetmcu","value":[{"id":"esp8266","value":"esp8266"}]}
+                    "depend":{"id":"targetmcu","value":["esp8266"]}
                 }
                 ,
                 {
@@ -1269,7 +1289,7 @@
                     "type":"text",
                     "value":4096,
                     "setting":true,
-                    "depend":{"id":"targetmcu","value":[{"id":"esp8266","value":"esp8266"}]}
+                    "depend":{"id":"targetmcu","value":["esp8266"]}
                 }
                 ,
                 {
@@ -1280,7 +1300,7 @@
                     "type":"boolean",
                     "value":true,
                     "setting":true,
-                    "depend":{"id":"targetmcu","value":[{"id":"esp32","value":"esp32"}]}
+                    "depend":{"id":"targetmcu","value":["esp32","esp32s3"]}
                 }
             ]
         }

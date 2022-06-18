@@ -182,12 +182,77 @@ const exportFile = (filecontent, filename) => {
 
 let showconfig = false
 
+const NavButtons = ({ previous, next }) => {
+    const { configuration } = useDatasContext()
+    return (
+        <div style="display:flex;justify-content:space-around">
+            {previous && (
+                <ButtonImg
+                    m2
+                    icon={<ArrowLeft />}
+                    label="Previous"
+                    onclick={() => {
+                        if (document.getElementById(previous)) {
+                            document.getElementById(previous).click()
+                        }
+                    }}
+                />
+            )}
+            <ButtonImg
+                m2
+                icon={<Save />}
+                label={T("Download configuration.h")}
+                onclick={() => {
+                    exportFile(
+                        configurationFile(configuration.current),
+                        "configuration.h"
+                    )
+                }}
+            />
+            <ButtonImg
+                m2
+                icon={<Eye />}
+                label={T("Download WebUI")}
+                onclick={() => {
+                    const targetfw = useDatasContextFn.getValue(
+                        "features",
+                        "targetFW",
+                        "defaultfw"
+                    )
+                    const targetFwName = {
+                        MARLIN: "Marlin",
+                        GRBL: "GRBL",
+                        REPETIER: "Repetier",
+                        SMOOTHIEWARE: "Smoothieware",
+                    }
+                    const targetsystem = useDatasContextFn.getValue(
+                        "features",
+                        "targetFW",
+                        "systemtype"
+                    )
+                    if (targetfw == "UNKNOWN_FW") {
+                        window.open(
+                            "https://github.com/luc-github/ESP3D-WEBUI/tree/3.0/dist/",
+                            "_blank"
+                        )
+                    } else {
+                        window.open(
+                            `https://github.com/luc-github/ESP3D-WEBUI/blob/3.0/dist/${targetsystem}/${targetFwName[targetfw]}/index.html.gz?raw=true`,
+                            "_blank"
+                        )
+                    }
+                }}
+            />
+        </div>
+    )
+}
+
 const GenerateTab = ({ previous }) => {
     const { configuration } = useDatasContext()
     const [showContent, setshowContent] = useState(showconfig)
     return (
         <div id="generate" class="m-2">
-            <code></code>
+            <NavButtons previous={previous} />
             <div class="accordion">
                 <input
                     type="checkbox"
@@ -219,65 +284,7 @@ const GenerateTab = ({ previous }) => {
                 )}
             </div>
 
-            <div style="display:flex;justify-content:space-around">
-                {previous && (
-                    <ButtonImg
-                        m2
-                        icon={<ArrowLeft />}
-                        label="Previous"
-                        onclick={() => {
-                            if (document.getElementById(previous)) {
-                                document.getElementById(previous).click()
-                            }
-                        }}
-                    />
-                )}
-                <ButtonImg
-                    m2
-                    icon={<Save />}
-                    label={T("Download configuration.h")}
-                    onclick={() => {
-                        exportFile(
-                            configurationFile(configuration.current),
-                            "configuration.h"
-                        )
-                    }}
-                />
-                <ButtonImg
-                    m2
-                    icon={<Eye />}
-                    label={T("Download WebUI")}
-                    onclick={() => {
-                        const targetfw = useDatasContextFn.getValue(
-                            "features",
-                            "targetFW",
-                            "defaultfw"
-                        )
-                        const targetFwName = {
-                            MARLIN: "Marlin",
-                            GRBL: "GRBL",
-                            REPETIER: "Repetier",
-                            SMOOTHIEWARE: "Smoothieware",
-                        }
-                        const targetsystem = useDatasContextFn.getValue(
-                            "features",
-                            "targetFW",
-                            "systemtype"
-                        )
-                        if (targetfw == "UNKNOWN_FW") {
-                            window.open(
-                                "https://github.com/luc-github/ESP3D-WEBUI/tree/3.0/dist/",
-                                "_blank"
-                            )
-                        } else {
-                            window.open(
-                                `https://github.com/luc-github/ESP3D-WEBUI/blob/3.0/dist/${targetsystem}/${targetFwName[targetfw]}/index.html.gz?raw=true`,
-                                "_blank"
-                            )
-                        }
-                    }}
-                />
-            </div>
+            {showContent && <NavButtons previous={previous} />}
             <br />
         </div>
     )

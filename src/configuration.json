@@ -576,13 +576,22 @@
                 },
                 {
                     "id":"sdio",
-                    "define":"SD_ONE_BIT_MODE",
-                    "label":"Sdio 1 bit mode",
+                    "define":"SDIO_BIT_MODE",
+                    "label":"Sdio bit mode",
                     "description":"Mode used by SDIO library",
-                    "type":"boolean",
+                    "type":"select",
                     "value":true,
                     "depend":{"id":"sdfs","value":["ESP_SDIO"]},
-                    "setting":true  
+                    "setting":true,
+                    "options": [
+                        {
+                            "label": "1 bit",
+                            "value": "SD_ONE_BIT_MODE"
+                        },
+                        {
+                            "label": "4 bits",
+                            "value": "SD_FOUR_BIT_MODE"
+                        }] 
                 },
                 {
                     "id":"sdtimestamp",
@@ -1316,7 +1325,8 @@
                     "description":"This feature allows to process Gcode files like macros.",
                     "type":"boolean",
                     "value":true,
-                    "setting":true
+                    "setting":true,
+                    "disableiffalse":true
                 },
                 {
                     "id":"settings",
@@ -1369,6 +1379,7 @@
                     "type":"boolean",
                     "value":true,
                     "setting":true,
+                    "disableiffalse":true,
                     "depend":{"id":"targetmcu","value":["esp32","esp32s3"]}
                 }
             ]

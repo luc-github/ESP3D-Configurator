@@ -125,7 +125,9 @@ const convertToText = (data) => {
                                 acc3 +
                                 `\n// ${element.label}\n` +
                                 `// ${element.description}\n` +
-                                `#define ${element.define} ${element.value}\n`
+                                `#define ${element.define} ${
+                                    !element.disableiffalse ? element.value : ""
+                                }\n`
                             )
                         }
                         if (element.type == "text") {

@@ -55,7 +55,7 @@ const footer =
 ************************************/\n\
 \n\
 #if defined (SD_TIMESTAMP_FEATURE) || defined (FILESYSTEM_TIMESTAMP_FEATURE)\n\
-    #define TIMESTAMP_FEATURE true\n\
+    #define TIMESTAMP_FEATURE\n\
 #endif //SD_TIMESTAMP_FEATURE || FILESYSTEM_TIMESTAMP_FEATURE \n\
 \n\
 #if defined(PRINTER_HAS_DISPLAY)\n\

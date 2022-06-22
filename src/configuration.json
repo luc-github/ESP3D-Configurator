@@ -1256,6 +1256,7 @@
                     "define":"AUTOSTART_SCRIPT_FEATURE",
                     "label":"Enable Autostart script",
                     "description":"Automaticaly launch script when ESP3D is started",
+                    "setting":true,
                     "type":"select",
                     "value": "-1",
                     "usedescforoptions":true,
@@ -1266,11 +1267,11 @@
                        },
                        {
                         "label": "Commands",
-                        "value": "commandsautoscript"
+                        "value": "\"script\""
                        },
                        {
                         "label": "File",
-                        "value": "fileautoscript"
+                        "value": "\"file\""
                        }
                     ]
                 },
@@ -1279,7 +1280,7 @@
                     "define":"ESP_AUTOSTART_SCRIPT",
                     "label":"Commands to run on startup",
                     "description":"Separate commands with ';'",
-                    "depend":{"id":"autorunscript","value":["commandsautoscript"]},
+                    "depend":{"id":"autorunscript","value":["\"script\""]},
                     "type":"text",
                     "needquote":true,
                     "value":"M117 Mounting SD;M21",
@@ -1288,10 +1289,10 @@
                 },
                 {
                     "id":"autostartfile",
-                    "define":"ESP_AUTOSTART_SCRIPT",
+                    "define":"ESP_AUTOSTART_SCRIPT_FILE",
                     "label":"File to run on startup",
                     "description":"The file should be on ESP3D filesystem",
-                    "depend":{"id":"autorunscript","value":["fileautoscript"]},
+                    "depend":{"id":"autorunscript","value":["\"file\""]},
                     "type":"text",
                     "needquote":true,
                     "value":"autorun.gco",
@@ -1348,28 +1349,6 @@
                             "value": "SETTINGS_IN_PREFERENCES"
                         }
                     ]
-                }
-                ,
-                {
-                    "id":"SSLClient1",
-                    "define":"BEARSSL_MFLN_SIZE",
-                    "label":"Bear SSL buffer size",
-                    "description":"Using BearSSL need to decrease default size of packet to not be out of memory on ESP8266",
-                    "type":"number",
-                    "value":512,
-                    "setting":true,
-                    "depend":{"id":"targetmcu","value":["esp8266"]}
-                }
-                ,
-                {
-                    "id":"SSLClient2",
-                    "define":"BEARSSL_MFLN_SIZE_FALLBACK",
-                    "label":"Bear SSL buffer size fallback",
-                    "description":"Using BearSSL need to decrease default fallback size of packet to not be out of memory on ESP8266",
-                    "type":"number",
-                    "value":4096,
-                    "setting":true,
-                    "depend":{"id":"targetmcu","value":["esp8266"]}
                 }
                 ,
                 {

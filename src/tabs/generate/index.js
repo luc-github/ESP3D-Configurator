@@ -128,7 +128,10 @@ const convertToText = (data) => {
                                     !element.disableiffalse ? element.value : ""
                                 }\n`
                             )
-                        } else if (element.type == "text") {
+                        } else if (
+                            element.type == "text" ||
+                            element.type == "number"
+                        ) {
                             return (
                                 acc3 +
                                 `\n// ${element.label}\n` +

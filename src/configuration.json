@@ -1032,6 +1032,7 @@
                     "label":"Sensor i2C address",
                     "description":"Wire address of sensor",
                     "needquote":true,
+                    "type":"text",
                     "value":"0x76",
                     "depend":{"id":"sensortype","notvalue":["-1","ANALOG_DEVICE"]},
                     "setting":true  
@@ -1070,15 +1071,15 @@
                     "options":[
                         {
                         "label": "C",
-                        "value": "C"
+                        "value": "\"C\""
                        },
                        {
                         "label": "K",
-                        "value": "K"
+                        "value": "\"K\""
                        },
                        {
                         "label": "V",
-                        "value": "V",
+                        "value": "\"V\"",
                         "depend":{"id":"sensortype","value":["ANALOG_DEVICE"]}
                        }
                     ],

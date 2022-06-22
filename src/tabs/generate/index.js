@@ -83,6 +83,7 @@ const canshow = (depend, pinvalue, currentvalue) => {
 }
 
 const convertToText = (data) => {
+    console.log(data)
     let config = ""
     return Object.keys(data).reduce((acc, item) => {
         return data[item].reduce((acc2, item2) => {
@@ -101,7 +102,6 @@ const convertToText = (data) => {
                                 element.options,
                                 element.value
                             )
-
                             return (
                                 acc3 +
                                 `\n// ${element.label}\n` +
@@ -119,8 +119,7 @@ const convertToText = (data) => {
                                 }` +
                                 `#define ${element.define} ${element.value}\n`
                             )
-                        }
-                        if (element.type == "boolean") {
+                        } else if (element.type == "boolean") {
                             return (
                                 acc3 +
                                 `\n// ${element.label}\n` +
@@ -129,8 +128,7 @@ const convertToText = (data) => {
                                     !element.disableiffalse ? element.value : ""
                                 }\n`
                             )
-                        }
-                        if (element.type == "text") {
+                        } else if (element.type == "text") {
                             return (
                                 acc3 +
                                 `\n// ${element.label}\n` +
@@ -140,6 +138,18 @@ const convertToText = (data) => {
                                 }${element.value}${
                                     element.needquote ? '"' : ""
                                 }\n`
+                            )
+                        } else {
+                            console.log(
+                                "unknown type",
+                                element.type,
+                                " for ",
+                                element
+                            )
+                            return (
+                                acc3 +
+                                `\n// Unknow parameter: ${element.label}\n` +
+                                `// ${element.description}\n`
                             )
                         }
                     } else {

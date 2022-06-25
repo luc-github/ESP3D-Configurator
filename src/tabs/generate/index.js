@@ -698,7 +698,7 @@ const GenerateTab = ({ previous }) => {
                     {showIniContent && (
                         <i class="icon icon-arrow-down mr-1"></i>
                     )}
-                    platformIO.h
+                    platformio.ini
                 </label>
                 {showIniContent && (
                     <div class="accordion-body">

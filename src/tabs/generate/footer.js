@@ -1,5 +1,5 @@
 /*
- index.js - ESP3D WebUI navigation tab file
+ footer.js - ESP3D-configurator footer for configuration.h file
 
  Copyright (c) 2020 Luc Lebosse. All rights reserved.
 

@@ -50,6 +50,7 @@
                         {
                             "label": "1MB",
                             "value": "1",
+                            "depend":{"id":"targetmcu","value":["esp8266"]},
                             "help":"No OTA/ Web update possible"
                         },
                         {
@@ -941,6 +942,66 @@
                     "define":"DISPLAY_LED_PIN",
                     "label":"TFT led pin",
                     "description":"The pin used for the backlight",
+                    "type":"select",
+                    "ispin":true,
+                    "value":"-1",
+                    "depend":{"id":"displaytype","value":["TFT_SPI_ST7789_135X240","TFT_SPI_ST7789_240X240"]},
+                    "setting":true,
+                    "usedescforoptions":true
+                },
+                {
+                    "id":"tftDCpin",
+                    "define":"DISPLAY_DC_PIN",
+                    "label":"TFT DC pin",
+                    "description":"The dc pin used for the display",
+                    "type":"select",
+                    "ispin":true,
+                    "value":"-1",
+                    "depend":{"id":"displaytype","value":["TFT_SPI_ST7789_135X240","TFT_SPI_ST7789_240X240"]},
+                    "setting":true,
+                    "usedescforoptions":true
+                },
+                {
+                    "id":"tftRSTpin",
+                    "define":"DISPLAY_RST_PIN",
+                    "label":"TFT RST pin",
+                    "description":"The pin used to reset display",
+                    "type":"select",
+                    "ispin":true,
+                    "value":"-1",
+                    "depend":{"id":"displaytype","value":["TFT_SPI_ST7789_135X240","TFT_SPI_ST7789_240X240"]},
+                    "setting":true,
+                    "usedescforoptions":true
+                },
+                {
+                    "id":"tftCSpin",
+                    "define":"DISPLAY_CS_PIN",
+                    "label":"TFT CS pin",
+                    "description":"The CS pin used by display",
+                    "type":"select",
+                    "ispin":true,
+                    "value":"-1",
+                    "depend":{"id":"displaytype","value":["TFT_SPI_ST7789_135X240","TFT_SPI_ST7789_240X240"]},
+                    "setting":true,
+                    "usedescforoptions":true
+                },
+                {
+                    "id":"tftMOSIpin",
+                    "define":"DISPLAY_MOSI_PIN",
+                    "label":"TFT MOSI pin",
+                    "description":"The MOSI pin used by display",
+                    "type":"select",
+                    "ispin":true,
+                    "value":"-1",
+                    "depend":{"id":"displaytype","value":["TFT_SPI_ST7789_135X240","TFT_SPI_ST7789_240X240"]},
+                    "setting":true,
+                    "usedescforoptions":true
+                },
+                {
+                    "id":"tftSCKpin",
+                    "define":"DISPLAY_SCK_PIN",
+                    "label":"TFT SCK pin",
+                    "description":"The SCK pin used by display",
                     "type":"select",
                     "ispin":true,
                     "value":"-1",

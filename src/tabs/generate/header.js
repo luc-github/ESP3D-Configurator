@@ -1,5 +1,5 @@
 /*
- index.js - ESP3D WebUI navigation tab file
+ header.js - ESP3D-configurator header for configuration.h file
 
  Copyright (c) 2020 Luc Lebosse. All rights reserved.
 
@@ -19,7 +19,7 @@
 */
 import { h } from "preact"
 const header =
-    '\n\
+    '\
 /*\n\
   configuration.h - ESP3D configuration file\n\
 \n\

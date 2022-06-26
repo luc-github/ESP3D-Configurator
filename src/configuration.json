@@ -286,7 +286,7 @@
                 "value":false,
                 "disableiffalse":true,
                 "setting":true,
-                "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3","esp32c3"]}
+                "depend":[{"id":"formfactor","notvalue":["esp01"]},{"id":"targetmcu","value":["esp32","esp32s2","esp32s3","esp32c3"]}]
                 }
                 ,
                 {

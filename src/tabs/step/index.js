@@ -83,16 +83,34 @@ const getHelp = (item, value) => {
 
 const canshow = (depend, pinvalue, currentvalue) => {
     if (pinvalue && pinvalue != "-1") {
-        if (pinvalue == currentvalue && canshow(depend)) return true
-        if (usedPinsList.current.includes(pinvalue)) return false
+        if (pinvalue == currentvalue && canshow(depend)) {
+            return true
+        }
+        if (usedPinsList.current.includes(pinvalue)) {
+            return false
+        }
     }
     if (depend) {
-        const val = useDatasContextFn.getValueId(depend.id)
-        if (depend.value) {
-            return depend.value.includes(val)
-        }
-        if (depend.notvalue) {
-            return !depend.notvalue.includes(val)
+        if (Array.isArray(depend)) {
+            const res = depend.reduce((acc, curdep) => {
+                if (!acc) return acc
+                const val = useDatasContextFn.getValueId(curdep.id)
+                if (curdep.value) {
+                    return curdep.value.includes(val)
+                }
+                if (curdep.notvalue) {
+                    return !curdep.notvalue.includes(val)
+                }
+            }, true)
+            return res
+        } else {
+            const val = useDatasContextFn.getValueId(depend.id)
+            if (depend.value) {
+                return depend.value.includes(val)
+            }
+            if (depend.notvalue) {
+                return !depend.notvalue.includes(val)
+            }
         }
     }
     return true
@@ -181,10 +199,22 @@ const StepTab = ({ previous, current, next }) => {
                                                 } = subelement
                                                 const optionsList =
                                                     subelement.ispin
-                                                        ? mergePinsOptions(
-                                                              pinsList,
-                                                              options
-                                                          )
+                                                        ? subelement.usedefault
+                                                            ? JSON.parse(
+                                                                  JSON.stringify(
+                                                                      mergePinsOptions(
+                                                                          pinsList,
+                                                                          options
+                                                                      )
+                                                                  ).replaceAll(
+                                                                      "None",
+                                                                      "Default"
+                                                                  )
+                                                              )
+                                                            : mergePinsOptions(
+                                                                  pinsList,
+                                                                  options
+                                                              )
                                                         : options
                                                 const filteredOptions =
                                                     optionsList

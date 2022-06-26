@@ -71,6 +71,24 @@
                             "value": "16"
                         }
                     ]
+                },
+                {
+                    "id":"formfactor",
+                    "define":"ESP_FORM_FACTOR",
+                    "description":"Pins form factor",
+                    "label":"Form factor",
+                    "type":"select",
+                    "value":"original",
+                    "setting":false,
+                    "options": [
+                        {
+                            "label": "Original (all pins)",
+                            "value": "original"
+                        },
+                        {
+                            "label": "ESP01 (8 pins)",
+                            "value": "esp01"
+                        }]
                 }
             ]
         },
@@ -519,6 +537,7 @@
             "label":"SD filesystem",
             "setting":true,
             "type":"group",
+            "depend":{"id":"formfactor","notvalue":["esp01"]},
             "value":[
                 {
                 "id":"sdconnection",
@@ -688,6 +707,46 @@
                     "description":"The pin used to select SD card in SPI mode",
                     "type":"select",
                     "ispin":true,
+                    "usedefault":true,
+                    "value":"-1",
+                    "depend":{"id":"sdfs","notvalue":["ESP_SDIO"]},
+                    "setting":true,
+                    "usedescforoptions":true
+                },
+                {
+                    "id":"sdmosipin",
+                    "define":"ESP_SD_MOSI_PIN",
+                    "label":"SD card Mosi pin",
+                    "description":"The Mosi pin used by SD in SPI mode",
+                    "type":"select",
+                    "ispin":true,
+                    "usedefault":true,
+                    "value":"-1",
+                    "depend":{"id":"sdfs","notvalue":["ESP_SDIO"]},
+                    "setting":true,
+                    "usedescforoptions":true
+                },
+                {
+                    "id":"sdmisopin",
+                    "define":"ESP_SD_MISO_PIN",
+                    "label":"SD card Miso pin",
+                    "description":"The Miso pin used by SD in SPI mode",
+                    "type":"select",
+                    "ispin":true,
+                    "usedefault":true,
+                    "value":"-1",
+                    "depend":{"id":"sdfs","notvalue":["ESP_SDIO"]},
+                    "setting":true,
+                    "usedescforoptions":true
+                },
+                {
+                    "id":"sdsckpin",
+                    "define":"ESP_SD_SCK_PIN",
+                    "label":"SD card Sck pin",
+                    "description":"The Sck pin used by SD in SPI mode",
+                    "type":"select",
+                    "ispin":true,
+                    "usedefault":true,
                     "value":"-1",
                     "depend":{"id":"sdfs","notvalue":["ESP_SDIO"]},
                     "setting":true,
@@ -857,6 +916,7 @@
             "id": "screens",
             "description":"Rendering screens",
             "label":"Display settings",
+            
             "setting":true,
             "type":"group",
             "value":[
@@ -880,6 +940,7 @@
                     "value":"-1",
                     "setting":true,
                     "usedescforoptions":true,
+                    "depend":{"id":"formfactor","notvalue":["esp01"]},
                     "options": [
 
                         {
@@ -980,6 +1041,7 @@
                     "description":"The CS pin used by display",
                     "type":"select",
                     "ispin":true,
+                    "usedefault":true,
                     "value":"-1",
                     "depend":{"id":"displaytype","value":["TFT_SPI_ST7789_135X240","TFT_SPI_ST7789_240X240"]},
                     "setting":true,
@@ -992,6 +1054,7 @@
                     "description":"The MOSI pin used by display",
                     "type":"select",
                     "ispin":true,
+                    "usedefault":true,
                     "value":"-1",
                     "depend":{"id":"displaytype","value":["TFT_SPI_ST7789_135X240","TFT_SPI_ST7789_240X240"]},
                     "setting":true,
@@ -1004,6 +1067,7 @@
                     "description":"The SCK pin used by display",
                     "type":"select",
                     "ispin":true,
+                    "usedefault":true,
                     "value":"-1",
                     "depend":{"id":"displaytype","value":["TFT_SPI_ST7789_135X240","TFT_SPI_ST7789_240X240"]},
                     "setting":true,
@@ -1154,7 +1218,7 @@
             "description":"Connected camera",
             "label":"Camera settings",
             "setting":true,
-            "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3"]},
+            "depend":[{"id":"targetmcu","value":["esp32","esp32s2","esp32s3"]},{"id":"formfactor","notvalue":["esp01"]}],
             "type":"group",
             "value":[
                 {

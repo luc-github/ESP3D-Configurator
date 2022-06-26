@@ -434,12 +434,26 @@ const canshow = (depend, pinvalue, currentvalue) => {
         if (usedPinsList.current.includes(pinvalue)) return false
     }
     if (depend) {
-        const val = useDatasContextFn.getValueId(depend.id)
-        if (depend.value) {
-            return depend.value.includes(val)
-        }
-        if (depend.notvalue) {
-            return !depend.notvalue.includes(val)
+        if (Array.isArray(depend)) {
+            const res = depend.reduce((acc, curdep) => {
+                if (!acc) return acc
+                const val = useDatasContextFn.getValueId(curdep.id)
+                if (curdep.value) {
+                    return curdep.value.includes(val)
+                }
+                if (curdep.notvalue) {
+                    return !curdep.notvalue.includes(val)
+                }
+            }, true)
+            return res
+        } else {
+            const val = useDatasContextFn.getValueId(depend.id)
+            if (depend.value) {
+                return depend.value.includes(val)
+            }
+            if (depend.notvalue) {
+                return !depend.notvalue.includes(val)
+            }
         }
     }
     return true

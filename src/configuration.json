@@ -600,7 +600,7 @@
                     "label":"Sdio bit mode",
                     "description":"Mode used by SDIO library",
                     "type":"select",
-                    "value":true,
+                    "value":"SD_FOUR_BIT_MODE",
                     "depend":{"id":"sdfs","value":["ESP_SDIO"]},
                     "setting":true,
                     "options": [

@@ -344,12 +344,8 @@ const convertToPioEnv = ({
     displayName,
     envName,
 }) => {
-    /*
-    "build_flags":"build_flags =   -DCORE_DEBUG_LEVEL=0\n",
-  
-    */
     return (
-        "[" +
+        "[env:" +
         envName +
         "]\n" +
         sections[target].common +

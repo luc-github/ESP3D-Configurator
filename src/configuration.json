@@ -636,7 +636,7 @@
             "value":[
                 {
                     "id":"detectsdpin",
-                    "define":"ESP_DETECT_PIN",
+                    "define":"ESP_SD_DETECT_PIN",
                     "label":"SD card detect pin",
                     "description":"The pin used to detect SD card",
                     "type":"select",

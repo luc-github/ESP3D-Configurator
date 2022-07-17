@@ -85,7 +85,7 @@ const sections = {
             "board = esp32dev\n" +
             "framework = arduino\n" +
             "monitor_speed = 115200\n" +
-            "monitor_flags = --echo\n" +
+            "monitor_echo = yes\n" +
             "monitor_filters = send_on_enter, colorize, esp32_exception_decoder\n" +
             "; set frequency to 240MHz\n" +
             ";board_build.f_cpu = 240000000L\n" +
@@ -110,7 +110,7 @@ const sections = {
             "board_build.mcu = esp32s2\n" +
             "board_build.variant = esp32s2\n" +
             "monitor_speed = 115200\n" +
-            "monitor_flags = --echo\n" +
+            "monitor_echo = yes\n" +
             "monitor_filters = send_on_enter, colorize, esp32_exception_decoder\n" +
             "set frequency to 240MHz\n" +
             "board_build.f_cpu = 240000000L\n" +
@@ -137,7 +137,7 @@ const sections = {
             "board_build.mcu = esp32s3\n" +
             "board_build.variant = esp32s3\n" +
             "monitor_speed = 115200\n" +
-            "monitor_flags = --echo\n" +
+            "monitor_echo = yes\n" +
             "monitor_filters = send_on_enter, colorize, esp32_exception_decoder\n" +
             "set frequency to 240MHz\n" +
             "board_build.f_cpu = 240000000L\n" +
@@ -164,7 +164,7 @@ const sections = {
             "board_build.mcu = esp32c3\n" +
             "board_build.variant = esp32c3\n" +
             "monitor_speed = 115200\n" +
-            "monitor_flags = --echo\n" +
+            "monitor_echo = yes\n" +
             "monitor_filters = send_on_enter, colorize, esp32_exception_decoder\n" +
             "set frequency to 240MHz\n" +
             "board_build.f_cpu = 240000000L\n" +
@@ -188,7 +188,7 @@ const sections = {
             "board = esp12e\n" +
             "framework = arduino\n" +
             "monitor_speed = 115200\n" +
-            "monitor_flags = --echo\n" +
+            "monitor_echo = yes\n" +
             "monitor_filters = send_on_enter, colorize, esp8266_exception_decoder\n" +
             "; set frequency to 160MHz\n" +
             "board_build.f_cpu = 160000000L\n" +

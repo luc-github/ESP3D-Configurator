@@ -120,7 +120,7 @@ const sections = {
             "upload_speed = 460800\n" +
             "extra_scripts = pre:platformIO/extra_script.py\n",
         build_flags:
-            " -DCORE_DEBUG_LEVEL=0\n-DARDUINO_USB_CDC_ON_BOOT=0\n-DARDUINO_USB_MSC_ON_BOOT=0\n-DARDUINO_USB_DFU_ON_BOOT=0\n-DCONFIG_IDF_TARGET_ESP32S2=1\n",
+            "\n     -DCORE_DEBUG_LEVEL=0\n    -DARDUINO_USB_CDC_ON_BOOT=0\n    -DARDUINO_USB_MSC_ON_BOOT=0\n    -DARDUINO_USB_DFU_ON_BOOT=0\n    -DCONFIG_IDF_TARGET_ESP32S2=1\n",
         lib_ignore: "TFT_eSPI\n",
         defaultMosi: 35,
         defaultSck: 36,
@@ -147,7 +147,7 @@ const sections = {
             "upload_speed = 460800\n" +
             "extra_scripts = pre:platformIO/extra_script.py\n",
         build_flags:
-            " -DCORE_DEBUG_LEVEL=0\n-DARDUINO_USB_CDC_ON_BOOT=0\n-DARDUINO_USB_MSC_ON_BOOT=0\n-DARDUINO_USB_DFU_ON_BOOT=0\n-DCONFIG_IDF_TARGET_ESP32S3=1\n",
+            "\n    -DCORE_DEBUG_LEVEL=0\n    -DARDUINO_USB_CDC_ON_BOOT=0\n    -DARDUINO_USB_MSC_ON_BOOT=0\n    -DARDUINO_USB_DFU_ON_BOOT=0\n    -DCONFIG_IDF_TARGET_ESP32S3=1\n",
         lib_ignore: "TFT_eSPI\n",
         defaultMosi: 11,
         defaultSck: 12,
@@ -173,7 +173,8 @@ const sections = {
             "board_build.flash_mode = qio\n" +
             "upload_speed = 460800\n" +
             "extra_scripts = pre:platformIO/extra_script.py\n",
-        build_flags: " -DCORE_DEBUG_LEVEL=0\n-DCONFIG_IDF_TARGET_ESP32C3=1\n",
+        build_flags:
+            " -DCORE_DEBUG_LEVEL=0\n    -DCONFIG_IDF_TARGET_ESP32C3=1\n",
         lib_ignore: "TFT_eSPI\n",
         defaultMosi: 6,
         defaultSck: 4,
@@ -199,8 +200,8 @@ const sections = {
             "upload_speed = 115200\n" +
             "extra_scripts = pre:platformIO/extra_script.py\n",
         build_flags:
-            "  -D PIO_FRAMEWORK_ARDUINO_LWIP2_LOW_MEMORY\n-DNONOSDK221=1\n-DNDEBUG -DVTABLES_IN_FLASH\n-DWAVEFORM_LOCKED_PWM\n",
-        lib_ignore: "ESP32SSPD\n",
+            "\n    -D PIO_FRAMEWORK_ARDUINO_LWIP2_LOW_MEMORY\n    -DNONOSDK221=1\n    -DNDEBUG -DVTABLES_IN_FLASH\n    -DWAVEFORM_LOCKED_PWM\n",
+        lib_ignore: "ESP32SSDP",
         defaultMosi: 13,
         defaultSck: 14,
         defaultCs: 15,
@@ -252,30 +253,30 @@ const displayBuildFlags = (target, displayName) => {
         const defaultSck = sections[target].defaultSck
         const defaultCs = sections[target].defaultCs
         return (
-            " -Os\n" +
-            "-DUSER_SETUP_LOADED=1\n" +
-            "-DST7789_DRIVER=1\n" +
-            "-DTFT_SDA_READY=1\n" +
-            "-DCGRAM_OFFSET=1\n" +
-            `-DTFT_WIDTH=${width}\n` +
-            `-DTFT_HEIGHT=${height}\n` +
-            `-DTFT_MOSI=${mosipin == "-1" ? defaultMosi : mosipin}\n` +
-            `-DTFT_SCLK=${sckpin == "-1" ? defaultSck : sckpin}\n` +
-            `-DTFT_CS=${cspin == "-1" ? defaultCs : cspin}\n` +
-            `-DTFT_DC=${dcpin}\n` +
-            `-DTFT_RST=${rstpin}\n` +
-            `-DTFT_BL=${backlightpin}\n` +
-            `-DTFT_BACKLIGHT_ON=${backlightpin == "-1" ? 0 : 1}\n` +
-            "-DLOAD_GLCD=1\n" +
-            "-DLOAD_FONT2=1\n" +
-            "-DLOAD_FONT4=1\n" +
-            "-DLOAD_FONT6=1\n" +
-            "-DLOAD_FONT7=1\n" +
-            "-DLOAD_FONT8=1\n" +
-            "-DLOAD_GFXFF=1\n" +
-            "-DSMOOTH_FONT=1\n" +
-            "-DSPI_FREQUENCY=40000000\n" +
-            "-DSPI_READ_FREQUENCY=6000000"
+            "    -Os\n" +
+            "    -DUSER_SETUP_LOADED=1\n" +
+            "    -DST7789_DRIVER=1\n" +
+            "    -DTFT_SDA_READY=1\n" +
+            "    -DCGRAM_OFFSET=1\n" +
+            `    -DTFT_WIDTH=${width}\n` +
+            `    -DTFT_HEIGHT=${height}\n` +
+            `    -DTFT_MOSI=${mosipin == "-1" ? defaultMosi : mosipin}\n` +
+            `    -DTFT_SCLK=${sckpin == "-1" ? defaultSck : sckpin}\n` +
+            `    -DTFT_CS=${cspin == "-1" ? defaultCs : cspin}\n` +
+            `    -DTFT_DC=${dcpin}\n` +
+            `    -DTFT_RST=${rstpin}\n` +
+            `    -DTFT_BL=${backlightpin}\n` +
+            `    -DTFT_BACKLIGHT_ON=${backlightpin == "-1" ? 0 : 1}\n` +
+            "    -DLOAD_GLCD=1\n" +
+            "    -DLOAD_FONT2=1\n" +
+            "    -DLOAD_FONT4=1\n" +
+            "    -DLOAD_FONT6=1\n" +
+            "    -DLOAD_FONT7=1\n" +
+            "    -DLOAD_FONT8=1\n" +
+            "    -DLOAD_GFXFF=1\n" +
+            "    -DSMOOTH_FONT=1\n" +
+            "    -DSPI_FREQUENCY=40000000\n" +
+            "    -DSPI_READ_FREQUENCY=6000000\n"
         )
     }
     return ""

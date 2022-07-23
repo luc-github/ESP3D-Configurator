@@ -81,7 +81,7 @@ const pioFile = () => {
 const sections = {
     esp32: {
         common:
-            "platform = espressif32@4.4.0\n" +
+            "platform = espressif32@5.0.0\n" +
             "board = esp32dev\n" +
             "framework = arduino\n" +
             "monitor_speed = 115200\n" +
@@ -104,7 +104,7 @@ const sections = {
     },
     esp32s2: {
         common:
-            "platform = espressif32@4.4.0\n" +
+            "platform = espressif32@5.0.0\n" +
             "board = esp32-s2-saola-1\n" +
             "framework = arduino\n" +
             "board_build.mcu = esp32s2\n" +
@@ -131,7 +131,7 @@ const sections = {
     },
     esp32s3: {
         common:
-            "platform = espressif32@4.4.0\n" +
+            "platform = espressif32@5.0.0\n" +
             "board = esp32-s3-devkitc-1\n" +
             "framework = arduino\n" +
             "board_build.mcu = esp32s3\n" +
@@ -158,7 +158,7 @@ const sections = {
     },
     esp32c3: {
         common:
-            "platform = espressif32@4.4.0\n" +
+            "platform = espressif32@5.0.0\n" +
             "board =  esp32-c3-devkitm-1\n" +
             "framework = arduino\n" +
             "board_build.mcu = esp32c3\n" +

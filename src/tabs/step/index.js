@@ -34,24 +34,26 @@ import {
 import { ArrowLeft, ArrowRight } from "preact-feather"
 
 import pinsList from "./pins.json"
+import portsList from "./ports.json"
 
 const usedPinsList = {}
 usedPinsList.current = []
 
-const removeUsedPin = (pin) => {
-    if (pin == "-1") return
-    usedPinsList.current = usedPinsList.current.filter(
-        (element) => element != pin
-    )
+const usedPortsList = {}
+usedPortsList.current = ["USE_SERIAL_0"]
+
+const removeUsedElement = (el, list) => {
+    if (el == "-1") return
+    list.current = list.current.filter((element) => element != el)
 }
-const addUsedPin = (pin) => {
-    if (pin == "-1") return
-    usedPinsList.current.push(pin)
+const addUsedElement = (el, list) => {
+    if (el == "-1") return
+    list.current.push(el)
 }
 
-const mergePinsOptions = (pins, options) => {
-    if (pins) {
-        const newList = JSON.parse(JSON.stringify(pins))
+const mergeListOptions = (list, options) => {
+    if (list) {
+        const newList = JSON.parse(JSON.stringify(list))
         if (options) {
             options.forEach((option) => {
                 const index = newList.findIndex((element) => {
@@ -81,12 +83,12 @@ const getHelp = (item, value) => {
     return null
 }
 
-const canshow = (depend, pinvalue, currentvalue) => {
-    if (pinvalue && pinvalue != "-1") {
-        if (pinvalue == currentvalue && canshow(depend)) {
+const canshow = (depend, value, currentvalue, list = usedPinsList) => {
+    if (value && value != "-1") {
+        if (value == currentvalue && canshow(depend)) {
             return true
         }
-        if (usedPinsList.current.includes(pinvalue)) {
+        if (list.current.includes(value)) {
             return false
         }
     }
@@ -202,7 +204,7 @@ const StepTab = ({ previous, current, next }) => {
                                                         ? subelement.usedefault
                                                             ? JSON.parse(
                                                                   JSON.stringify(
-                                                                      mergePinsOptions(
+                                                                      mergeListOptions(
                                                                           pinsList,
                                                                           options
                                                                       )
@@ -211,8 +213,25 @@ const StepTab = ({ previous, current, next }) => {
                                                                       "Default"
                                                                   )
                                                               )
-                                                            : mergePinsOptions(
+                                                            : mergeListOptions(
                                                                   pinsList,
+                                                                  options
+                                                              )
+                                                        : subelement.isport
+                                                        ? subelement.usedefault
+                                                            ? JSON.parse(
+                                                                  JSON.stringify(
+                                                                      mergeListOptions(
+                                                                          portsList,
+                                                                          options
+                                                                      )
+                                                                  ).replaceAll(
+                                                                      "None",
+                                                                      "Default"
+                                                                  )
+                                                              )
+                                                            : mergeListOptions(
+                                                                  portsList,
                                                                   options
                                                               )
                                                         : options
@@ -222,11 +241,18 @@ const StepTab = ({ previous, current, next }) => {
                                                               (opt) => {
                                                                   return canshow(
                                                                       opt.depend,
-                                                                      subelement.ispin
+                                                                      subelement.ispin ||
+                                                                          subelement.isport
                                                                           ? opt.value
                                                                           : null,
-                                                                      subelement.ispin
+                                                                      subelement.ispin ||
+                                                                          subelement.isport
                                                                           ? subelement.value
+                                                                          : null,
+                                                                      subelement.ispin
+                                                                          ? usedPinsList
+                                                                          : subelement.isport
+                                                                          ? usedPortsList
                                                                           : null
                                                                   )
                                                               }
@@ -240,9 +266,15 @@ const StepTab = ({ previous, current, next }) => {
                                                             subelement.value
                                                     ) == -1
                                                 ) {
-                                                    if (subelement.ispin) {
-                                                        removeUsedPin(
-                                                            subelement.value
+                                                    if (
+                                                        subelement.ispin ||
+                                                        subelement.isport
+                                                    ) {
+                                                        removeUsedElement(
+                                                            subelement.value,
+                                                            subelement.ispin
+                                                                ? usedPinsList
+                                                                : usedPortsList
                                                         )
                                                     }
                                                     subelement.value =
@@ -303,16 +335,25 @@ const StepTab = ({ previous, current, next }) => {
                                                             ) => {
                                                                 if (!update) {
                                                                     if (
-                                                                        subelement.ispin
+                                                                        subelement.ispin ||
+                                                                        subelement.isport
                                                                     ) {
-                                                                        removeUsedPin(
-                                                                            subelement.value
+                                                                        removeUsedElement(
+                                                                            subelement.value,
+                                                                            subelement.ispin
+                                                                                ? usedPinsList
+                                                                                : usedPortsList
                                                                         )
-                                                                        addUsedPin(
-                                                                            val
+                                                                        addUsedElement(
+                                                                            val,
+                                                                            subelement.ispin
+                                                                                ? usedPinsList
+                                                                                : usedPortsList
                                                                         )
                                                                         console.log(
-                                                                            usedPinsList.current
+                                                                            subelement.ispin
+                                                                                ? usedPinsList
+                                                                                : usedPortsList
                                                                         )
                                                                     }
                                                                     subelement.value =

@@ -491,6 +491,7 @@ const convertToText = (data) => {
                                         ? "// " + element.description + "\n"
                                         : ""
                                 }` +
+                                (element.header ? element.header : "") +
                                 `#define ${element.define} ${element.value}\n`
                             )
                         } else if (element.type == "boolean") {
@@ -498,6 +499,7 @@ const convertToText = (data) => {
                                 acc3 +
                                 `\n// ${element.label}\n` +
                                 `// ${element.description}\n` +
+                                (element.header ? element.header : "") +
                                 `#define ${element.define} ${
                                     !element.disableiffalse ? element.value : ""
                                 }\n`
@@ -510,6 +512,7 @@ const convertToText = (data) => {
                                 acc3 +
                                 `\n// ${element.label}\n` +
                                 `// ${element.description}\n` +
+                                (element.header ? element.header : "") +
                                 `#define ${element.define} ${
                                     element.needquote ? '"' : ""
                                 }${element.value}${
@@ -530,6 +533,7 @@ const convertToText = (data) => {
                             )
                         }
                     } else {
+                        if (element.hide) return acc3
                         return (
                             acc3 +
                             `// ${element.label}=${getLabel(

@@ -2,19 +2,19 @@
     "features": [
         {
             "id": "mcu",
-            "description":"ESP Board  using ESP3D firmware",
-            "label":"Board description",
-            "setting":false,
-            "type":"group",
-            "value":[
+            "description": "ESP Board  using ESP3D firmware",
+            "label": "Board description",
+            "setting": false,
+            "type": "group",
+            "value": [
                 {
-                    "id":"targetmcu",
-                    "define":"ESP_MCU",
-                    "description":"MCU",
-                    "label":"MCU",
-                    "type":"select",
-                    "value":"esp32",
-                    "setting":false,
+                    "id": "targetmcu",
+                    "define": "ESP_MCU",
+                    "description": "MCU",
+                    "label": "MCU",
+                    "type": "select",
+                    "value": "esp32",
+                    "setting": false,
                     "options": [
                         {
                             "label": "ESP8266",
@@ -39,24 +39,27 @@
                     ]
                 },
                 {
-                    "id":"targetflashsize",
-                    "define":"FLASH_SIZE",
-                    "description":"ESP flash size",
-                    "label":"ESP flash size",
-                    "type":"select",
-                    "value":"4",
-                    "setting":false,
+                    "id": "targetflashsize",
+                    "define": "FLASH_SIZE",
+                    "description": "ESP flash size",
+                    "label": "ESP flash size",
+                    "type": "select",
+                    "value": "4",
+                    "setting": false,
                     "options": [
                         {
                             "label": "1MB",
                             "value": "1",
-                            "depend":{"id":"targetmcu","value":["esp8266"]},
-                            "help":"No OTA/ Web update possible"
+                            "depend": {
+                                "id": "targetmcu",
+                                "value": ["esp8266"]
+                            },
+                            "help": "No OTA/ Web update possible"
                         },
                         {
                             "label": "2MB",
                             "value": "2",
-                            "help":"No OTA/ Web update possible"
+                            "help": "No OTA/ Web update possible"
                         },
                         {
                             "label": "4MB",
@@ -73,13 +76,13 @@
                     ]
                 },
                 {
-                    "id":"formfactor",
-                    "define":"ESP_FORM_FACTOR",
-                    "description":"Pins form factor",
-                    "label":"Form factor",
-                    "type":"select",
-                    "value":"original",
-                    "setting":false,
+                    "id": "formfactor",
+                    "define": "ESP_FORM_FACTOR",
+                    "description": "Pins form factor",
+                    "label": "Form factor",
+                    "type": "select",
+                    "value": "original",
+                    "setting": false,
                     "options": [
                         {
                             "label": "Original (all pins)",
@@ -88,75 +91,59 @@
                         {
                             "label": "ESP01 (8 pins)",
                             "value": "esp01"
-                        }]
+                        }
+                    ]
                 }
             ]
         },
         {
             "id": "communication",
-            "description":"Settings and protocols",
-            "label":"Serial Communications",
-            "setting":true,
-            "type":"group",
-            "value":[
+            "description": "Settings and protocols",
+            "label": "Serial Communications",
+            "setting": true,
+            "type": "group",
+            "value": [
                 {
-                    "id":"serialprotocol",
-                    "define":"COMMUNICATION_PROTOCOL",
-                    "description":"Communication protocol used by ESP3D to discuss with printer or TFT",
-                    "label":"Serial Communication protocol",
-                    "type":"select",
-                    "value":"RAW_SERIAL",
-                    "setting":true,
+                    "id": "serialprotocol",
+                    "define": "COMMUNICATION_PROTOCOL",
+                    "description": "Communication protocol used by ESP3D to discuss with printer or TFT",
+                    "label": "Serial Communication protocol",
+                    "type": "select",
+                    "value": "RAW_SERIAL",
+                    "setting": true,
                     "options": [
                         {
                             "label": "Raw serial",
                             "value": "RAW_SERIAL",
-                            "help":"Basic serial protocol, without data change"
+                            "help": "Basic serial protocol, without data change"
                         },
                         {
                             "label": "MKS serial",
                             "value": "MKS_SERIAL",
-                            "help":"This is a MakerBase communication protocol, used with MKS printers and TFT, it encapsulated data in a custom protocol"
+                            "help": "This is a MakerBase communication protocol, used with MKS printers and TFT, it encapsulated data in a custom protocol"
                         }
-                       
                     ]
                 },
                 {
-                    "id":"serialport",
-                    "define":"ESP_SERIAL_OUTPUT",
-                    "description":"Which serial port ESP3D use to communicate with printer or TFT",
-                    "label":"Serial port",
-                    "type":"select",
-                    "value":"USE_SERIAL_0",
-                    "setting":true,
+                    "id": "serialport",
+                    "define": "ESP_SERIAL_OUTPUT",
+                    "description": "Which serial port ESP3D use to communicate with printer or TFT",
+                    "label": "Serial port",
+                    "type": "select",
+                    "value": "USE_SERIAL_0",
+                    "setting": true,
+                    "isport": true
+                },
+                {
+                    "id": "serialbuffer",
+                    "define": "SERIAL_RX_BUFFER_SIZE",
+                    "description": "Maximum size of the serial buffer",
+                    "label": "Serial buffer size",
+                    "type": "select",
+                    "value": "512",
+                    "setting": true,
+                    "usedescforoptions": true,
                     "options": [
-                        {
-                            "label": "0",
-                            "value": "USE_SERIAL_0",
-                            "help":"Also used by bootloader output, so consider to make it quiet" 
-                        },
-                        {
-                            "label": "1",
-                            "value": "USE_SERIAL_1",
-                            "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3","esp32c3"]}
-                        },
-                        {
-                            "label": "2",
-                            "value": "USE_SERIAL_2",
-                            "depend":{"id":"targetmcu","value":["esp32","esp32s3"]}
-                        }
-                    ]
-                },
-                {
-                    "id":"serialbuffer",
-                    "define":"SERIAL_RX_BUFFER_SIZE",
-                    "description":"Maximum size of the serial buffer",
-                    "label":"Serial buffer size",
-                    "type":"select",
-                    "value":"512",
-                    "setting":true,
-                    "usedescforoptions":true,
-                     "options": [
                         {
                             "label": "0 Byte",
                             "value": "0"
@@ -178,313 +165,355 @@
                             "value": "1024"
                         }
                     ]
+                },
+                {
+                    "id": "serialBridge",
+                    "define": "SERIAL_BRIDGE_FEATURE",
+                    "label": "Use serial bridge",
+                    "description": "Enable serial bridge feature",
+                    "type": "boolean",
+                    "value": false,
+                    "disableiffalse": true,
+                    "hide": true,
+                    "setting": false
+                },
+                {
+                    "id": "serialBridgeport",
+                    "define": "ESP_SERIAL_BRIDGE_OUTPUT",
+                    "description": "Which serial port serial bridge to output to",
+                    "depend": {
+                        "id": "serialBridge",
+                        "value": [true]
+                    },
+                    "label": "Serial bridge port",
+                    "type": "select",
+                    "value": "-1",
+                    "setting": true,
+                    "isport": true
                 }
             ]
         },
         {
             "id": "targetFW",
-            "description":"Targeted firmware that ESP3D will communicate with",
-            "label":"Target firmware",
-            "setting":true,
-            "type":"group",
-            "value":[
+            "description": "Targeted firmware that ESP3D will communicate with",
+            "label": "Target firmware",
+            "setting": true,
+            "type": "group",
+            "value": [
                 {
-                    "id":"systemtype",
-                    "define":"SYSTEM_TYPE",
-                    "description":"The type of your system",
-                    "label":"System type",
-                    "type":"select",
-                    "value":"Printer3D",
-                    "setting":false,
+                    "id": "systemtype",
+                    "define": "SYSTEM_TYPE",
+                    "description": "The type of your system",
+                    "label": "System type",
+                    "type": "select",
+                    "value": "Printer3D",
+                    "setting": false,
                     "options": [
                         {
                             "label": "CNC",
                             "value": "CNC",
-                            "help":"CNC system used for milling/laser engraving/cutting"
+                            "help": "CNC system used for milling/laser engraving/cutting"
                         },
                         {
                             "label": "3D printer",
                             "value": "Printer3D",
-                            "help":"3D printer system used with filaments"
+                            "help": "3D printer system used with filaments"
                         },
                         {
                             "label": "Sand Table",
                             "value": "SandTable",
-                            "help":"System doing kinetic art, zen garden, sand table, etc."
+                            "help": "System doing kinetic art, zen garden, sand table, etc."
                         }
-                       
                     ]
                 },
                 {
-                    "id":"defaultfw",
-                    "define":"DEFAULT_FW",
-                    "description":"The firmware that ESP3D will use by default",
-                    "label":"Target firmware",
-                    "type":"select",
-                    "value":"UNKNOWN_FW",
-                    "setting":true,
+                    "id": "defaultfw",
+                    "define": "DEFAULT_FW",
+                    "description": "The firmware that ESP3D will use by default",
+                    "label": "Target firmware",
+                    "type": "select",
+                    "value": "UNKNOWN_FW",
+                    "setting": true,
                     "options": [
                         {
                             "label": "Undefined",
                             "value": "UNKNOWN_FW",
-                            "help":"Undefined firmware"
+                            "help": "Undefined firmware"
                         },
                         {
                             "label": "Marlin",
                             "value": "MARLIN",
-                            "help":"Marlin 2.x firmware",
-                            "depend":{"id":"systemtype","value":["Printer3D"]}
+                            "help": "Marlin 2.x firmware",
+                            "depend": {
+                                "id": "systemtype",
+                                "value": ["Printer3D"]
+                            }
                         },
                         {
                             "label": "Repetier",
                             "value": "REPETIER",
-                            "help":"Repetier 1.x/2.x firmware",
-                            "depend":{"id":"systemtype","value":["Printer3D"]}
+                            "help": "Repetier 1.x/2.x firmware",
+                            "depend": {
+                                "id": "systemtype",
+                                "value": ["Printer3D"]
+                            }
                         },
                         {
                             "label": "Smoothieware",
                             "value": "SMOOTHIEWARE",
-                            "help":"Smoothieware 1.x/2.x firmware",
-                            "depend":{"id":"systemtype","value":["Printer3D"]}
+                            "help": "Smoothieware 1.x/2.x firmware",
+                            "depend": {
+                                "id": "systemtype",
+                                "value": ["Printer3D"]
+                            }
                         },
                         {
                             "label": "Grbl",
                             "value": "GRBL",
-                            "help":"Grbl 1.1 firmware",
-                            "depend":{"id":"systemtype","value":["CNC","SandTable"]}
+                            "help": "Grbl 1.1 firmware",
+                            "depend": {
+                                "id": "systemtype",
+                                "value": ["CNC", "SandTable"]
+                            }
                         }
-                       
                     ]
                 }
             ]
         }
-    ], 
+    ],
     "network": [
         {
             "id": "radiomode",
-            "description":"The radio mode ESP3D communicate with the network",
-            "label":"Radio mode of ESP3D",
-            "setting":true,
-            "type":"group",
-            "value":[
+            "description": "The radio mode ESP3D communicate with the network",
+            "label": "Radio mode of ESP3D",
+            "setting": true,
+            "type": "group",
+            "value": [
                 {
-                "id":"wifi",
-                "define":"WIFI_FEATURE",
-                "label":"Use WiFi ",
-                "description":"Enable wifi communications",
-                "type":"boolean",
-                "value":true,
-                "disableiffalse":true,
-                "setting":true
+                    "id": "wifi",
+                    "define": "WIFI_FEATURE",
+                    "label": "Use WiFi ",
+                    "description": "Enable wifi communications",
+                    "type": "boolean",
+                    "value": true,
+                    "disableiffalse": true,
+                    "setting": true
                 },
                 {
-                "id":"ethernet",
-                "define":"ETH_FEATURE",
-                "label":"Use Ethernet ",
-                "description":"Enable ethernet communications",
-                "type":"boolean",
-                "value":false,
-                "disableiffalse":true,
-                "setting":true,
-                "depend":[{"id":"formfactor","notvalue":["esp01"]},{"id":"targetmcu","value":["esp32","esp32s2","esp32s3","esp32c3"]}]
-                }
-                ,
+                    "id": "ethernet",
+                    "define": "ETH_FEATURE",
+                    "label": "Use Ethernet ",
+                    "description": "Enable ethernet communications",
+                    "type": "boolean",
+                    "value": false,
+                    "disableiffalse": true,
+                    "setting": true,
+                    "depend": [
+                        { "id": "formfactor", "notvalue": ["esp01"] },
+                        {
+                            "id": "targetmcu",
+                            "value": ["esp32", "esp32s2", "esp32s3", "esp32c3"]
+                        }
+                    ]
+                },
                 {
-                "id":"bluetooth",
-                "define":"BLUETOOTH_FEATURE",
-                "label":"Use Bluetooth ",
-                "description":"Enable serial bluetooth communications",
-                "type":"boolean",
-                "value":false,
-                "disableiffalse":true,
-                "setting":true,
-                "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3","esp32c3"]}
+                    "id": "bluetooth",
+                    "define": "BLUETOOTH_FEATURE",
+                    "label": "Use Bluetooth ",
+                    "description": "Enable serial bluetooth communications",
+                    "type": "boolean",
+                    "value": false,
+                    "disableiffalse": true,
+                    "setting": true,
+                    "depend": {
+                        "id": "targetmcu",
+                        "value": ["esp32", "esp32s2", "esp32s3", "esp32c3"]
+                    }
                 }
             ]
         },
         {
             "id": "channels",
-            "description":"The way ESP3D communicate",
-            "label":"Channels of ESP3D",
-            "setting":true,
-            "type":"group",
-            "value":[
+            "description": "The way ESP3D communicate",
+            "label": "Channels of ESP3D",
+            "setting": true,
+            "type": "group",
+            "value": [
                 {
-                "id":"http",
-                "define":"HTTP_FEATURE",
-                "label":"Use webserver",
-                "description":"Enable http server",
-                "type":"boolean",
-                "value":true,
-                "disableiffalse":true,
-                "setting":true
+                    "id": "http",
+                    "define": "HTTP_FEATURE",
+                    "label": "Use webserver",
+                    "description": "Enable http server",
+                    "type": "boolean",
+                    "value": true,
+                    "disableiffalse": true,
+                    "setting": true
                 },
                 {
-                "id":"telnet",
-                "define":"TELNET_FEATURE",
-                "label":"Use telnet server",
-                "description":"Enable telnet light (raw tcp) communications",
-                "type":"boolean",
-                "value":true,
-                "disableiffalse":true,
-                "setting":true
-                }
-                ,
-                {
-                "id":"websocket",
-                "define":"WS_DATA_FEATURE",
-                "label":"Use Websocket server",
-                "description":"Enable websocket communications",
-                "type":"boolean",
-                "value":false,
-                "disableiffalse":true,
-                "setting":true
-                }
-                ,
-                {
-                "id":"notifications",
-                "define":"NOTIFICATION_FEATURE",
-                "label":"Enable notifications",
-                "description":"Allows to send notifications to the user",
-                "type":"boolean",
-                "value":true,
-                "disableiffalse":true,
-                "setting":true
+                    "id": "telnet",
+                    "define": "TELNET_FEATURE",
+                    "label": "Use telnet server",
+                    "description": "Enable telnet light (raw tcp) communications",
+                    "type": "boolean",
+                    "value": true,
+                    "disableiffalse": true,
+                    "setting": true
                 },
                 {
-                    "id":"notificationonline",
-                    "define":"NOTIFICATION_ESP_ONLINE",
-                    "label":"Notification message when online",
-                    "description":"The message that will be sent when the ESP is online",
-                    "type":"text",
-                    "needquote":true,
-                    "value":"Hi, %ESP_NAME% is now online at %ESP_IP%",
-                    "setting":true,
-                    "depend":{"id":"notifications","value":[true]}
+                    "id": "websocket",
+                    "define": "WS_DATA_FEATURE",
+                    "label": "Use Websocket server",
+                    "description": "Enable websocket communications",
+                    "type": "boolean",
+                    "value": false,
+                    "disableiffalse": true,
+                    "setting": true
                 },
                 {
-                    "id":"notificationtitlemsg",
-                    "define":"ESP_NOTIFICATION_TITLE",
-                    "label":"Notification title message",
-                    "description":"The title of notification",
-                    "type":"text",
-                    "needquote":true,
-                    "value":"ESP3D Notification",
-                    "setting":true,
-                    "depend":{"id":"notifications","value":[true]}
+                    "id": "notifications",
+                    "define": "NOTIFICATION_FEATURE",
+                    "label": "Enable notifications",
+                    "description": "Allows to send notifications to the user",
+                    "type": "boolean",
+                    "value": true,
+                    "disableiffalse": true,
+                    "setting": true
+                },
+                {
+                    "id": "notificationonline",
+                    "define": "NOTIFICATION_ESP_ONLINE",
+                    "label": "Notification message when online",
+                    "description": "The message that will be sent when the ESP is online",
+                    "type": "text",
+                    "needquote": true,
+                    "value": "Hi, %ESP_NAME% is now online at %ESP_IP%",
+                    "setting": true,
+                    "depend": { "id": "notifications", "value": [true] }
+                },
+                {
+                    "id": "notificationtitlemsg",
+                    "define": "ESP_NOTIFICATION_TITLE",
+                    "label": "Notification title message",
+                    "description": "The title of notification",
+                    "type": "text",
+                    "needquote": true,
+                    "value": "ESP3D Notification",
+                    "setting": true,
+                    "depend": { "id": "notifications", "value": [true] }
                 }
             ]
         },
         {
             "id": "discovery",
-            "description":"The discovery methods of ESP3D",
-            "label":"Discovery methods of ESP3D",
-            "setting":true,
-            "type":"group",
-            "value":[
+            "description": "The discovery methods of ESP3D",
+            "label": "Discovery methods of ESP3D",
+            "setting": true,
+            "type": "group",
+            "value": [
                 {
-                "id":"captive",
-                "define":"CAPTIVE_PORTAL_FEATURE",
-                "label":"Use captive portal ",
-                "description":"Enable captive portal in AP mode",
-                "type":"boolean",
-                "value":true,
-                "disableiffalse":true,
-                "setting":true
+                    "id": "captive",
+                    "define": "CAPTIVE_PORTAL_FEATURE",
+                    "label": "Use captive portal ",
+                    "description": "Enable captive portal in AP mode",
+                    "type": "boolean",
+                    "value": true,
+                    "disableiffalse": true,
+                    "setting": true
                 },
                 {
-                "id":"mdns",
-                "define":"MDNS_FEATURE",
-                "label":"Use mDNS discovery",
-                "description":"This method need `bonjour` protocol on windows, or `avahi` on linux",
-                "type":"boolean",
-                "value":true,
-                "disableiffalse":true,
-                "setting":true
-                }
-                ,
+                    "id": "mdns",
+                    "define": "MDNS_FEATURE",
+                    "label": "Use mDNS discovery",
+                    "description": "This method need `bonjour` protocol on windows, or `avahi` on linux",
+                    "type": "boolean",
+                    "value": true,
+                    "disableiffalse": true,
+                    "setting": true
+                },
                 {
-                "id":"ssdp",
-                "define":"SSDP_FEATURE",
-                "label":"Use Simple Service Discovery Protocol",
-                "description":"It is supported on Windows out of the box",
-                "type":"boolean",
-                "value":true,
-                "disableiffalse":true,
-                "setting":true
+                    "id": "ssdp",
+                    "define": "SSDP_FEATURE",
+                    "label": "Use Simple Service Discovery Protocol",
+                    "description": "It is supported on Windows out of the box",
+                    "type": "boolean",
+                    "value": true,
+                    "disableiffalse": true,
+                    "setting": true
                 }
             ]
-        }
-        ,
+        },
         {
             "id": "customizationSSDP",
-            "description":"Customize your ESP3D",
-            "label":"SSDP Customization settings",
-            "setting":true,
-            "depend":{"id":"ssdp","value":[true]},
-            "type":"group",
-            "value":[
+            "description": "Customize your ESP3D",
+            "label": "SSDP Customization settings",
+            "setting": true,
+            "depend": { "id": "ssdp", "value": [true] },
+            "type": "group",
+            "value": [
                 {
-                    "id":"ssdpmodelename32",
-                    "define":"ESP_MODEL_NAME",
-                    "label":"Model name",
-                    "description":"Modele name of device",
-                    "type":"text",
-                    "value":"ESP32",
-                    "needquote":true,
-                    "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3","esp32c3"]},
-                    "setting":true  
+                    "id": "ssdpmodelename32",
+                    "define": "ESP_MODEL_NAME",
+                    "label": "Model name",
+                    "description": "Modele name of device",
+                    "type": "text",
+                    "value": "ESP32",
+                    "needquote": true,
+                    "depend": {
+                        "id": "targetmcu",
+                        "value": ["esp32", "esp32s2", "esp32s3", "esp32c3"]
+                    },
+                    "setting": true
                 },
                 {
-                    "id":"ssdpmodelename",
-                    "define":"ESP_MODEL_NAME",
-                    "label":"Model name",
-                    "description":"Modele name of device",
-                    "type":"text",
-                    "value":"ESP8266",
-                    "needquote":true,
-                    "depend":{"id":"targetmcu","value":["esp8266"]},
-                    "setting":true  
+                    "id": "ssdpmodelename",
+                    "define": "ESP_MODEL_NAME",
+                    "label": "Model name",
+                    "description": "Modele name of device",
+                    "type": "text",
+                    "value": "ESP8266",
+                    "needquote": true,
+                    "depend": { "id": "targetmcu", "value": ["esp8266"] },
+                    "setting": true
                 },
                 {
-                    "id":"ssdpmodelenamenumber",
-                    "define":"ESP_MODEL_NUMBER",
-                    "label":"Model number",
-                    "description":"Modele number of device",
-                    "type":"text",
-                    "needquote":true,
-                    "value":"ESP3D 3.0",
-                    "setting":true  
+                    "id": "ssdpmodelenamenumber",
+                    "define": "ESP_MODEL_NUMBER",
+                    "label": "Model number",
+                    "description": "Modele number of device",
+                    "type": "text",
+                    "needquote": true,
+                    "value": "ESP3D 3.0",
+                    "setting": true
                 },
                 {
-                    "id":"ssdpmodeleurl",
-                    "define":"ESP_MODEL_URL",
-                    "label":"Model url",
-                    "description":"Modele url of device",
-                    "type":"text",
-                    "needquote":true,
-                    "value":"https://www.espressif.com/en/products/devkits",
-                    "setting":true  
+                    "id": "ssdpmodeleurl",
+                    "define": "ESP_MODEL_URL",
+                    "label": "Model url",
+                    "description": "Modele url of device",
+                    "type": "text",
+                    "needquote": true,
+                    "value": "https://www.espressif.com/en/products/devkits",
+                    "setting": true
                 },
                 {
-                    "id":"ssdpmodelemanufacturername",
-                    "define":"ESP_MANUFACTURER_NAME",
-                    "label":"Manufacturer name",
-                    "description":"Manufacturer name of device",
-                    "type":"text",
-                    "needquote":true,
-                    "value":"Espressif Systems",
-                    "setting":true 
+                    "id": "ssdpmodelemanufacturername",
+                    "define": "ESP_MANUFACTURER_NAME",
+                    "label": "Manufacturer name",
+                    "description": "Manufacturer name of device",
+                    "type": "text",
+                    "needquote": true,
+                    "value": "Espressif Systems",
+                    "setting": true
                 },
                 {
-                    "id":"ssdpmodelemanufacturerurl",
-                    "define":"ESP_MANUFACTURER_URL",
-                    "label":"Manufacturer url",
-                    "description":"Manufacturer url of device",
-                    "type":"text",
-                    "needquote":true,
-                    "value":"https://www.espressif.com",
-                    "setting":true 
+                    "id": "ssdpmodelemanufacturerurl",
+                    "define": "ESP_MANUFACTURER_URL",
+                    "label": "Manufacturer url",
+                    "description": "Manufacturer url of device",
+                    "type": "text",
+                    "needquote": true,
+                    "value": "https://www.espressif.com",
+                    "setting": true
                 }
             ]
         }
@@ -492,117 +521,136 @@
     "filesystems": [
         {
             "id": "flash",
-            "description":"Filesystem on flash",
-            "label":"Flash filesystem",
-            "setting":true,
-            "type":"group",
-            "value":[
+            "description": "Filesystem on flash",
+            "label": "Flash filesystem",
+            "setting": true,
+            "type": "group",
+            "value": [
                 {
-                "id":"flashFS",
-                "define":"FILESYSTEM_FEATURE",
-                "label":"File system type",
-                "description":"Type of file system used by ESP3D to store files",
-                "type":"select",
-                "value":"ESP_LITTLEFS_FILESYSTEM",
-                "setting":true,
-                "usedescforoptions":true,
-                "options": [
-                    {
-                        "label": "LittleFS",
-                        "value": "ESP_LITTLEFS_FILESYSTEM"
-                    },
-                    {
-                        "label": "FatFS",
-                        "value": "ESP_FAT_FILESYSTEM",
-                        "help":"Only on ESP32 with large flash",
-                        "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3","esp32c3"]}
-                    }
-                ]   
+                    "id": "flashFS",
+                    "define": "FILESYSTEM_FEATURE",
+                    "label": "File system type",
+                    "description": "Type of file system used by ESP3D to store files",
+                    "type": "select",
+                    "value": "ESP_LITTLEFS_FILESYSTEM",
+                    "setting": true,
+                    "usedescforoptions": true,
+                    "options": [
+                        {
+                            "label": "LittleFS",
+                            "value": "ESP_LITTLEFS_FILESYSTEM"
+                        },
+                        {
+                            "label": "FatFS",
+                            "value": "ESP_FAT_FILESYSTEM",
+                            "help": "Only on ESP32 with large flash",
+                            "depend": {
+                                "id": "targetmcu",
+                                "value": [
+                                    "esp32",
+                                    "esp32s2",
+                                    "esp32s3",
+                                    "esp32c3"
+                                ]
+                            }
+                        }
+                    ]
                 },
                 {
-                "id":"flashTimestamp",
-                "define":"FILESYSTEM_TIMESTAMP_FEATURE",
-                "label":"Enable date/time on files",
-                "description":"Set date/time on files using SNTP or last webui connection",
-                "type":"boolean",
-                "value":false,
-                "disableiffalse":true,
-                "setting":true
+                    "id": "flashTimestamp",
+                    "define": "FILESYSTEM_TIMESTAMP_FEATURE",
+                    "label": "Enable date/time on files",
+                    "description": "Set date/time on files using SNTP or last webui connection",
+                    "type": "boolean",
+                    "value": false,
+                    "disableiffalse": true,
+                    "setting": true
                 }
             ]
         },
         {
             "id": "sd",
-            "description":"Filesystem on SD card",
-            "label":"SD filesystem",
-            "setting":true,
-            "type":"group",
-            "depend":{"id":"formfactor","notvalue":["esp01"]},
-            "value":[
+            "description": "Filesystem on SD card",
+            "label": "SD filesystem",
+            "setting": true,
+            "type": "group",
+            "depend": { "id": "formfactor", "notvalue": ["esp01"] },
+            "value": [
                 {
-                "id":"sdconnection",
-                "define":"SD_DEVICE_CONNECTION",
-                "label":"SD card connection",
-                "description":"Does your system has SD card and how it is connected to your ESP3D",
-                "type":"select",
-                "value":"-1",
-                "setting":true,
-                "usedescforoptions":true,
-                "options": [
-                    {
-                        "label": "None",
-                        "value": "-1",
-                        "help":"Your ESP does not have SDcard but your system may have one"
-                    },
-                    {
-                        "label": "Direct connection",
-                        "value": "ESP_DIRECT_SD",
-                        "help":"Only your ESP board is connected to SDCard"
-                    },
-                    {
-                        "label": "Shared connection",
-                        "value": "ESP_SHARED_SD",
-                        "help":"Your system has SDCard and your ESP is connected to it using sharing solution"
-                    }
-                ]   
+                    "id": "sdconnection",
+                    "define": "SD_DEVICE_CONNECTION",
+                    "label": "SD card connection",
+                    "description": "Does your system has SD card and how it is connected to your ESP3D",
+                    "type": "select",
+                    "value": "-1",
+                    "setting": true,
+                    "usedescforoptions": true,
+                    "options": [
+                        {
+                            "label": "None",
+                            "value": "-1",
+                            "help": "Your ESP does not have SDcard but your system may have one"
+                        },
+                        {
+                            "label": "Direct connection",
+                            "value": "ESP_DIRECT_SD",
+                            "help": "Only your ESP board is connected to SDCard"
+                        },
+                        {
+                            "label": "Shared connection",
+                            "value": "ESP_SHARED_SD",
+                            "help": "Your system has SDCard and your ESP is connected to it using sharing solution"
+                        }
+                    ]
                 },
                 {
-                    "id":"sdfs",
-                    "define":"SD_DEVICE",
-                    "label":"SD card library",
-                    "description":"Library used by SD card driver",
-                    "type":"select",
-                    "value":"ESP_SDFAT2",
-                    "depend":{"id":"sdconnection","value":["ESP_SHARED_SD","ESP_DIRECT_SD"]},
-                    "setting":true,
+                    "id": "sdfs",
+                    "define": "SD_DEVICE",
+                    "label": "SD card library",
+                    "description": "Library used by SD card driver",
+                    "type": "select",
+                    "value": "ESP_SDFAT2",
+                    "depend": {
+                        "id": "sdconnection",
+                        "value": ["ESP_SHARED_SD", "ESP_DIRECT_SD"]
+                    },
+                    "setting": true,
                     "options": [
                         {
                             "label": "Native from core",
                             "value": "ESP_SD_NATIVE",
-                            "help":"No additionnal library required"
+                            "help": "No additionnal library required"
                         },
                         {
                             "label": "SDFat",
                             "value": "ESP_SDFAT2",
-                            "help":"SDFat 2 library required"
+                            "help": "SDFat 2 library required"
                         },
                         {
                             "label": "SDIO",
                             "value": "ESP_SDIO",
                             "help": "Used by SDMMC",
-                            "depend":{"id":"targetmcu","value":["esp32","esp32s2","esp32s3","esp32c3"]}
+                            "depend": {
+                                "id": "targetmcu",
+                                "value": [
+                                    "esp32",
+                                    "esp32s2",
+                                    "esp32s3",
+                                    "esp32c3"
+                                ]
+                            }
                         }
-                    ]   
+                    ]
                 },
                 {
-                    "id":"sdio",
-                    "define":"SDIO_BIT_MODE",
-                    "label":"Sdio bit mode",
-                    "description":"Mode used by SDIO library",
-                    "type":"select",
-                    "value":"SD_FOUR_BIT_MODE",
-                    "depend":{"id":"sdfs","value":["ESP_SDIO"]},
-                    "setting":true,
+                    "id": "sdio",
+                    "define": "SDIO_BIT_MODE",
+                    "label": "Sdio bit mode",
+                    "description": "Mode used by SDIO library",
+                    "type": "select",
+                    "value": "SD_FOUR_BIT_MODE",
+                    "depend": { "id": "sdfs", "value": ["ESP_SDIO"] },
+                    "setting": true,
                     "options": [
                         {
                             "label": "1 bit",
@@ -611,51 +659,57 @@
                         {
                             "label": "4 bits",
                             "value": "SD_FOUR_BIT_MODE"
-                        }] 
+                        }
+                    ]
                 },
                 {
-                    "id":"sdtimestamp",
-                    "define":"SD_TIMESTAMP_FEATURE",
-                    "label":"Enable date/time on files",
-                    "description":"Set date/time on files using SNTP or last webui connection",
-                    "type":"boolean",
-                    "value":false,
-                    "disableiffalse":true,
-                    "setting":true
-                    }
-                
+                    "id": "sdtimestamp",
+                    "define": "SD_TIMESTAMP_FEATURE",
+                    "label": "Enable date/time on files",
+                    "description": "Set date/time on files using SNTP or last webui connection",
+                    "type": "boolean",
+                    "value": false,
+                    "disableiffalse": true,
+                    "setting": true
+                }
             ]
         },
         {
             "id": "sdpins",
-            "description":"SD card pins",
-            "label":"SD card pins",
-            "setting":true,
-            "type":"group",
-            "depend":{"id":"sdconnection","value":["ESP_SHARED_SD","ESP_DIRECT_SD"]},
-            "value":[
+            "description": "SD card pins",
+            "label": "SD card pins",
+            "setting": true,
+            "type": "group",
+            "depend": {
+                "id": "sdconnection",
+                "value": ["ESP_SHARED_SD", "ESP_DIRECT_SD"]
+            },
+            "value": [
                 {
-                    "id":"detectsdpin",
-                    "define":"ESP_SD_DETECT_PIN",
-                    "label":"SD card detect pin",
-                    "description":"The pin used to detect SD card",
-                    "type":"select",
-                    "ispin":true,
-                    "value":"-1",
-                    "depend":{"id":"sdconnection","value":["ESP_SHARED_SD","ESP_DIRECT_SD"]},
-                    "setting":true,
-                    "usedescforoptions":true
+                    "id": "detectsdpin",
+                    "define": "ESP_SD_DETECT_PIN",
+                    "label": "SD card detect pin",
+                    "description": "The pin used to detect SD card",
+                    "type": "select",
+                    "ispin": true,
+                    "value": "-1",
+                    "depend": {
+                        "id": "sdconnection",
+                        "value": ["ESP_SHARED_SD", "ESP_DIRECT_SD"]
+                    },
+                    "setting": true,
+                    "usedescforoptions": true
                 },
                 {
-                    "id":"sddetectvalue",
-                    "define":"ESP_SD_DETECT_VALUE",
-                    "label":"Pin value",
-                    "description":"State of SD card detect pin when card is present",
-                    "type":"select",
-                    "value":"0",
-                    "depend":{"id":"detectsdpin","notvalue":["-1"]},
-                    "setting":true,
-                    "usedescforoptions":true,
+                    "id": "sddetectvalue",
+                    "define": "ESP_SD_DETECT_VALUE",
+                    "label": "Pin value",
+                    "description": "State of SD card detect pin when card is present",
+                    "type": "select",
+                    "value": "0",
+                    "depend": { "id": "detectsdpin", "notvalue": ["-1"] },
+                    "setting": true,
+                    "usedescforoptions": true,
                     "options": [
                         {
                             "label": "High",
@@ -665,30 +719,33 @@
                             "label": "Low",
                             "value": "0"
                         }
-                    ]   
+                    ]
                 },
                 {
-                    "id":"shareflagsdpin",
-                    "define":"ESP_FLAG_SHARED_SD_PIN",
-                    "label":"SD shared flag pin",
-                    "description":"The pin used to enable SD card for ESP board",
-                    "type":"select",
-                    "ispin":true,
-                    "value":"-1",
-                    "depend":{"id":"sdconnection","value":["ESP_SHARED_SD"]},
-                    "setting":true,
-                    "usedescforoptions":true
+                    "id": "shareflagsdpin",
+                    "define": "ESP_FLAG_SHARED_SD_PIN",
+                    "label": "SD shared flag pin",
+                    "description": "The pin used to enable SD card for ESP board",
+                    "type": "select",
+                    "ispin": true,
+                    "value": "-1",
+                    "depend": {
+                        "id": "sdconnection",
+                        "value": ["ESP_SHARED_SD"]
+                    },
+                    "setting": true,
+                    "usedescforoptions": true
                 },
                 {
-                    "id":"shareflagsdvalue",
-                    "define":"ESP_FLAG_SHARED_SD_VALUE",
-                    "label":"Pin value",
-                    "description":"State of SD card share pin for ESP board",
-                    "type":"select",
-                    "value":"0",
-                    "depend":{"id":"shareflagsdpin","notvalue":["-1"]},
-                    "setting":true,
-                    "usedescforoptions":true,
+                    "id": "shareflagsdvalue",
+                    "define": "ESP_FLAG_SHARED_SD_VALUE",
+                    "label": "Pin value",
+                    "description": "State of SD card share pin for ESP board",
+                    "type": "select",
+                    "value": "0",
+                    "depend": { "id": "shareflagsdpin", "notvalue": ["-1"] },
+                    "setting": true,
+                    "usedescforoptions": true,
                     "options": [
                         {
                             "label": "High",
@@ -698,91 +755,90 @@
                             "label": "Low",
                             "value": "0"
                         }
-                    ]   
+                    ]
                 },
                 {
-                    "id":"sdcspin",
-                    "define":"ESP_SD_CS_PIN",
-                    "label":"SD card CS pin",
-                    "description":"The pin used to select SD card in SPI mode",
-                    "type":"select",
-                    "ispin":true,
-                    "usedefault":true,
-                    "value":"-1",
-                    "depend":{"id":"sdfs","notvalue":["ESP_SDIO"]},
-                    "setting":true,
-                    "usedescforoptions":true
+                    "id": "sdcspin",
+                    "define": "ESP_SD_CS_PIN",
+                    "label": "SD card CS pin",
+                    "description": "The pin used to select SD card in SPI mode",
+                    "type": "select",
+                    "ispin": true,
+                    "usedefault": true,
+                    "value": "-1",
+                    "depend": { "id": "sdfs", "notvalue": ["ESP_SDIO"] },
+                    "setting": true,
+                    "usedescforoptions": true
                 },
                 {
-                    "id":"sdmosipin",
-                    "define":"ESP_SD_MOSI_PIN",
-                    "label":"SD card Mosi pin",
-                    "description":"The Mosi pin used by SD in SPI mode",
-                    "type":"select",
-                    "ispin":true,
-                    "usedefault":true,
-                    "value":"-1",
-                    "depend":{"id":"sdfs","notvalue":["ESP_SDIO"]},
-                    "setting":true,
-                    "usedescforoptions":true
+                    "id": "sdmosipin",
+                    "define": "ESP_SD_MOSI_PIN",
+                    "label": "SD card Mosi pin",
+                    "description": "The Mosi pin used by SD in SPI mode",
+                    "type": "select",
+                    "ispin": true,
+                    "usedefault": true,
+                    "value": "-1",
+                    "depend": { "id": "sdfs", "notvalue": ["ESP_SDIO"] },
+                    "setting": true,
+                    "usedescforoptions": true
                 },
                 {
-                    "id":"sdmisopin",
-                    "define":"ESP_SD_MISO_PIN",
-                    "label":"SD card Miso pin",
-                    "description":"The Miso pin used by SD in SPI mode",
-                    "type":"select",
-                    "ispin":true,
-                    "usedefault":true,
-                    "value":"-1",
-                    "depend":{"id":"sdfs","notvalue":["ESP_SDIO"]},
-                    "setting":true,
-                    "usedescforoptions":true
+                    "id": "sdmisopin",
+                    "define": "ESP_SD_MISO_PIN",
+                    "label": "SD card Miso pin",
+                    "description": "The Miso pin used by SD in SPI mode",
+                    "type": "select",
+                    "ispin": true,
+                    "usedefault": true,
+                    "value": "-1",
+                    "depend": { "id": "sdfs", "notvalue": ["ESP_SDIO"] },
+                    "setting": true,
+                    "usedescforoptions": true
                 },
                 {
-                    "id":"sdsckpin",
-                    "define":"ESP_SD_SCK_PIN",
-                    "label":"SD card Sck pin",
-                    "description":"The Sck pin used by SD in SPI mode",
-                    "type":"select",
-                    "ispin":true,
-                    "usedefault":true,
-                    "value":"-1",
-                    "depend":{"id":"sdfs","notvalue":["ESP_SDIO"]},
-                    "setting":true,
-                    "usedescforoptions":true
+                    "id": "sdsckpin",
+                    "define": "ESP_SD_SCK_PIN",
+                    "label": "SD card Sck pin",
+                    "description": "The Sck pin used by SD in SPI mode",
+                    "type": "select",
+                    "ispin": true,
+                    "usedefault": true,
+                    "value": "-1",
+                    "depend": { "id": "sdfs", "notvalue": ["ESP_SDIO"] },
+                    "setting": true,
+                    "usedescforoptions": true
                 }
             ]
         },
         {
             "id": "remote",
-            "description":"Remote filesystem access",
-            "label":"Remote access",
-            "setting":true,
-            "type":"group",
-            "value":[
+            "description": "Remote filesystem access",
+            "label": "Remote access",
+            "setting": true,
+            "type": "group",
+            "value": [
                 {
-                    "id":"globalFS",
-                    "define":"GLOBAL_FILESYSTEM_FEATURE",
-                    "label":"Enable global filesystem",
-                    "description":"Allows to access to all filesystems fromsame location",
-                    "type":"boolean",
-                    "value":false,
-                    "depend":{"id":"sdconnection","notvalue":["-1"]},
-                    "disableiffalse":true,
-                    "setting":true  
+                    "id": "globalFS",
+                    "define": "GLOBAL_FILESYSTEM_FEATURE",
+                    "label": "Enable global filesystem",
+                    "description": "Allows to access to all filesystems fromsame location",
+                    "type": "boolean",
+                    "value": false,
+                    "depend": { "id": "sdconnection", "notvalue": ["-1"] },
+                    "disableiffalse": true,
+                    "setting": true
                 },
                 {
-                    "id":"webdav",
-                    "define":"WEBDAV_FEATURE",
-                    "label":"WebDav access",
-                    "description":"Use WebDav to access to your filesystem",
-                    "type":"select",
-                    "value":"-1",
-                    "setting":true,
-                    "usedescforoptions":true,
+                    "id": "webdav",
+                    "define": "WEBDAV_FEATURE",
+                    "label": "WebDav access",
+                    "description": "Use WebDav to access to your filesystem",
+                    "type": "select",
+                    "value": "-1",
+                    "setting": true,
+                    "usedescforoptions": true,
                     "options": [
-
                         {
                             "label": "None",
                             "value": "-1"
@@ -790,7 +846,7 @@
                         {
                             "label": "All filesystems",
                             "value": "FS_ROOT",
-                            "depend":{"id":"globalFS","value":[true]}
+                            "depend": { "id": "globalFS", "value": [true] }
                         },
                         {
                             "label": "ESP3D Flash",
@@ -799,21 +855,23 @@
                         {
                             "label": "ESP3D SD",
                             "value": "FS_SD",
-                            "depend":{"id":"sdconnection","notvalue":["-1"]}
+                            "depend": {
+                                "id": "sdconnection",
+                                "notvalue": ["-1"]
+                            }
                         }
                     ]
                 },
                 {
-                    "id":"ftp",
-                    "define":"FTP_FEATURE",
-                    "label":"FTP access",
-                    "description":"Use FTP to access to your filesystem (1 connection only)",
-                    "type":"select",
-                    "value":"-1",
-                    "setting":true,
-                    "usedescforoptions":true,
+                    "id": "ftp",
+                    "define": "FTP_FEATURE",
+                    "label": "FTP access",
+                    "description": "Use FTP to access to your filesystem (1 connection only)",
+                    "type": "select",
+                    "value": "-1",
+                    "setting": true,
+                    "usedescforoptions": true,
                     "options": [
-
                         {
                             "label": "None",
                             "value": "-1"
@@ -821,7 +879,7 @@
                         {
                             "label": "All filesystems",
                             "value": "FS_ROOT",
-                            "depend":{"id":"globalFS","value":[true]}
+                            "depend": { "id": "globalFS", "value": [true] }
                         },
                         {
                             "label": "ESP3D Flash",
@@ -830,7 +888,10 @@
                         {
                             "label": "ESP3D SD",
                             "value": "FS_SD",
-                            "depend":{"id":"sdconnection","notvalue":["-1"]}
+                            "depend": {
+                                "id": "sdconnection",
+                                "notvalue": ["-1"]
+                            }
                         }
                     ]
                 }
@@ -839,110 +900,111 @@
     ],
     "update": [
         {
-        "id": "reset",
-        "description":"Reset ESP3D settings",
-        "label":"Reset ESP3D",
-        "setting":true,
-        "type":"group",
-        "value":[
-            {
-                "id":"resetfeature",
-                "define":"PIN_RESET_FEATURE",
-                "label":"Enable pin reset feature",
-                "description":"Use a pin to reset ESP3D settings",
-                "type":"boolean",
-                "value":true,
-                "disableiffalse":true,
-                "setting":true  
-            },
-            {
-                "id":"resetpin",
-                "define":"ESP3D_RESET_PIN",
-                "label":"Reset pin",
-                "description":"The pin used to reset ESP3D setting if set to low for more than 1 second at start",
-                "type":"select",
-                "ispin":true,
-                "depend":{"id":"resetfeature","value":[true]},
-                "value":"-1",
-                "setting":true,
-                "usedescforoptions":true
-            }
-        ]
-      },
-      {
-        "id": "update",
-        "description":"Update ESP3D firmware",
-        "label":"Update ESP3D",
-        "setting":true,
-        "depend":{"id":"targetflashsize","notvalue":["1","2"]},
-        "type":"group",
-        "value":[
-            {
-                "id":"ota",
-                "define":"OTA_FEATURE",
-                "label":"Enable OTA",
-                "description":"Over The Air Update (OTA)",
-                "type":"boolean",
-                "value":false,
-                "disableiffalse":true,
-                "setting":true  
-            },
-            {
-                "id":"webupdate",
-                "define":"WEB_UPDATE_FEATURE",
-                "label":"Enable Web Update",
-                "description":"Update firmware using WebUI",
-                "type":"boolean",
-                "value":true,
-                "disableiffalse":true,
-                "setting":true  
-            },
-            {
-                "id":"sdupdate",
-                "define":"SD_UPDATE_FEATURE",
-                "label":"Enable SD card Update",
-                "description":"Update firmware and settings using file on SDCard",
-                "type":"boolean",
-                "depend":{"id":"sdconnection","notvalue":["-1"]},
-                "value":true,
-                "disableiffalse":true,
-                "setting":true  
-            }
-        ]
-    }
+            "id": "reset",
+            "description": "Reset ESP3D settings",
+            "label": "Reset ESP3D",
+            "setting": true,
+            "type": "group",
+            "value": [
+                {
+                    "id": "resetfeature",
+                    "define": "PIN_RESET_FEATURE",
+                    "label": "Enable pin reset feature",
+                    "description": "Use a pin to reset ESP3D settings",
+                    "type": "boolean",
+                    "value": false,
+                    "disableiffalse": true,
+                    "setting": false,
+                    "hide": true
+                },
+                {
+                    "id": "resetpin",
+                    "define": "ESP3D_RESET_PIN",
+                    "label": "Reset pin",
+                    "description": "The pin used to reset ESP3D setting if set to low for more than 1 second at start",
+                    "type": "select",
+                    "ispin": true,
+                    "header": "#define PIN_RESET_FEATURE\n",
+                    "depend": { "id": "resetfeature", "value": [true] },
+                    "value": "-1",
+                    "setting": true,
+                    "usedescforoptions": true
+                }
+            ]
+        },
+        {
+            "id": "update",
+            "description": "Update ESP3D firmware",
+            "label": "Update ESP3D",
+            "setting": true,
+            "depend": { "id": "targetflashsize", "notvalue": ["1", "2"] },
+            "type": "group",
+            "value": [
+                {
+                    "id": "ota",
+                    "define": "OTA_FEATURE",
+                    "label": "Enable OTA",
+                    "description": "Over The Air Update (OTA)",
+                    "type": "boolean",
+                    "value": false,
+                    "disableiffalse": true,
+                    "setting": true
+                },
+                {
+                    "id": "webupdate",
+                    "define": "WEB_UPDATE_FEATURE",
+                    "label": "Enable Web Update",
+                    "description": "Update firmware using WebUI",
+                    "type": "boolean",
+                    "value": true,
+                    "disableiffalse": true,
+                    "setting": true
+                },
+                {
+                    "id": "sdupdate",
+                    "define": "SD_UPDATE_FEATURE",
+                    "label": "Enable SD card Update",
+                    "description": "Update firmware and settings using file on SDCard",
+                    "type": "boolean",
+                    "depend": { "id": "sdconnection", "notvalue": ["-1"] },
+                    "value": true,
+                    "disableiffalse": true,
+                    "setting": true
+                }
+            ]
+        }
     ],
     "devices": [
         {
             "id": "screens",
-            "description":"Rendering screens",
-            "label":"Display settings",
-            
-            "setting":true,
-            "type":"group",
-            "value":[
+            "description": "Rendering screens",
+            "label": "Display settings",
+
+            "setting": true,
+            "type": "group",
+            "value": [
                 {
-                    "id":"printerscreen",
-                    "define":"PRINTER_HAS_DISPLAY",
-                    "label":"Printer screen",
-                    "description":"Your printer has a display",
-                    "type":"boolean",
-                    "value":true,
-                    "depend":{"id":"systemtype","value":["Printer3D"]},
-                    "disableiffalse":true,
-                    "setting":true  
+                    "id": "printerscreen",
+                    "define": "PRINTER_HAS_DISPLAY",
+                    "label": "Printer screen",
+                    "description": "Your printer has a display",
+                    "type": "boolean",
+                    "value": true,
+                    "depend": { "id": "systemtype", "value": ["Printer3D"] },
+                    "disableiffalse": true,
+                    "setting": true
                 },
                 {
-                    "id":"displaytype",
-                    "define":"DISPLAY_DEVICE",
-                    "label":"ESP3D screen",
-                    "description":"Screen connected to ESP board",
-                    "type":"select",
-                    "value":"-1",
-                    "setting":true,
-                    "usedescforoptions":true,
-                    "depend":{"id":"formfactor","notvalue":["esp01"]},
+                    "id": "displaytype",
+                    "define": "DISPLAY_DEVICE",
+                    "label": "ESP3D screen",
+                    "description": "Screen connected to ESP board",
+                    "type": "select",
+                    "value": "-1",
+                    "setting": true,
+                    "usedescforoptions": true,
+                    "depend": { "id": "formfactor", "notvalue": ["esp01"] },
                     "options": [
-
                         {
                             "label": "None",
                             "value": "-1"
@@ -966,165 +1028,211 @@
                     ]
                 },
                 {
-                    "id":"flipdisplay",
-                    "define":"DISPLAY_FLIP_VERTICALY",
-                    "label":"Flip screen",
-                    "description":"Flip/rotate screen",
-                    "type":"boolean",
-                    "value":false,
-                    "depend":{"id":"displaytype","notvalue":["-1"]},
-                    "disableiffalse":true,
-                    "setting":true  
+                    "id": "flipdisplay",
+                    "define": "DISPLAY_FLIP_VERTICALY",
+                    "label": "Flip screen",
+                    "description": "Flip/rotate screen",
+                    "type": "boolean",
+                    "value": false,
+                    "depend": { "id": "displaytype", "notvalue": ["-1"] },
+                    "disableiffalse": true,
+                    "setting": true
                 },
                 {
-                    "id":"i2caddressoled",
-                    "define":"DISPLAY_I2C_ADDR",
-                    "label":"Display i2C address",
-                    "description":"Wire address of display",
-                    "type":"text",
-                    "value":"0x3c",
-                    "depend":{"id":"displaytype","value":["OLED_I2C_SSD1306_128X64","OLED_I2C_SSDSH1106_132X64"]},
-                    "setting":true  
+                    "id": "i2caddressoled",
+                    "define": "DISPLAY_I2C_ADDR",
+                    "label": "Display i2C address",
+                    "description": "Wire address of display",
+                    "type": "text",
+                    "value": "0x3c",
+                    "depend": {
+                        "id": "displaytype",
+                        "value": [
+                            "OLED_I2C_SSD1306_128X64",
+                            "OLED_I2C_SSDSH1106_132X64"
+                        ]
+                    },
+                    "setting": true
                 },
                 {
-                    "id":"oledrstpin",
-                    "define":"DISPLAY_I2C_PIN_RST",
-                    "label":"Display reset pin",
-                    "description":"The pin used to reset the screen (optional)",
-                    "type":"select",
-                    "ispin":true,
-                    "value":"-1",
-                    "depend":{"id":"displaytype","value":["OLED_I2C_SSD1306_128X64","OLED_I2C_SSDSH1106_132X64"]},
-                    "setting":true,
-                    "usedescforoptions":true
+                    "id": "oledrstpin",
+                    "define": "DISPLAY_I2C_PIN_RST",
+                    "label": "Display reset pin",
+                    "description": "The pin used to reset the screen (optional)",
+                    "type": "select",
+                    "ispin": true,
+                    "value": "-1",
+                    "depend": {
+                        "id": "displaytype",
+                        "value": [
+                            "OLED_I2C_SSD1306_128X64",
+                            "OLED_I2C_SSDSH1106_132X64"
+                        ]
+                    },
+                    "setting": true,
+                    "usedescforoptions": true
                 },
                 {
-                    "id":"tftledpin",
-                    "define":"DISPLAY_LED_PIN",
-                    "label":"TFT led pin",
-                    "description":"The pin used for the backlight",
-                    "type":"select",
-                    "ispin":true,
-                    "value":"-1",
-                    "depend":{"id":"displaytype","value":["TFT_SPI_ST7789_135X240","TFT_SPI_ST7789_240X240"]},
-                    "setting":true,
-                    "usedescforoptions":true
+                    "id": "tftledpin",
+                    "define": "DISPLAY_LED_PIN",
+                    "label": "TFT led pin",
+                    "description": "The pin used for the backlight",
+                    "type": "select",
+                    "ispin": true,
+                    "value": "-1",
+                    "depend": {
+                        "id": "displaytype",
+                        "value": [
+                            "TFT_SPI_ST7789_135X240",
+                            "TFT_SPI_ST7789_240X240"
+                        ]
+                    },
+                    "setting": true,
+                    "usedescforoptions": true
                 },
                 {
-                    "id":"tftDCpin",
-                    "define":"DISPLAY_DC_PIN",
-                    "label":"TFT DC pin",
-                    "description":"The dc pin used for the display",
-                    "type":"select",
-                    "ispin":true,
-                    "value":"-1",
-                    "depend":{"id":"displaytype","value":["TFT_SPI_ST7789_135X240","TFT_SPI_ST7789_240X240"]},
-                    "setting":true,
-                    "usedescforoptions":true
+                    "id": "tftDCpin",
+                    "define": "DISPLAY_DC_PIN",
+                    "label": "TFT DC pin",
+                    "description": "The dc pin used for the display",
+                    "type": "select",
+                    "ispin": true,
+                    "value": "-1",
+                    "depend": {
+                        "id": "displaytype",
+                        "value": [
+                            "TFT_SPI_ST7789_135X240",
+                            "TFT_SPI_ST7789_240X240"
+                        ]
+                    },
+                    "setting": true,
+                    "usedescforoptions": true
                 },
                 {
-                    "id":"tftRSTpin",
-                    "define":"DISPLAY_RST_PIN",
-                    "label":"TFT RST pin",
-                    "description":"The pin used to reset display",
-                    "type":"select",
-                    "ispin":true,
-                    "value":"-1",
-                    "depend":{"id":"displaytype","value":["TFT_SPI_ST7789_135X240","TFT_SPI_ST7789_240X240"]},
-                    "setting":true,
-                    "usedescforoptions":true
+                    "id": "tftRSTpin",
+                    "define": "DISPLAY_RST_PIN",
+                    "label": "TFT RST pin",
+                    "description": "The pin used to reset display",
+                    "type": "select",
+                    "ispin": true,
+                    "value": "-1",
+                    "depend": {
+                        "id": "displaytype",
+                        "value": [
+                            "TFT_SPI_ST7789_135X240",
+                            "TFT_SPI_ST7789_240X240"
+                        ]
+                    },
+                    "setting": true,
+                    "usedescforoptions": true
                 },
                 {
-                    "id":"tftCSpin",
-                    "define":"DISPLAY_CS_PIN",
-                    "label":"TFT CS pin",
-                    "description":"The CS pin used by display",
-                    "type":"select",
-                    "ispin":true,
-                    "usedefault":true,
-                    "value":"-1",
-                    "depend":{"id":"displaytype","value":["TFT_SPI_ST7789_135X240","TFT_SPI_ST7789_240X240"]},
-                    "setting":true,
-                    "usedescforoptions":true
+                    "id": "tftCSpin",
+                    "define": "DISPLAY_CS_PIN",
+                    "label": "TFT CS pin",
+                    "description": "The CS pin used by display",
+                    "type": "select",
+                    "ispin": true,
+                    "usedefault": true,
+                    "value": "-1",
+                    "depend": {
+                        "id": "displaytype",
+                        "value": [
+                            "TFT_SPI_ST7789_135X240",
+                            "TFT_SPI_ST7789_240X240"
+                        ]
+                    },
+                    "setting": true,
+                    "usedescforoptions": true
                 },
                 {
-                    "id":"tftMOSIpin",
-                    "define":"DISPLAY_MOSI_PIN",
-                    "label":"TFT MOSI pin",
-                    "description":"The MOSI pin used by display",
-                    "type":"select",
-                    "ispin":true,
-                    "usedefault":true,
-                    "value":"-1",
-                    "depend":{"id":"displaytype","value":["TFT_SPI_ST7789_135X240","TFT_SPI_ST7789_240X240"]},
-                    "setting":true,
-                    "usedescforoptions":true
+                    "id": "tftMOSIpin",
+                    "define": "DISPLAY_MOSI_PIN",
+                    "label": "TFT MOSI pin",
+                    "description": "The MOSI pin used by display",
+                    "type": "select",
+                    "ispin": true,
+                    "usedefault": true,
+                    "value": "-1",
+                    "depend": {
+                        "id": "displaytype",
+                        "value": [
+                            "TFT_SPI_ST7789_135X240",
+                            "TFT_SPI_ST7789_240X240"
+                        ]
+                    },
+                    "setting": true,
+                    "usedescforoptions": true
                 },
                 {
-                    "id":"tftSCKpin",
-                    "define":"DISPLAY_SCK_PIN",
-                    "label":"TFT SCK pin",
-                    "description":"The SCK pin used by display",
-                    "type":"select",
-                    "ispin":true,
-                    "usedefault":true,
-                    "value":"-1",
-                    "depend":{"id":"displaytype","value":["TFT_SPI_ST7789_135X240","TFT_SPI_ST7789_240X240"]},
-                    "setting":true,
-                    "usedescforoptions":true
+                    "id": "tftSCKpin",
+                    "define": "DISPLAY_SCK_PIN",
+                    "label": "TFT SCK pin",
+                    "description": "The SCK pin used by display",
+                    "type": "select",
+                    "ispin": true,
+                    "usedefault": true,
+                    "value": "-1",
+                    "depend": {
+                        "id": "displaytype",
+                        "value": [
+                            "TFT_SPI_ST7789_135X240",
+                            "TFT_SPI_ST7789_240X240"
+                        ]
+                    },
+                    "setting": true,
+                    "usedescforoptions": true
                 }
             ]
         },
         {
             "id": "buzzer",
-            "description":"Buzzer feature",
-            "label":"Audio settings",
-            "setting":true,
-            "type":"group",
-            "value":[
+            "description": "Buzzer feature",
+            "label": "Audio settings",
+            "setting": true,
+            "type": "group",
+            "value": [
                 {
-                    "id":"buzzerfeature",
-                    "define":"BUZZER_DEVICE",
-                    "label":"Enable buzzer",
-                    "description":"Your esp board has a passive buzzer",
-                    "type":"boolean",
-                    "value":false,
-                    "disableiffalse":true,
-                    "setting":true  
+                    "id": "buzzerfeature",
+                    "define": "BUZZER_DEVICE",
+                    "label": "Enable buzzer",
+                    "description": "Your esp board has a passive buzzer",
+                    "type": "boolean",
+                    "value": false,
+                    "disableiffalse": true,
+                    "setting": true
                 },
                 {
-                    "id":"buzzerpin",
-                    "define":"ESP3D_BUZZER_PIN",
-                    "label":"Buzzer pin",
-                    "description":"The pin used for the passive buzzer",
-                    "type":"select",
-                    "ispin":true,
-                    "value":"-1",
-                    "depend":{"id":"buzzerfeature","value":[true]},
-                    "setting":true,
-                    "usedescforoptions":true
+                    "id": "buzzerpin",
+                    "define": "ESP3D_BUZZER_PIN",
+                    "label": "Buzzer pin",
+                    "description": "The pin used for the passive buzzer",
+                    "type": "select",
+                    "ispin": true,
+                    "value": "-1",
+                    "depend": { "id": "buzzerfeature", "value": [true] },
+                    "setting": true,
+                    "usedescforoptions": true
                 }
             ]
-            
         },
         {
             "id": "sensor",
-            "description":"Sensor feature",
-            "label":"Sensor settings",
-            "setting":true,
-            "type":"group",
-            "value":[
+            "description": "Sensor feature",
+            "label": "Sensor settings",
+            "setting": true,
+            "type": "group",
+            "value": [
                 {
-                    "id":"sensortype",
-                    "define":"SENSOR_DEVICE",
-                    "label":"ESP3D connected sensor",
-                    "description":"Sensor connected to ESP board",
-                    "type":"select",
-                    "value":"-1",
-                    "setting":true,
-                    "usedescforoptions":true,
+                    "id": "sensortype",
+                    "define": "SENSOR_DEVICE",
+                    "label": "ESP3D connected sensor",
+                    "description": "Sensor connected to ESP board",
+                    "type": "select",
+                    "value": "-1",
+                    "setting": true,
+                    "usedescforoptions": true,
                     "options": [
-
                         {
                             "label": "None",
                             "value": "-1"
@@ -1152,84 +1260,95 @@
                     ]
                 },
                 {
-                    "id":"i2caddresssensor",
-                    "define":"SENSOR_ADDR",
-                    "label":"Sensor i2C address",
-                    "description":"Wire address of sensor",
-                    "needquote":true,
-                    "type":"text",
-                    "value":"0x76",
-                    "depend":{"id":"sensortype","notvalue":["-1","ANALOG_DEVICE"]},
-                    "setting":true  
+                    "id": "i2caddresssensor",
+                    "define": "SENSOR_ADDR",
+                    "label": "Sensor i2C address",
+                    "description": "Wire address of sensor",
+                    "needquote": true,
+                    "type": "text",
+                    "value": "0x76",
+                    "depend": {
+                        "id": "sensortype",
+                        "notvalue": ["-1", "ANALOG_DEVICE"]
+                    },
+                    "setting": true
                 },
                 {
-                    "id":"sensorpin",
-                    "define":"ESP3D_SENSOR_PIN",
-                    "label":"Sensor pin",
-                    "description":"The pin used for the sensor",
-                    "type":"select",
-                    "ispin":true,
-                    "value":"-1",
-                    "depend":{"id":"sensortype","notvalue":["-1"]},
-                    "setting":true,
-                    "usedescforoptions":true
+                    "id": "sensorpin",
+                    "define": "ESP3D_SENSOR_PIN",
+                    "label": "Sensor pin",
+                    "description": "The pin used for the sensor",
+                    "type": "select",
+                    "ispin": true,
+                    "value": "-1",
+                    "depend": { "id": "sensortype", "notvalue": ["-1"] },
+                    "setting": true,
+                    "usedescforoptions": true
                 },
                 {
-                    "id":"analogsensorconverter",
-                    "define":"SENSOR_CONVERTER(v)",
-                    "label":"Conversion formula",
-                    "description":"v is the value read from sensor",
-                    "type":"text",
-                    "value":"v*0.588",
-                    "depend":{"id":"sensortype","value":["ANALOG_DEVICE"]},
-                    "setting":true  
+                    "id": "analogsensorconverter",
+                    "define": "SENSOR_CONVERTER(v)",
+                    "label": "Conversion formula",
+                    "description": "v is the value read from sensor",
+                    "type": "text",
+                    "value": "v*0.588",
+                    "depend": {
+                        "id": "sensortype",
+                        "value": ["ANALOG_DEVICE"]
+                    },
+                    "setting": true
                 },
                 {
-                    "id":"sensorunit",
-                    "define":"SENSOR__UNIT",
-                    "label":"Unit",
-                    "description":"Unit of the sensor result",
-                    "type":"select",
-                    "depend":{"id":"sensortype","notvalue":["-1"]},
+                    "id": "sensorunit",
+                    "define": "SENSOR__UNIT",
+                    "label": "Unit",
+                    "description": "Unit of the sensor result",
+                    "type": "select",
+                    "depend": { "id": "sensortype", "notvalue": ["-1"] },
                     "value": "C",
-                    "usedescforoptions":true,
-                    "options":[
+                    "usedescforoptions": true,
+                    "options": [
                         {
-                        "label": "C",
-                        "value": "\"C\""
-                       },
-                       {
-                        "label": "K",
-                        "value": "\"K\""
-                       },
-                       {
-                        "label": "V",
-                        "value": "\"V\"",
-                        "depend":{"id":"sensortype","value":["ANALOG_DEVICE"]}
-                       }
+                            "label": "C",
+                            "value": "\"C\""
+                        },
+                        {
+                            "label": "K",
+                            "value": "\"K\""
+                        },
+                        {
+                            "label": "V",
+                            "value": "\"V\"",
+                            "depend": {
+                                "id": "sensortype",
+                                "value": ["ANALOG_DEVICE"]
+                            }
+                        }
                     ],
-                    "setting":true  
+                    "setting": true
                 }
             ]
-
         },
         {
             "id": "camera",
-            "description":"Connected camera",
-            "label":"Camera settings",
-            "setting":true,
-            "depend":[{"id":"targetmcu","value":["esp32","esp32s2","esp32s3"]},{"id":"formfactor","notvalue":["esp01"]}],
-            "type":"group",
-            "value":[
+            "description": "Connected camera",
+            "label": "Camera settings",
+            "setting": true,
+            "depend": [
+                { "id": "targetmcu", "value": ["esp32", "esp32s2", "esp32s3"] },
+                { "id": "formfactor", "notvalue": ["esp01"] }
+            ],
+            "type": "group",
+            "value": [
                 {
-                    "id":"cameratype",
-                    "define":"CAMERA_DEVICE",
-                    "label":"Camera type",
-                    "description":"Camera connected to ESP board, only ones with PSRAM are supported",
-                    "type":"select",
-                    "value":"-1",
-                    "setting":true,
-                    "usedescforoptions":true,
+                    "id": "cameratype",
+                    "define": "CAMERA_DEVICE",
+                    "label": "Camera type",
+                    "description": "Camera connected to ESP board, only ones with PSRAM are supported",
+                    "type": "select",
+                    "value": "-1",
+                    "setting": true,
+                    "usedescforoptions": true,
                     "options": [
                         {
                             "label": "None",
@@ -1238,71 +1357,80 @@
                         {
                             "label": "AI Thinker (ESP32-Cam)",
                             "value": "CAMERA_MODEL_AI_THINKER",
-                            "depend":{"id":"targetmcu","value":["esp32"]}
+                            "depend": { "id": "targetmcu", "value": ["esp32"] }
                         },
                         {
                             "label": "ESP-Eye",
                             "value": "CAMERA_MODEL_ESP_EYE",
-                            "depend":{"id":"targetmcu","value":["esp32"]}
+                            "depend": { "id": "targetmcu", "value": ["esp32"] }
                         },
                         {
                             "label": "ESP-Eye",
                             "value": "CAMERA_MODEL_ESP32S3_EYE",
-                            "depend":{"id":"targetmcu","value":["esp32s3"]}
+                            "depend": {
+                                "id": "targetmcu",
+                                "value": ["esp32s3"]
+                            }
                         },
                         {
                             "label": "M5Stack",
                             "value": "CAMERA_MODEL_M5STACK_PSRAM",
-                            "depend":{"id":"targetmcu","value":["esp32"]}
+                            "depend": { "id": "targetmcu", "value": ["esp32"] }
                         },
                         {
                             "label": "M5Stack V2",
                             "value": "CAMERA_MODEL_M5STACK_V2_PSRAM",
-                            "depend":{"id":"targetmcu","value":["esp32"]}
+                            "depend": { "id": "targetmcu", "value": ["esp32"] }
                         },
                         {
                             "label": "Wrover Kit",
                             "value": "CAMERA_MODEL_WROVER_KIT",
-                            "depend":{"id":"targetmcu","value":["esp32"]}
+                            "depend": { "id": "targetmcu", "value": ["esp32"] }
                         },
                         {
                             "label": "Espressif Camera",
                             "value": "CAMERA_MODEL_ESP32_CAM_BOARD",
-                            "depend":{"id":"targetmcu","value":["esp32"]}
+                            "depend": { "id": "targetmcu", "value": ["esp32"] }
                         },
                         {
                             "label": "Espressif Camera",
                             "value": "CAMERA_MODEL_ESP32S2_CAM_BOARD",
-                            "depend":{"id":"targetmcu","value":["esp32s2"]}
+                            "depend": {
+                                "id": "targetmcu",
+                                "value": ["esp32s2"]
+                            }
                         },
                         {
                             "label": "Espressif Camera",
                             "value": "CAMERA_MODEL_ESP32S3_CAM_LCD",
-                            "depend":{"id":"targetmcu","value":["esp32s3"]}
+                            "depend": {
+                                "id": "targetmcu",
+                                "value": ["esp32s3"]
+                            }
                         }
                     ]
                 },
                 {
-                    "id":"cameraflipverticaly",
-                    "define":"CAMERA_DEVICE_FLIP_VERTICALY",
-                    "label":"Flip vertically",
-                    "description":"Flip camera verticaly",
-                    "type":"boolean",
-                    "depend":{"id":"cameratype","notvalue":["-1"]},
-                    "value":true,
-                    "disableiffalse":true,
-                    "setting":true  
+                    "id": "cameraflipverticaly",
+                    "define": "CAMERA_DEVICE_FLIP_VERTICALY",
+                    "label": "Flip vertically",
+                    "description": "Flip camera verticaly",
+                    "type": "boolean",
+                    "depend": { "id": "cameratype", "notvalue": ["-1"] },
+                    "value": true,
+                    "disableiffalse": true,
+                    "setting": true
                 },
                 {
-                    "id":"camerafliphorizontaly",
-                    "define":"CAMERA_DEVICE_FLIP_HORIZONTALY",
-                    "label":"Flip horizontally",
-                    "description":"Flip camera horizontally",
-                    "type":"boolean",
-                    "depend":{"id":"cameratype","notvalue":["-1"]},
-                    "value":true,
-                    "disableiffalse":true,
-                    "setting":true  
+                    "id": "camerafliphorizontaly",
+                    "define": "CAMERA_DEVICE_FLIP_HORIZONTALY",
+                    "label": "Flip horizontally",
+                    "description": "Flip camera horizontally",
+                    "type": "boolean",
+                    "depend": { "id": "cameratype", "notvalue": ["-1"] },
+                    "value": true,
+                    "disableiffalse": true,
+                    "setting": true
                 }
             ]
         }
@@ -1310,129 +1438,131 @@
     "security": [
         {
             "id": "security",
-            "description":"How commands are allowed to be sent to ESP3D",
-            "label":"Levels of security",
-            "setting":true,
-            "type":"group",
-            "value":[
+            "description": "How commands are allowed to be sent to ESP3D",
+            "label": "Levels of security",
+            "setting": true,
+            "type": "group",
+            "value": [
                 {
-                    "id":"serialcmdfeature",
-                    "define":"SERIAL_COMMAND_FEATURE",
-                    "label":"Enable serial commands",
-                    "description":"Allow commands to be sent to ESP3D via serial port",
-                    "type":"boolean",
-                    "value":true,
-                    "disableiffalse":true,
-                    "setting":true  
+                    "id": "serialcmdfeature",
+                    "define": "SERIAL_COMMAND_FEATURE",
+                    "label": "Enable serial commands",
+                    "description": "Allow commands to be sent to ESP3D via serial port",
+                    "type": "boolean",
+                    "value": true,
+                    "disableiffalse": true,
+                    "setting": true
                 },
                 {
-                    "id":"corsfeature",
-                    "define":"ESP_ACCESS_CONTROL_ALLOW_ORIGIN",
-                    "label":"Enable cross origin access",
-                    "description":"Allow to show the camera in web page different than device web server",
-                    "type":"boolean",
-                    "value":false,
-                    "disableiffalse":true,
-                    "setting":true  
+                    "id": "corsfeature",
+                    "define": "ESP_ACCESS_CONTROL_ALLOW_ORIGIN",
+                    "label": "Enable cross origin access",
+                    "description": "Allow to show the camera in web page different than device web server",
+                    "type": "boolean",
+                    "value": false,
+                    "disableiffalse": true,
+                    "setting": true
                 },
                 {
-                    "id":"authentication",
-                    "define":"AUTHENTICATION_FEATURE",
-                    "label":"Enable authentication",
-                    "description":"Force usage of authentication for commands",
-                    "type":"boolean",
-                    "value":false,
-                    "disableiffalse":true,
-                    "setting":true  
+                    "id": "authentication",
+                    "define": "AUTHENTICATION_FEATURE",
+                    "label": "Enable authentication",
+                    "description": "Force usage of authentication for commands",
+                    "type": "boolean",
+                    "value": false,
+                    "disableiffalse": true,
+                    "setting": true
                 }
             ]
         }
-        
     ],
-    "others":[ {
-        "id": "additional",
-        "description":"Extra settings",
-        "label":"Additional features",
-        "setting":true,
-        "type":"group",
-        "value":[
-            {
-                "id":"directpins",
-                "define":"DIRECT_PIN_FEATURE",
-                "label":"Enable direct control pin",
-                "description":"Controls pins using [ESP201]",
-                "type":"boolean",
-                "value":true,
-                "disableiffalse":true,
-                "setting":true  
-            }
-           
+    "others": [
+        {
+            "id": "additional",
+            "description": "Extra settings",
+            "label": "Additional features",
+            "setting": true,
+            "type": "group",
+            "value": [
+                {
+                    "id": "directpins",
+                    "define": "DIRECT_PIN_FEATURE",
+                    "label": "Enable direct control pin",
+                    "description": "Controls pins using [ESP201]",
+                    "type": "boolean",
+                    "value": true,
+                    "disableiffalse": true,
+                    "setting": true
+                }
             ]
         },
         {
             "id": "scripting",
-            "description":"Scripting on ESP3D",
-            "label":"Scripting settings",
-            "setting":true,
-            "type":"group",
-            "value":[
+            "description": "Scripting on ESP3D",
+            "label": "Scripting settings",
+            "setting": true,
+            "type": "group",
+            "value": [
                 {
-                    "id":"autorunscript",
-                    "define":"AUTOSTART_SCRIPT_FEATURE",
-                    "label":"Enable Autostart script",
-                    "description":"Automaticaly launch script when ESP3D is started",
-                    "setting":true,
-                    "type":"select",
+                    "id": "autorunscript",
+                    "define": "AUTOSTART_SCRIPT_FEATURE",
+                    "label": "Enable Autostart script",
+                    "description": "Automaticaly launch script when ESP3D is started",
+                    "setting": true,
+                    "type": "select",
                     "value": "-1",
-                    "usedescforoptions":true,
-                    "options":[
+                    "usedescforoptions": true,
+                    "options": [
                         {
-                        "label": "None",
-                        "value": "-1"
-                       },
-                       {
-                        "label": "Commands",
-                        "value": "\"script\""
-                       },
-                       {
-                        "label": "File",
-                        "value": "\"file\""
-                       }
+                            "label": "None",
+                            "value": "-1"
+                        },
+                        {
+                            "label": "Commands",
+                            "value": "\"script\""
+                        },
+                        {
+                            "label": "File",
+                            "value": "\"file\""
+                        }
                     ]
                 },
                 {
-                    "id":"autostartcommands",
-                    "define":"ESP_AUTOSTART_SCRIPT",
-                    "label":"Commands to run on startup",
-                    "description":"Separate commands with ';'",
-                    "depend":{"id":"autorunscript","value":["\"script\""]},
-                    "type":"text",
-                    "needquote":true,
-                    "value":"M117 Mounting SD;M21",
-                    "disableiffalse":true,
-                    "setting":true  
+                    "id": "autostartcommands",
+                    "define": "ESP_AUTOSTART_SCRIPT",
+                    "label": "Commands to run on startup",
+                    "description": "Separate commands with ';'",
+                    "depend": {
+                        "id": "autorunscript",
+                        "value": ["\"script\""]
+                    },
+                    "type": "text",
+                    "needquote": true,
+                    "value": "M117 Mounting SD;M21",
+                    "disableiffalse": true,
+                    "setting": true
                 },
                 {
-                    "id":"autostartfile",
-                    "define":"ESP_AUTOSTART_SCRIPT_FILE",
-                    "label":"File to run on startup",
-                    "description":"The file should be on ESP3D filesystem",
-                    "depend":{"id":"autorunscript","value":["\"file\""]},
-                    "type":"text",
-                    "needquote":true,
-                    "value":"autorun.gco",
-                    "disableiffalse":true,
-                    "setting":true  
+                    "id": "autostartfile",
+                    "define": "ESP_AUTOSTART_SCRIPT_FILE",
+                    "label": "File to run on startup",
+                    "description": "The file should be on ESP3D filesystem",
+                    "depend": { "id": "autorunscript", "value": ["\"file\""] },
+                    "type": "text",
+                    "needquote": true,
+                    "value": "autorun.gco",
+                    "disableiffalse": true,
+                    "setting": true
                 },
                 {
-                    "id":"luainterpreter",
-                    "define":"ESP_LUA_INTERPRETER_FEATURE",
-                    "label":"Enable lua interpreter",
-                    "description":"Allow to use lua interpreter on ESP3D",
-                    "type":"boolean",
-                    "value":false,
-                    "disableiffalse":true,
-                    "setting":true  
+                    "id": "luainterpreter",
+                    "define": "ESP_LUA_INTERPRETER_FEATURE",
+                    "label": "Enable lua interpreter",
+                    "description": "Allow to use lua interpreter on ESP3D",
+                    "type": "boolean",
+                    "value": false,
+                    "disableiffalse": true,
+                    "setting": true
                 }
             ]
         }
@@ -1440,30 +1570,30 @@
     "default": [
         {
             "id": "default",
-            "description":"Do not edit them",
-            "label":"Default settings for ESP3D",
-            "setting":true,
-            "type":"group",
-            "value":[
+            "description": "Do not edit them",
+            "label": "Default settings for ESP3D",
+            "setting": true,
+            "type": "group",
+            "value": [
                 {
-                    "id":"gcodehost",
-                    "define":"GCODE_HOST_FEATURE",
-                    "label":"Gcode Host Feature",
-                    "description":"This feature allows to process Gcode files like macros.",
-                    "type":"boolean",
-                    "value":true,
-                    "setting":true,
-                    "disableiffalse":true
+                    "id": "gcodehost",
+                    "define": "GCODE_HOST_FEATURE",
+                    "label": "Gcode Host Feature",
+                    "description": "This feature allows to process Gcode files like macros.",
+                    "type": "boolean",
+                    "value": true,
+                    "setting": true,
+                    "disableiffalse": true
                 },
                 {
-                    "id":"settings",
-                    "define":"ESP_SAVE_SETTINGS",
-                    "label":"Settings location",
-                    "description":"Location where ESP3D will save settings",
-                    "type":"select",
-                    "value":"SETTINGS_IN_EEPROM",
-                    "setting":true,
-                    "usedescforoptions":true,
+                    "id": "settings",
+                    "define": "ESP_SAVE_SETTINGS",
+                    "label": "Settings location",
+                    "description": "Location where ESP3D will save settings",
+                    "type": "select",
+                    "value": "SETTINGS_IN_EEPROM",
+                    "setting": true,
+                    "usedescforoptions": true,
                     "options": [
                         {
                             "label": "EEPROM",
@@ -1474,21 +1604,22 @@
                             "value": "SETTINGS_IN_PREFERENCES"
                         }
                     ]
-                }
-                ,
+                },
                 {
-                    "id":"serialTask",
-                    "define":"SERIAL_INDEPENDANT_TASK",
-                    "label":"Add serial task",
-                    "description":"ESP32 need to add a task to handle serial communication",
-                    "type":"boolean",
-                    "value":true,
-                    "setting":true,
-                    "disableiffalse":true,
-                    "depend":{"id":"targetmcu","value":["esp32","esp32s3"]}
+                    "id": "serialTask",
+                    "define": "SERIAL_INDEPENDANT_TASK",
+                    "label": "Add serial task",
+                    "description": "ESP32 need to add a task to handle serial communication",
+                    "type": "boolean",
+                    "value": true,
+                    "setting": true,
+                    "disableiffalse": true,
+                    "depend": {
+                        "id": "targetmcu",
+                        "value": ["esp32", "esp32s3"]
+                    }
                 }
             ]
         }
-
-    ] 
+    ]
 }

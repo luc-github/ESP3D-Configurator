@@ -112,9 +112,9 @@ const sections = {
             "monitor_speed = 115200\n" +
             "monitor_echo = yes\n" +
             "monitor_filters = send_on_enter, colorize, esp32_exception_decoder\n" +
-            "set frequency to 240MHz\n" +
+            "; set frequency to 240MHz\n" +
             "board_build.f_cpu = 240000000L\n" +
-            "set frequency to 80MHz\n" +
+            "; set frequency to 80MHz\n" +
             "board_build.f_flash = 80000000L\n" +
             "board_build.flash_mode = qio\n" +
             "upload_speed = 460800\n" +
@@ -139,9 +139,9 @@ const sections = {
             "monitor_speed = 115200\n" +
             "monitor_echo = yes\n" +
             "monitor_filters = send_on_enter, colorize, esp32_exception_decoder\n" +
-            "set frequency to 240MHz\n" +
+            "; set frequency to 240MHz\n" +
             "board_build.f_cpu = 240000000L\n" +
-            "set frequency to 80MHz\n" +
+            "; set frequency to 80MHz\n" +
             "board_build.f_flash = 80000000L\n" +
             "board_build.flash_mode = qio\n" +
             "upload_speed = 460800\n" +
@@ -166,9 +166,9 @@ const sections = {
             "monitor_speed = 115200\n" +
             "monitor_echo = yes\n" +
             "monitor_filters = send_on_enter, colorize, esp32_exception_decoder\n" +
-            "set frequency to 240MHz\n" +
+            "; set frequency to 240MHz\n" +
             "board_build.f_cpu = 240000000L\n" +
-            "set frequency to 80MHz\n" +
+            "; set frequency to 80MHz\n" +
             "board_build.f_flash = 80000000L\n" +
             "board_build.flash_mode = qio\n" +
             "upload_speed = 460800\n" +

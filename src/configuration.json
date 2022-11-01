@@ -779,7 +779,10 @@
                     "ispin": true,
                     "usedefault": true,
                     "value": "-1",
-                    "depend": { "id": "sdfs", "notvalue": ["ESP_SDIO"] },
+                    "depend": [
+                        { "id": "sdfs", "notvalue": ["ESP_SDIO"] },
+                        { "id": "targetmcu", "notvalue": ["esp8266"] }
+                    ],
                     "setting": true,
                     "usedescforoptions": true
                 },
@@ -792,7 +795,10 @@
                     "ispin": true,
                     "usedefault": true,
                     "value": "-1",
-                    "depend": { "id": "sdfs", "notvalue": ["ESP_SDIO"] },
+                    "depend": [
+                        { "id": "sdfs", "notvalue": ["ESP_SDIO"] },
+                        { "id": "targetmcu", "notvalue": ["esp8266"] }
+                    ],
                     "setting": true,
                     "usedescforoptions": true
                 },
@@ -805,7 +811,10 @@
                     "ispin": true,
                     "usedefault": true,
                     "value": "-1",
-                    "depend": { "id": "sdfs", "notvalue": ["ESP_SDIO"] },
+                    "depend": [
+                        { "id": "sdfs", "notvalue": ["ESP_SDIO"] },
+                        { "id": "targetmcu", "notvalue": ["esp8266"] }
+                    ],
                     "setting": true,
                     "usedescforoptions": true
                 },

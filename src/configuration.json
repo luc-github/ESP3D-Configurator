@@ -317,6 +317,274 @@
                     ]
                 },
                 {
+                    "id": "ethernetboard",
+                    "define": "ESP3D_ETH_PHY_TYPE",
+                    "label": "Ethernet chip",
+                    "description": "Chip used by board",
+                    "type": "select",
+                    "value": "TYPE_ETH_PHY_LAN8720",
+                    "depend": {
+                        "id": "ethernet",
+                        "value": "true"
+                    },
+                    "setting": true,
+                    "usedescforoptions": true,
+                    "options": [
+                        {
+                            "label": "LAN8720",
+                            "value": "TYPE_ETH_PHY_LAN8720"
+                        },
+                        {
+                            "label": "TLK110",
+                            "value": "TYPE_ETH_PHY_TLK110"
+                        },
+                        {
+                            "label": "RTL8201",
+                            "value": "TYPE_ETH_PHY_RTL8201"
+                        },
+                        {
+                            "label": "DP83848",
+                            "value": "TYPE_ETH_PHY_DP83848"
+                        },
+                        {
+                            "label": "DM9051",
+                            "value": "TYPE_ETH_PHY_DM9051"
+                        },
+                        {
+                            "label": "KSZ8041",
+                            "value": "TYPE_ETH_PHY_KSZ8041"
+                        },
+                        {
+                            "label": "KSZ8081",
+                            "value": "TYPE_ETH_PHY_KSZ8081"
+                        }
+                    ]
+                },
+                {
+                    "id": "ethernetclock",
+                    "define": "ESP3D_ETH_CLK_MODE",
+                    "label": "Ethernet board clock mode",
+                    "description": "Mode used by clock",
+                    "type": "select",
+                    "value": "MODE_ETH_CLOCK_GPIO17_OUT",
+                    "depend": {
+                        "id": "ethernet",
+                        "value": "true"
+                    },
+                    "setting": true,
+                    "usedescforoptions": true,
+                    "options": [
+                        {
+                            "label": "GPIO0 IN",
+                            "value": "MODE_ETH_CLOCK_GPIO0_IN"
+                        },
+                        {
+                            "label": "GPIO0 OUT",
+                            "value": "MODE_ETH_CLOCK_GPIO0_OUT"
+                        },
+                        {
+                            "label": "GPIO16 OUT",
+                            "value": "MODE_ETH_CLOCK_GPIO16_OUT"
+                        },
+                        {
+                            "label": "GPIO17 OUT",
+                            "value": "MODE_ETH_CLOCK_GPIO17_OUT"
+                        }
+                    ]
+                },
+                {
+                    "id": "ethernetaddress",
+                    "define": "ESP3D_ETH_PHY_ADDR",
+                    "label": "Ethernet board address",
+                    "description": "Address used by clock",
+                    "type": "select",
+                    "value": "1",
+                    "depend": {
+                        "id": "ethernet",
+                        "value": "true"
+                    },
+                    "setting": true,
+                    "usedescforoptions": true,
+                    "options": [
+                        {
+                            "label": "0",
+                            "value": "0"
+                        },
+                        {
+                            "label": "1",
+                            "value": "1"
+                        },
+                        {
+                            "label": "2",
+                            "value": "2"
+                        },
+                        {
+                            "label": "3",
+                            "value": "3"
+                        },
+                        {
+                            "label": "4",
+                            "value": "4"
+                        },
+                        {
+                            "label": "5",
+                            "value": "5"
+                        },
+                        {
+                            "label": "6",
+                            "value": "6"
+                        },
+                        {
+                            "label": "7",
+                            "value": "7"
+                        },
+                        {
+                            "label": "8",
+                            "value": "8"
+                        },
+                        {
+                            "label": "9",
+                            "value": "9"
+                        },
+                        {
+                            "label": "10",
+                            "value": "10"
+                        },
+                        {
+                            "label": "11",
+                            "value": "11"
+                        },
+                        {
+                            "label": "12",
+                            "value": "12"
+                        },
+                        {
+                            "label": "13",
+                            "value": "13"
+                        },
+                        {
+                            "label": "14",
+                            "value": "14"
+                        },
+                        {
+                            "label": "15",
+                            "value": "15"
+                        },
+                        {
+                            "label": "16",
+                            "value": "16"
+                        },
+                        {
+                            "label": "17",
+                            "value": "17"
+                        },
+                        {
+                            "label": "18",
+                            "value": "18"
+                        },
+                        {
+                            "label": "19",
+                            "value": "19"
+                        },
+                        {
+                            "label": "20",
+                            "value": "20"
+                        },
+                        {
+                            "label": "21",
+                            "value": "21"
+                        },
+                        {
+                            "label": "22",
+                            "value": "22"
+                        },
+                        {
+                            "label": "23",
+                            "value": "23"
+                        },
+                        {
+                            "label": "24",
+                            "value": "24"
+                        },
+                        {
+                            "label": "25",
+                            "value": "25"
+                        },
+                        {
+                            "label": "26",
+                            "value": "26"
+                        },
+                        {
+                            "label": "27",
+                            "value": "27"
+                        },
+                        {
+                            "label": "28",
+                            "value": "28"
+                        },
+                        {
+                            "label": "29",
+                            "value": "29"
+                        },
+                        {
+                            "label": "30",
+                            "value": "30"
+                        },
+                        {
+                            "label": "31",
+                            "value": "31"
+                        }
+                    ]
+                },
+                {
+                    "id": "ethernetpowerpin",
+                    "define": "ESP3D_ETH_PHY_POWER_PIN",
+                    "label": "Ethernet power pin",
+                    "description": "The pin used to power ethernet chip",
+                    "type": "select",
+                    "ispin": true,
+                    "usedefault": true,
+                    "value": "-1",
+                    "depend": {
+                        "id": "ethernet",
+                        "value": "true"
+                    },
+                    "setting": true,
+                    "usedescforoptions": true
+                },
+                {
+                    "id": "ethernetmdcpin",
+                    "define": "ESP3D_ETH_PHY_MDC_PIN",
+                    "label": "Ethernet mdc pin",
+                    "description": "The pin used for MDC signal",
+                    "type": "select",
+                    "ispin": true,
+                    "usedefault": true,
+                    "value": "-1",
+                    "depend": {
+                        "id": "ethernet",
+                        "value": "true"
+                    },
+                    "setting": true,
+                    "usedescforoptions": true
+                },
+                {
+                    "id": "ethernetmdiopin",
+                    "define": "ESP3D_ETH_PHY_MDIO_PIN",
+                    "label": "Ethernet mdio pin",
+                    "description": "The pin used for MDIO signal",
+                    "type": "select",
+                    "ispin": true,
+                    "usedefault": true,
+                    "value": "-1",
+                    "depend": {
+                        "id": "ethernet",
+                        "value": "true"
+                    },
+                    "setting": true,
+                    "usedescforoptions": true
+                },
+                {
                     "id": "bluetooth",
                     "define": "BLUETOOTH_FEATURE",
                     "label": "Use Bluetooth ",

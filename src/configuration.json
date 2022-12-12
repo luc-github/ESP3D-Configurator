@@ -172,6 +172,10 @@
                     "label": "Use serial bridge",
                     "description": "Enable serial bridge feature",
                     "type": "boolean",
+                    "depend": {
+                        "id": "targetmcu",
+                        "notvalue": ["esp8266"]
+                    },
                     "value": false,
                     "disableiffalse": true,
                     "hide": true,

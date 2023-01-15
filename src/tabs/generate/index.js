@@ -185,7 +185,7 @@ const sections = {
     },
     esp8266: {
         common:
-            "platform = https://github.com/platformio/platform-espressif8266.git\n" +
+            "platform = espressif8266@4.0.1\n" +
             "board = esp12e\n" +
             "framework = arduino\n" +
             "monitor_speed = 115200\n" +

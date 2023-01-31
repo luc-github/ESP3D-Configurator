@@ -462,6 +462,7 @@ const convertToText = (data) => {
     return Object.keys(data).reduce((acc, item) => {
         return data[item].reduce((acc2, item2) => {
             if (item2.type == "group") {
+                if (!canshow(item2.depend)) return acc2
                 const content = item2.value.reduce((acc3, element) => {
                     if (!canshow(element.depend)) return acc3
                     if (element.setting) {

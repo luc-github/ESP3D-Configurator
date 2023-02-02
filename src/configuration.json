@@ -1628,7 +1628,12 @@
                     "value": "0x76",
                     "depend": {
                         "id": "sensortype",
-                        "notvalue": ["-1", "ANALOG_DEVICE"]
+                        "notvalue": [
+                            "-1",
+                            "ANALOG_DEVICE",
+                            "DHT11_DEVICE",
+                            "DHT22_DEVICE"
+                        ]
                     },
                     "setting": true
                 },

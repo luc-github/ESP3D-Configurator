@@ -30,7 +30,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/aj3t4m"><img src="https://avatars.githubusercontent.com/u/94318274?v=4?s=100" width="100px;" alt="Tomasz Mateja"/><br /><sub><b>Tomasz Mateja</b></sub></a><br /><a href="https://github.com/luc-github/ESP3D-Configurator/issues?q=author%3Aaj3t4m" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/aj3t4m"><img src="https://avatars.githubusercontent.com/u/94318274?v=4?s=100" width="100px;" alt="Tomasz Mateja"/><br /><sub><b>Tomasz Mateja</b></sub></a><br /><a href="https://github.com/luc-github/ESP3D-Configurator/issues?q=author%3Aaj3t4m" title="Bug reports">🐛</a> <a href="https://github.com/luc-github/ESP3D-Configurator/commits?author=aj3t4m" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

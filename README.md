@@ -1,6 +1,6 @@
 # ESP3D-Configurator
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Project of Web Configurator to generate ESP3D configuration file.
@@ -31,6 +31,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tbody>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/aj3t4m"><img src="https://avatars.githubusercontent.com/u/94318274?v=4?s=100" width="100px;" alt="Tomasz Mateja"/><br /><sub><b>Tomasz Mateja</b></sub></a><br /><a href="https://github.com/luc-github/ESP3D-Configurator/issues?q=author%3Aaj3t4m" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/tommatkyndryl"><img src="https://avatars.githubusercontent.com/u/96301091?v=4?s=100" width="100px;" alt="tommatkyndryl"/><br /><sub><b>tommatkyndryl</b></sub></a><br /><a href="https://github.com/luc-github/ESP3D-Configurator/commits?author=tommatkyndryl" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

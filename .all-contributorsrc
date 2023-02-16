@@ -1,0 +1,25 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "aj3t4m",
+      "name": "Tomasz Mateja",
+      "avatar_url": "https://avatars.githubusercontent.com/u/94318274?v=4",
+      "profile": "https://github.com/aj3t4m",
+      "contributions": [
+        "bug"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "ESP3D-Configurator",
+  "projectOwner": "luc-github"
+}

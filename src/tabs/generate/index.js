@@ -300,7 +300,14 @@ const buildFlags = ({
     )
 }
 
-const partitionScheme = (target, targetsize, hasWifi, hasEthernet, hasBT) => {
+const partitionScheme = (
+    target,
+    targetsize,
+    hasWifi,
+    hasEthernet,
+    hasBT,
+    cameraName
+) => {
     if (target === "esp8266") {
         switch (targetsize) {
             case "1":
@@ -321,7 +328,7 @@ const partitionScheme = (target, targetsize, hasWifi, hasEthernet, hasBT) => {
             case "2":
                 return "board_upload.flash_size = 4MB\nboard_build.partitions = minimal.csv"
             case "4":
-                if ((hasWifi || hasEthernet) && hasBT) {
+                if (((hasWifi || hasEthernet) && hasBT) || cameraName != "-1") {
                     return "board_upload.flash_size = 4MB\nboard_build.partitions = min_spiffs.csv\n"
                 }
                 return "board_upload.flash_size = 4MB\nboard_build.partitions = default.csv\n"
@@ -350,7 +357,14 @@ const convertToPioEnv = ({
         envName +
         "]\n" +
         sections[target].common +
-        partitionScheme(target, targetsize, hasWifi, hasEthernet, hasBT) +
+        partitionScheme(
+            target,
+            targetsize,
+            hasWifi,
+            hasEthernet,
+            hasBT,
+            cameraName
+        ) +
         libIgnore({
             target,
             targetsize,

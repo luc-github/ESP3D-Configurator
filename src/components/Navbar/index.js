@@ -25,7 +25,6 @@ import { AppLogo } from "../Images/logo"
 import { Link } from "../Router"
 import { T } from "../Translations"
 
-
 /*
  * Local const
  *
@@ -37,51 +36,45 @@ const defaultLinks = [
         href: "/about",
     },
     {
-        label: "Configurator",
-        icon: <Settings/>,
+        label: "Configurator for ESP3D 3.0",
+        icon: <Settings />,
         href: "/config",
-        id:"connfigLink"
+        id: "connfigLink",
     },
-   
 ]
 
 const Navbar = () => {
-
-        return (
-            <header class="navbar">
-                <section class="navbar-section">
-                    {defaultLinks &&
-                        defaultLinks.map(({ label, icon, href, id }) => {
-                            return (
-                                <Link
-                                    onclick={(e) => {
-                                        //TBD
-                                        }}
-                                    id={id}
-                                    className={
-                                        href == "/about"
-                                            ? "navbar-brand logo no-box "
-                                            : "btn btn-link no-box feather-icon-container"
-                                    }
-                                    activeClassName="active"
-                                    href={href}
+    return (
+        <header class="navbar">
+            <section class="navbar-section">
+                {defaultLinks &&
+                    defaultLinks.map(({ label, icon, href, id }) => {
+                        return (
+                            <Link
+                                onclick={(e) => {
+                                    //TBD
+                                }}
+                                id={id}
+                                className={
+                                    href == "/about"
+                                        ? "navbar-brand logo no-box "
+                                        : "btn btn-link no-box feather-icon-container"
+                                }
+                                activeClassName="active"
+                                href={href}
+                            >
+                                {icon}
+                                <label
+                                    class={href == "/about" ? "" : "hide-low"}
                                 >
-                                    {icon}
-                                    <label
-                                        class={
-                                            href == "/about" ? "" : "hide-low"
-                                        }
-                                    >
-                                        {T(label)}
-                                    </label>
-                                </Link>
-                            )
-                        })}
-                </section>
-
-            </header>
-        )
-
+                                    {T(label)}
+                                </label>
+                            </Link>
+                        )
+                    })}
+            </section>
+        </header>
+    )
 }
 
 export { Navbar }

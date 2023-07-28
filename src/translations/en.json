@@ -1,14 +1,14 @@
 {
-  "lang": "English",
-  "about":"This configurator will help you to configure your ESP3D for a list of features that fit your needs, and be sure it will compile properly.",
-  "Features":"Features",
-  "Network":"Network",
-  "FileSystems":"FileSystems",
-  "Devices":"Devices",
-  "Update":"Update",
-  "Security":"Security",
-  "Others":"Others",
-  "Download":"Download",
-  "Previous":"Previous",
-  "Next":"Next"
+    "lang": "English",
+    "about": "This configurator will help you to configure your ESP3D 3.0 for a list of features that fit your needs, and be sure it will compile properly.",
+    "Features": "Features",
+    "Network": "Network",
+    "FileSystems": "FileSystems",
+    "Devices": "Devices",
+    "Update": "Update",
+    "Security": "Security",
+    "Others": "Others",
+    "Download": "Download",
+    "Previous": "Previous",
+    "Next": "Next"
 }

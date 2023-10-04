@@ -62,7 +62,10 @@ module.exports = {
             inject: "body",
         }),
 
-        new HtmlInlineScriptPlugin([/\.(js)$/]),
+        new HtmlInlineScriptPlugin({
+            scriptMatchPattern: [/.+[.]js$/],
+            htmlMatchPattern: [/index.html$/],
+        }),
         new HTMLInlineCSSWebpackPlugin(),
     ],
     optimization: {

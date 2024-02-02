@@ -17,6 +17,10 @@
                     "setting": false,
                     "options": [
                         {
+                            "label": "ESP8285",
+                            "value": "esp8285"
+                        },
+                        {
                             "label": "ESP8266",
                             "value": "esp8266"
                         },
@@ -52,7 +56,7 @@
                             "value": "1",
                             "depend": {
                                 "id": "targetmcu",
-                                "value": ["esp8266"]
+                                "value": ["esp8266", "esp8285"]
                             },
                             "help": "No OTA/ Web update possible"
                         },
@@ -93,6 +97,138 @@
                             "value": "esp01"
                         }
                     ]
+                },
+                {
+                    "id": "memory_type",
+                    "define": "build.memory_type",
+                    "description": "Memory type",
+                    "label": "Memory type",
+                    "type": "select",
+                    "value": "qio_qspi",
+                    "depend": {
+                        "id": "targetmcu",
+                        "value": ["esp32s3"]
+                    },
+                    "setting": false,
+                    "options": [
+                        {
+                            "label": "Quad",
+                            "value": "qio_qspi"
+                        },
+                        {
+                            "label": "Quad Flash/ Octal PSRAM",
+                            "value": "qio_opi"
+                        },
+                        {
+                            "label": "Octal",
+                            "value": "opi_opi"
+                        }
+                    ]
+                },
+                {
+                    "id": "flash_mod1",
+                    "define": "flash_mode",
+                    "description": "Flash mode",
+                    "label": "Flash mode",
+                    "type": "select",
+                    "value": "dio",
+                    "depend": {
+                        "id": "targetmcu",
+                        "value": ["esp8266", "esp8285"]
+                    },
+                    "setting": false,
+                    "options": [
+                        {
+                            "label": "qio",
+                            "value": "qio"
+                        },
+                        {
+                            "label": "dio",
+                            "value": "dio"
+                        },
+                        {
+                            "label": "dout",
+                            "value": "dout"
+                        },
+                        {
+                            "label": "qout",
+                            "value": "qout"
+                        }
+                    ]
+                },
+                {
+                    "id": "flash_mode",
+                    "define": "flash_mode",
+                    "description": "Flash mode",
+                    "label": "Flash mode",
+                    "type": "select",
+                    "value": "qio",
+                    "depend": {
+                        "id": "targetmcu",
+                        "notvalue": ["esp8266", "esp8285"]
+                    },
+                    "setting": false,
+                    "options": [
+                        {
+                            "label": "qio",
+                            "value": "qio"
+                        },
+                        {
+                            "label": "dio",
+                            "value": "dio"
+                        },
+                        {
+                            "label": "dout",
+                            "value": "dout"
+                        },
+                        {
+                            "label": "qout",
+                            "value": "qout"
+                        }
+                    ]
+                },
+                {
+                    "id": "resetmethod",
+                    "define": "upload_resetmethod",
+                    "description": "Reset method for upload",
+                    "label": "Reset method for upload",
+                    "type": "select",
+                    "depend": {
+                        "id": "targetmcu",
+                        "value": ["esp8266", "esp8285"]
+                    },
+                    "value": "ck",
+                    "setting": false,
+                    "options": [
+                        {
+                            "label": "ck",
+                            "value": "ck",
+                            "help":"Need to manually set GPIO 0 to gnd"
+                        },
+                        {
+                            "label": "nodemcu",
+                            "value": "nodemcu",
+                            "help":"Automatically set GPIO 0 to gnd via 2 NPN transistors"
+                        },
+                        {
+                            "label": "wifio",
+                            "value": "wifio",
+                            "help":"Automatically set GPIO 0 to gnd via TX and DTR controls"
+                        }
+                    ]
+                },
+                {
+                    "id": "has_psram",
+                    "define": "BOARD_HAS_PSRAM",
+                    "description": "Has External PSRAM",
+                    "label": "Has PSRAM",
+                    "type": "boolean",
+                    "depend": {
+                        "id": "targetmcu",
+                        "notvalue": ["esp8266", "esp8285"]
+                    },
+                    "value": false,
+                    "setting": false
                 }
             ]
         },
@@ -174,7 +310,7 @@
                     "type": "boolean",
                     "depend": {
                         "id": "targetmcu",
-                        "notvalue": ["esp8266"]
+                        "notvalue": ["esp8266", "esp8285"]
                     },
                     "value": false,
                     "disableiffalse": true,
@@ -742,6 +878,17 @@
                     "label": "Model name",
                     "description": "Modele name of device",
                     "type": "text",
+                    "value": "ESP8285",
+                    "needquote": true,
+                    "depend": { "id": "targetmcu", "value": ["esp8285"] },
+                    "setting": true
+                },
+                {
+                    "id": "ssdpmodelename",
+                    "define": "ESP_MODEL_NAME",
+                    "label": "Model name",
+                    "description": "Modele name of device",
+                    "type": "text",
                     "value": "ESP8266",
                     "needquote": true,
                     "depend": { "id": "targetmcu", "value": ["esp8266"] },
@@ -1053,7 +1200,7 @@
                     "value": "-1",
                     "depend": [
                         { "id": "sdfs", "notvalue": ["ESP_SDIO"] },
-                        { "id": "targetmcu", "notvalue": ["esp8266"] }
+                        { "id": "targetmcu", "notvalue": ["esp8266","esp8285"] }
                     ],
                     "setting": true,
                     "usedescforoptions": true
@@ -1069,7 +1216,7 @@
                     "value": "-1",
                     "depend": [
                         { "id": "sdfs", "notvalue": ["ESP_SDIO"] },
-                        { "id": "targetmcu", "notvalue": ["esp8266"] }
+                        { "id": "targetmcu", "notvalue": ["esp8266","esp8285"] }
                     ],
                     "setting": true,
                     "usedescforoptions": true
@@ -1085,7 +1232,7 @@
                     "value": "-1",
                     "depend": [
                         { "id": "sdfs", "notvalue": ["ESP_SDIO"] },
-                        { "id": "targetmcu", "notvalue": ["esp8266"] }
+                        { "id": "targetmcu", "notvalue": ["esp8266","esp8285"] }
                     ],
                     "setting": true,
                     "usedescforoptions": true
@@ -1700,7 +1847,8 @@
             "setting": true,
             "depend": [
                 { "id": "targetmcu", "value": ["esp32", "esp32s2", "esp32s3"] },
-                { "id": "formfactor", "notvalue": ["esp01"] }
+                { "id": "formfactor", "notvalue": ["esp01"] },
+                {"id": "has_psram","value": [true] }
             ],
             "type": "group",
             "value": [

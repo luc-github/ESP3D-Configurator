@@ -81,7 +81,7 @@ const pioFile = () => {
 const sections = {
     esp32: {
         common:
-            "platform = espressif32@6.0.1\n" +
+            "platform = espressif32@6.2.0\n" +
             "board = esp32dev\n" +
             "framework = arduino\n" +
             "monitor_speed = 115200\n" +
@@ -91,9 +91,10 @@ const sections = {
             ";board_build.f_cpu = 240000000L\n" +
             "; set frequency to 80MHz\n" +
             ";board_build.f_flash = 80000000L\n" +
-            ";board_build.flash_mode = qio\n" +
+            "board_build.flash_mode = $flash_mode\n" +
             "upload_speed = 460800\n" +
-            "extra_scripts = pre:platformIO/extra_script.py\n",
+            "extra_scripts = pre:platformIO/extra_script.py\n"+
+            "board_build.filesystem = $filesystem\n",
         build_flags: " -DCORE_DEBUG_LEVEL=0\n",
         defaultMosi: 23,
         defaultSck: 18,
@@ -104,7 +105,7 @@ const sections = {
     },
     esp32s2: {
         common:
-            "platform = espressif32@6.0.1\n" +
+            "platform = espressif32@6.2.0\n" +
             "board = esp32-s2-saola-1\n" +
             "framework = arduino\n" +
             "board_build.mcu = esp32s2\n" +
@@ -116,9 +117,10 @@ const sections = {
             "board_build.f_cpu = 240000000L\n" +
             "; set frequency to 80MHz\n" +
             "board_build.f_flash = 80000000L\n" +
-            "board_build.flash_mode = qio\n" +
+            "board_build.flash_mode = $flash_mode\n" +
             "upload_speed = 460800\n" +
-            "extra_scripts = pre:platformIO/extra_script.py\n",
+            "extra_scripts = pre:platformIO/extra_script.py\n"+
+            "board_build.filesystem = $filesystem\n",
         build_flags:
             "\n     -DCORE_DEBUG_LEVEL=0\n    -DARDUINO_USB_CDC_ON_BOOT=0\n    -DARDUINO_USB_MSC_ON_BOOT=0\n    -DARDUINO_USB_DFU_ON_BOOT=0\n    -DCONFIG_IDF_TARGET_ESP32S2=1\n",
         lib_ignore: "TFT_eSPI\n",
@@ -131,11 +133,12 @@ const sections = {
     },
     esp32s3: {
         common:
-            "platform = espressif32@6.0.1\n" +
+            "platform = espressif32@6.2.0\n" +
             "board = esp32-s3-devkitc-1\n" +
             "framework = arduino\n" +
             "board_build.mcu = esp32s3\n" +
             "board_build.variant = esp32s3\n" +
+            "board_build.memory_type = $memory_type\n" +
             "monitor_speed = 115200\n" +
             "monitor_echo = yes\n" +
             "monitor_filters = send_on_enter, colorize, esp32_exception_decoder\n" +
@@ -143,9 +146,11 @@ const sections = {
             "board_build.f_cpu = 240000000L\n" +
             "; set frequency to 80MHz\n" +
             "board_build.f_flash = 80000000L\n" +
-            "board_build.flash_mode = qio\n" +
+            "board_build.flash_mode = $flash_mode\n" +
             "upload_speed = 460800\n" +
-            "extra_scripts = pre:platformIO/extra_script.py\n",
+            "extra_scripts = pre:platformIO/extra_script.py\n"+
+            "board_build.filesystem = $filesystem\n",
+
         build_flags:
             "\n    -DCORE_DEBUG_LEVEL=0\n    -DARDUINO_USB_CDC_ON_BOOT=0\n    -DARDUINO_USB_MSC_ON_BOOT=0\n    -DARDUINO_USB_DFU_ON_BOOT=0\n    -DCONFIG_IDF_TARGET_ESP32S3=1\n",
         lib_ignore: "TFT_eSPI\n",
@@ -158,7 +163,7 @@ const sections = {
     },
     esp32c3: {
         common:
-            "platform = espressif32@6.0.1\n" +
+            "platform = espressif32@6.2.0\n" +
             "board =  esp32-c3-devkitm-1\n" +
             "framework = arduino\n" +
             "board_build.mcu = esp32c3\n" +
@@ -170,9 +175,10 @@ const sections = {
             "board_build.f_cpu = 240000000L\n" +
             "; set frequency to 80MHz\n" +
             "board_build.f_flash = 80000000L\n" +
-            "board_build.flash_mode = qio\n" +
+            "board_build.flash_mode = $flash_mode\n" +
             "upload_speed = 460800\n" +
-            "extra_scripts = pre:platformIO/extra_script.py\n",
+            "extra_scripts = pre:platformIO/extra_script.py\n"+
+            "board_build.filesystem = $filesystem\n",
         build_flags:
             " -DCORE_DEBUG_LEVEL=0\n    -DCONFIG_IDF_TARGET_ESP32C3=1\n",
         lib_ignore: "TFT_eSPI\n",
@@ -195,10 +201,11 @@ const sections = {
             "board_build.f_cpu = 160000000L\n" +
             "; set frequency to 40MHz\n" +
             "board_build.f_flash = 40000000L\n" +
-            "board_build.flash_mode = dout\n" +
-            "upload_resetmethod = nodemcu\n" +
+            "board_build.flash_mode = $flash_mode\n" +
+            "upload_resetmethod = $resetmethod\n" +
             "upload_speed = 115200\n" +
-            "extra_scripts = pre:platformIO/extra_script.py\n",
+            "extra_scripts = pre:platformIO/extra_script.py\n"+
+            "board_build.filesystem = $filesystem\n",
         build_flags:
             "\n    -D PIO_FRAMEWORK_ARDUINO_LWIP2_LOW_MEMORY\n    -DNONOSDK221=1\n    -DNDEBUG -DVTABLES_IN_FLASH\n    -DWAVEFORM_LOCKED_PWM\n",
         lib_ignore: "ESP32SSDP",
@@ -209,6 +216,33 @@ const sections = {
         defaultSda: 4,
         defaultScl: 5,
     },
+    esp8285: {
+        common:
+            "platform = espressif8266@4.1.0\n" +
+            "board = esp8285\n" +
+            "framework = arduino\n" +
+            "monitor_speed = 115200\n" +
+            "monitor_echo = yes\n" +
+            "monitor_filters = send_on_enter, colorize, esp8266_exception_decoder\n" +
+            "; set frequency to 160MHz\n" +
+            "board_build.f_cpu = 160000000L\n" +
+            "; set frequency to 40MHz\n" +
+            "board_build.f_flash = 40000000L\n" +
+            "board_build.flash_mode = $flash_mode\n" +
+            "upload_resetmethod = $resetmethod\n" +
+            "upload_speed = 115200\n" +
+            "extra_scripts = pre:platformIO/extra_script.py\n"+
+            "board_build.filesystem = $filesystem\n",
+        build_flags:
+            "\n    -D PIO_FRAMEWORK_ARDUINO_LWIP2_LOW_MEMORY\n    -DNONOSDK221=1\n    -DNDEBUG -DVTABLES_IN_FLASH\n    -DWAVEFORM_LOCKED_PWM\n",
+        lib_ignore: "ESP32SSDP",
+        defaultMosi: 13,
+        defaultSck: 14,
+        defaultCs: 15,
+        defaultMiso: 12,
+        defaultSda: 4,
+        defaultScl: 5
+    }
 }
 
 const libIgnore = ({
@@ -226,8 +260,8 @@ const libIgnore = ({
         : ""
 }
 
-const cameraBuildFlags = (target, cameraName) => {
-    if (cameraName != "-1") {
+const psramBuildFlags = (target, has_psram) => {
+    if (has_psram) {
         return ` -DBOARD_HAS_PSRAM\n${
             target == "esp32" ? " -mfix-esp32-psram-cache-issue\n" : ""
         }`
@@ -288,7 +322,7 @@ const buildFlags = ({
     hasWifi,
     hasEthernet,
     hasBT,
-    cameraName,
+    has_psram,
     displayName,
 }) => {
     //todo add Cam
@@ -296,7 +330,7 @@ const buildFlags = ({
         "build_flags = " +
         sections[target].build_flags +
         displayBuildFlags(target, displayName) +
-        cameraBuildFlags(target, cameraName)
+        psramBuildFlags(target, has_psram)
     )
 }
 
@@ -349,40 +383,51 @@ const convertToPioEnv = ({
     hasEthernet,
     hasBT,
     cameraName,
+    has_psram,
     displayName,
     envName,
+    flash_mode,
+    filesystem,
+    resetmethod,
+    memory_type,
 }) => {
+    let res = "[env:" +
+    envName +
+    "]\n" +
+    sections[target].common +
+    partitionScheme(
+        target,
+        targetsize,
+        hasWifi,
+        hasEthernet,
+        hasBT,
+        cameraName
+    ) +
+    libIgnore({
+        target,
+        targetsize,
+        hasWifi,
+        hasEthernet,
+        hasBT,
+        cameraName,
+        displayName,
+    }) +
+    buildFlags({
+        target,
+        targetsize,
+        hasWifi,
+        hasEthernet,
+        hasBT,
+        has_psram,
+        displayName,
+    })
+    res = res.replace(/\$flash_mode/g, flash_mode)   
+    res = res.replace(/\$filesystem/g, filesystem)
+    res = res.replace(/\$resetmethod/g, resetmethod)
+    res = res.replace(/\$memory_type/g, memory_type)
+    
     return (
-        "[env:" +
-        envName +
-        "]\n" +
-        sections[target].common +
-        partitionScheme(
-            target,
-            targetsize,
-            hasWifi,
-            hasEthernet,
-            hasBT,
-            cameraName
-        ) +
-        libIgnore({
-            target,
-            targetsize,
-            hasWifi,
-            hasEthernet,
-            hasBT,
-            cameraName,
-            displayName,
-        }) +
-        buildFlags({
-            target,
-            targetsize,
-            hasWifi,
-            hasEthernet,
-            hasBT,
-            cameraName,
-            displayName,
-        })
+        res
     )
 }
 
@@ -393,7 +438,13 @@ const convertPioToText = () => {
     const hasEthernet = useDatasContextFn.getValueId("ethernet")
     const hasBT = useDatasContextFn.getValueId("bluetooth")
     const cameraName = useDatasContextFn.getValueId("cameratype")
+    const has_psram = useDatasContextFn.getValueId("has_psram")
     const displayName = useDatasContextFn.getValueId("displaytype")
+    const flash_mode = target=="esp8285" || target == "esp8266"?useDatasContextFn.getValueId("flash_mod1"):useDatasContextFn.getValueId("flash_mode")
+    const filesystem = useDatasContextFn.getValueId("flashFS")=="ESP_LITTLEFS_FILESYSTEM"?"littlefs":"fatfs"
+    const resetmethod = useDatasContextFn.getValueId("resetmethod")
+    const memory_type = useDatasContextFn.getValueId("memory_type")
+    console.log("filesystem", filesystem)
     let res = ""
     const envName = `${target}_${targetsize}MB${
         cameraName == "-1" ? "" : "_cam"
@@ -409,8 +460,13 @@ const convertPioToText = () => {
             hasEthernet,
             hasBT,
             cameraName,
+            has_psram,
             displayName,
             envName,
+            flash_mode,
+            filesystem,
+            resetmethod,
+            memory_type,
         })
     )
 }

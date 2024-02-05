@@ -100,7 +100,7 @@
                 },
                 {
                     "id": "memory_type",
-                    "define": "build.memory_type",
+                    "define": "board_build.arduino.memory_type",
                     "description": "Memory type",
                     "label": "Memory type",
                     "type": "select",

@@ -2075,7 +2075,53 @@
                     "value": false,
                     "disableiffalse": true,
                     "setting": true
+                },
+                {
+                    "id": "hook_ip",
+                    "label": "Enable hook when getting IP",
+                    "description": "Automaticaly launch script when get IP",
+                    "setting": true,
+                    "type": "boolean",
+                    "value": false,
+                    "disableiffalse": true
+                }, {
+                    "id": "get_ip_hook",
+                    "define": "ESP_GOT_IP_HOOK",
+                    "label": "Commands to run when got IP",
+                    "description": "Separate commands with ';'",
+                    "depend": {
+                        "id": "hook_ip",
+                        "value": [true]
+                    },
+                    "type": "text",
+                    "needquote": true,
+                    "value": "[ESP212]IP:%ESP_IP%",
+                    "setting": true
+                },
+                {
+                    "id": "hook_datetime",
+                    "label": "Enable hook when getting date/time",
+                    "description": "Automaticaly launch script when get date/time",
+                    "setting": true,
+                    "type": "boolean",
+                    "value": false,
+                    "disableiffalse": true
+                }, {
+                    "id": "get_datetime_hook",
+                    "define": "ESP_GOT_DATE_TIME_HOOK",
+                    "label": "Commands to run when got date/time",
+                    "description": "Separate commands with ';'",
+                    "depend": {
+                        "id": "hook_datetime",
+                        "value": [true]
+                    },
+                    "type": "text",
+                    "needquote": true,
+                    "value": "[ESP212]DATE:%ESP_DATETIME%",
+                    "disableiffalse": true,
+                    "setting": true
                 }
+               
             ]
         }
     ],

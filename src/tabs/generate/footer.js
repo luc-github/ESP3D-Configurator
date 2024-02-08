@@ -54,7 +54,7 @@ const footer =
 * Do not modify \n\
 ************************************/\n\
 \n\
-#if defined (SD_TIMESTAMP_FEATURE) || defined (FILESYSTEM_TIMESTAMP_FEATURE)\n\
+#if defined(ESP_GOT_DATE_TIME_HOOK) || defined (SD_TIMESTAMP_FEATURE) || defined (FILESYSTEM_TIMESTAMP_FEATURE)\n\
     #define TIMESTAMP_FEATURE\n\
 #endif //SD_TIMESTAMP_FEATURE || FILESYSTEM_TIMESTAMP_FEATURE \n\
 \n\

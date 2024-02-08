@@ -563,7 +563,7 @@ const convertToText = (data) => {
                                         : ""
                                 }` +
                                 (element.header ? element.header : "") +
-                                `#define ${element.define} ${element.value}\n`
+                                (element.define?`#define ${element.define} ${element.value}\n`:"")
                             )
                         } else if (element.type == "boolean") {
                             return (
@@ -571,9 +571,9 @@ const convertToText = (data) => {
                                 `\n// ${element.label}\n` +
                                 `// ${element.description}\n` +
                                 (element.header ? element.header : "") +
-                                `#define ${element.define} ${
+                                (element.define?`#define ${element.define} ${
                                     !element.disableiffalse ? element.value : ""
-                                }\n`
+                                }\n`:"")
                             )
                         } else if (
                             element.type == "text" ||

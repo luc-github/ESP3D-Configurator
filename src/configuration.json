@@ -112,6 +112,10 @@
                     "setting": false,
                     "options": [
                         {
+                            "label": "Dio Flash / Octal PSRAM",
+                            "value": "dio_opi"
+                        },
+                        {
                             "label": "Quad",
                             "value": "qio_qspi"
                         },

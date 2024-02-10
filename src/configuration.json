@@ -1285,7 +1285,8 @@
                     "ispin": true,
                     "usedefault": true,
                     "value": "-1",
-                    "depend": { "id": "sdfs", "value": ["ESP_SDIO"] },
+                    "depend": [{ "id": "sdfs", "value": ["ESP_SDIO"] },
+                               { "id": "sdio", "value": ["SD_FOUR_BIT_MODE"]}],
                     "setting": true,
                     "usedescforoptions": true
                 },
@@ -1298,7 +1299,8 @@
                     "ispin": true,
                     "usedefault": true,
                     "value": "-1",
-                    "depend": { "id": "sdfs", "value": ["ESP_SDIO"] },
+                    "depend": [{ "id": "sdfs", "value": ["ESP_SDIO"] },
+                               { "id": "sdio", "value": ["SD_FOUR_BIT_MODE"]}],
                     "setting": true,
                     "usedescforoptions": true
                 },
@@ -1311,7 +1313,8 @@
                     "ispin": true,
                     "usedefault": true,
                     "value": "-1",
-                    "depend": { "id": "sdfs", "value": ["ESP_SDIO"] },
+                    "depend": [{ "id": "sdfs", "value": ["ESP_SDIO"] },
+                               { "id": "sdio", "value": ["SD_FOUR_BIT_MODE"]}],
                     "setting": true,
                     "usedescforoptions": true
                 }

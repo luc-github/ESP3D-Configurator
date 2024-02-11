@@ -98,37 +98,7 @@
                         }
                     ]
                 },
-                {
-                    "id": "memory_type",
-                    "define": "board_build.arduino.memory_type",
-                    "description": "Memory type",
-                    "label": "Memory type",
-                    "type": "select",
-                    "value": "qio_qspi",
-                    "depend": {
-                        "id": "targetmcu",
-                        "value": ["esp32s3"]
-                    },
-                    "setting": false,
-                    "options": [
-                        {
-                            "label": "Dio Flash / Octal PSRAM",
-                            "value": "dio_opi"
-                        },
-                        {
-                            "label": "Quad",
-                            "value": "qio_qspi"
-                        },
-                        {
-                            "label": "Quad Flash/ Octal PSRAM",
-                            "value": "qio_opi"
-                        },
-                        {
-                            "label": "Octal",
-                            "value": "opi_opi"
-                        }
-                    ]
-                },
+                
                 {
                     "id": "flash_mod1",
                     "define": "flash_mode",
@@ -233,6 +203,43 @@
                     },
                     "value": false,
                     "setting": false
+                },
+                {
+                    "id": "memory_type",
+                    "define": "board_build.arduino.memory_type",
+                    "description": "Memory type",
+                    "label": "Memory type",
+                    "type": "select",
+                    "value": "qio_qspi",
+                    "depend": [
+                        {
+                        "id": "targetmcu",
+                        "value": ["esp32s3"]
+                        }, 
+                        {
+                        "id": "has_psram",
+                        "value": [true]
+                        }
+                    ],
+                    "setting": false,
+                    "options": [
+                        {
+                            "label": "Dio Flash / Octal PSRAM",
+                            "value": "dio_opi"
+                        },
+                        {
+                            "label": "Quad",
+                            "value": "qio_qspi"
+                        },
+                        {
+                            "label": "Quad Flash/ Octal PSRAM",
+                            "value": "qio_opi"
+                        },
+                        {
+                            "label": "Octal",
+                            "value": "opi_opi"
+                        }
+                    ]
                 }
             ]
         },
@@ -1922,6 +1929,14 @@
                         {
                             "label": "Espressif Camera",
                             "value": "CAMERA_MODEL_ESP32S3_CAM_LCD",
+                            "depend": {
+                                "id": "targetmcu",
+                                "value": ["esp32s3"]
+                            }
+                        },
+                        {
+                            "label": "Seeed Studio Xiao S3 Sense Camera",
+                            "value": "CAMERA_MODEL_XIAO_ESP32S3",
                             "depend": {
                                 "id": "targetmcu",
                                 "value": ["esp32s3"]

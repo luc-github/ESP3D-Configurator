@@ -1806,7 +1806,14 @@
                     "type": "select",
                     "ispin": true,
                     "value": "-1",
-                    "depend": { "id": "sensortype", "notvalue": ["-1"] },
+                    "depend": { 
+                        "id": "sensortype",
+                        "notvalue": [
+                            "-1",
+                            "BMP280_DEVICE", 
+                            "BME280_DEVICE"
+                            ] 
+                    },
                     "setting": true,
                     "usedescforoptions": true
                 },

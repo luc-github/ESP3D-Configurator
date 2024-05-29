@@ -1756,7 +1756,7 @@
                     "define": "SENSOR_ADDR",
                     "label": "Sensor i2C address",
                     "description": "Wire address of sensor",
-                    "needquote": true,
+                    "needquote": false,
                     "type": "text",
                     "value": "0x76",
                     "depend": {

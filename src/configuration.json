@@ -98,7 +98,7 @@
                         }
                     ]
                 },
-                
+
                 {
                     "id": "flash_mod1",
                     "define": "flash_mode",
@@ -177,17 +177,17 @@
                         {
                             "label": "ck",
                             "value": "ck",
-                            "help":"Need to manually set GPIO 0 to gnd"
+                            "help": "Need to manually set GPIO 0 to gnd"
                         },
                         {
                             "label": "nodemcu",
                             "value": "nodemcu",
-                            "help":"Automatically set GPIO 0 to gnd via 2 NPN transistors"
+                            "help": "Automatically set GPIO 0 to gnd via 2 NPN transistors"
                         },
                         {
                             "label": "wifio",
                             "value": "wifio",
-                            "help":"Automatically set GPIO 0 to gnd via TX and DTR controls"
+                            "help": "Automatically set GPIO 0 to gnd via TX and DTR controls"
                         }
                     ]
                 },
@@ -213,12 +213,12 @@
                     "value": "qio_qspi",
                     "depend": [
                         {
-                        "id": "targetmcu",
-                        "value": ["esp32s3"]
-                        }, 
+                            "id": "targetmcu",
+                            "value": ["esp32s3"]
+                        },
                         {
-                        "id": "has_psram",
-                        "value": [true]
+                            "id": "has_psram",
+                            "value": [true]
                         }
                     ],
                     "setting": false,
@@ -976,12 +976,7 @@
                             "help": "Only on ESP32 with large flash",
                             "depend": {
                                 "id": "targetmcu",
-                                "value": [
-                                    "esp32",
-                                    "esp32s2",
-                                    "esp32s3",
-                                    "esp32c3"
-                                ]
+                                "value": ["esp32", "esp32s2", "esp32s3", "esp32c3"]
                             }
                         }
                     ]
@@ -1062,12 +1057,7 @@
                             "help": "Used by SDMMC",
                             "depend": {
                                 "id": "targetmcu",
-                                "value": [
-                                    "esp32",
-                                    "esp32s2",
-                                    "esp32s3",
-                                    "esp32c3"
-                                ]
+                                "value": ["esp32", "esp32s2", "esp32s3", "esp32c3"]
                             }
                         }
                     ]
@@ -1211,7 +1201,7 @@
                     "value": "-1",
                     "depend": [
                         { "id": "sdfs", "notvalue": ["ESP_SDIO"] },
-                        { "id": "targetmcu", "notvalue": ["esp8266","esp8285"] }
+                        { "id": "targetmcu", "notvalue": ["esp8266", "esp8285"] }
                     ],
                     "setting": true,
                     "usedescforoptions": true
@@ -1227,7 +1217,7 @@
                     "value": "-1",
                     "depend": [
                         { "id": "sdfs", "notvalue": ["ESP_SDIO"] },
-                        { "id": "targetmcu", "notvalue": ["esp8266","esp8285"] }
+                        { "id": "targetmcu", "notvalue": ["esp8266", "esp8285"] }
                     ],
                     "setting": true,
                     "usedescforoptions": true
@@ -1243,7 +1233,7 @@
                     "value": "-1",
                     "depend": [
                         { "id": "sdfs", "notvalue": ["ESP_SDIO"] },
-                        { "id": "targetmcu", "notvalue": ["esp8266","esp8285"] }
+                        { "id": "targetmcu", "notvalue": ["esp8266", "esp8285"] }
                     ],
                     "setting": true,
                     "usedescforoptions": true
@@ -1296,8 +1286,10 @@
                     "ispin": true,
                     "usedefault": true,
                     "value": "-1",
-                    "depend": [{ "id": "sdfs", "value": ["ESP_SDIO"] },
-                               { "id": "sdio", "value": ["SD_FOUR_BIT_MODE"]}],
+                    "depend": [
+                        { "id": "sdfs", "value": ["ESP_SDIO"] },
+                        { "id": "sdio", "value": ["SD_FOUR_BIT_MODE"] }
+                    ],
                     "setting": true,
                     "usedescforoptions": true
                 },
@@ -1310,8 +1302,10 @@
                     "ispin": true,
                     "usedefault": true,
                     "value": "-1",
-                    "depend": [{ "id": "sdfs", "value": ["ESP_SDIO"] },
-                               { "id": "sdio", "value": ["SD_FOUR_BIT_MODE"]}],
+                    "depend": [
+                        { "id": "sdfs", "value": ["ESP_SDIO"] },
+                        { "id": "sdio", "value": ["SD_FOUR_BIT_MODE"] }
+                    ],
                     "setting": true,
                     "usedescforoptions": true
                 },
@@ -1324,8 +1318,10 @@
                     "ispin": true,
                     "usedefault": true,
                     "value": "-1",
-                    "depend": [{ "id": "sdfs", "value": ["ESP_SDIO"] },
-                               { "id": "sdio", "value": ["SD_FOUR_BIT_MODE"]}],
+                    "depend": [
+                        { "id": "sdfs", "value": ["ESP_SDIO"] },
+                        { "id": "sdio", "value": ["SD_FOUR_BIT_MODE"] }
+                    ],
                     "setting": true,
                     "usedescforoptions": true
                 }
@@ -1567,10 +1563,7 @@
                     "value": "0x3c",
                     "depend": {
                         "id": "displaytype",
-                        "value": [
-                            "OLED_I2C_SSD1306_128X64",
-                            "OLED_I2C_SSDSH1106_132X64"
-                        ]
+                        "value": ["OLED_I2C_SSD1306_128X64", "OLED_I2C_SSDSH1106_132X64"]
                     },
                     "setting": true
                 },
@@ -1584,10 +1577,7 @@
                     "value": "-1",
                     "depend": {
                         "id": "displaytype",
-                        "value": [
-                            "OLED_I2C_SSD1306_128X64",
-                            "OLED_I2C_SSDSH1106_132X64"
-                        ]
+                        "value": ["OLED_I2C_SSD1306_128X64", "OLED_I2C_SSDSH1106_132X64"]
                     },
                     "setting": true,
                     "usedescforoptions": true
@@ -1602,10 +1592,7 @@
                     "value": "-1",
                     "depend": {
                         "id": "displaytype",
-                        "value": [
-                            "TFT_SPI_ST7789_135X240",
-                            "TFT_SPI_ST7789_240X240"
-                        ]
+                        "value": ["TFT_SPI_ST7789_135X240", "TFT_SPI_ST7789_240X240"]
                     },
                     "setting": true,
                     "usedescforoptions": true
@@ -1620,10 +1607,7 @@
                     "value": "-1",
                     "depend": {
                         "id": "displaytype",
-                        "value": [
-                            "TFT_SPI_ST7789_135X240",
-                            "TFT_SPI_ST7789_240X240"
-                        ]
+                        "value": ["TFT_SPI_ST7789_135X240", "TFT_SPI_ST7789_240X240"]
                     },
                     "setting": true,
                     "usedescforoptions": true
@@ -1638,10 +1622,7 @@
                     "value": "-1",
                     "depend": {
                         "id": "displaytype",
-                        "value": [
-                            "TFT_SPI_ST7789_135X240",
-                            "TFT_SPI_ST7789_240X240"
-                        ]
+                        "value": ["TFT_SPI_ST7789_135X240", "TFT_SPI_ST7789_240X240"]
                     },
                     "setting": true,
                     "usedescforoptions": true
@@ -1657,10 +1638,7 @@
                     "value": "-1",
                     "depend": {
                         "id": "displaytype",
-                        "value": [
-                            "TFT_SPI_ST7789_135X240",
-                            "TFT_SPI_ST7789_240X240"
-                        ]
+                        "value": ["TFT_SPI_ST7789_135X240", "TFT_SPI_ST7789_240X240"]
                     },
                     "setting": true,
                     "usedescforoptions": true
@@ -1676,10 +1654,7 @@
                     "value": "-1",
                     "depend": {
                         "id": "displaytype",
-                        "value": [
-                            "TFT_SPI_ST7789_135X240",
-                            "TFT_SPI_ST7789_240X240"
-                        ]
+                        "value": ["TFT_SPI_ST7789_135X240", "TFT_SPI_ST7789_240X240"]
                     },
                     "setting": true,
                     "usedescforoptions": true
@@ -1695,10 +1670,7 @@
                     "value": "-1",
                     "depend": {
                         "id": "displaytype",
-                        "value": [
-                            "TFT_SPI_ST7789_135X240",
-                            "TFT_SPI_ST7789_240X240"
-                        ]
+                        "value": ["TFT_SPI_ST7789_135X240", "TFT_SPI_ST7789_240X240"]
                     },
                     "setting": true,
                     "usedescforoptions": true
@@ -1789,12 +1761,7 @@
                     "value": "0x76",
                     "depend": {
                         "id": "sensortype",
-                        "notvalue": [
-                            "-1",
-                            "ANALOG_DEVICE",
-                            "DHT11_DEVICE",
-                            "DHT22_DEVICE"
-                        ]
+                        "notvalue": ["-1", "ANALOG_DEVICE", "DHT11_DEVICE", "DHT22_DEVICE"]
                     },
                     "setting": true
                 },
@@ -1806,13 +1773,9 @@
                     "type": "select",
                     "ispin": true,
                     "value": "-1",
-                    "depend": { 
+                    "depend": {
                         "id": "sensortype",
-                        "notvalue": [
-                            "-1",
-                            "BMP280_DEVICE", 
-                            "BME280_DEVICE"
-                            ] 
+                        "notvalue": ["-1", "BMP280_DEVICE", "BME280_DEVICE"]
                     },
                     "setting": true,
                     "usedescforoptions": true
@@ -1869,7 +1832,7 @@
             "depend": [
                 { "id": "targetmcu", "value": ["esp32", "esp32s2", "esp32s3"] },
                 { "id": "formfactor", "notvalue": ["esp01"] },
-                {"id": "has_psram","value": [true] }
+                { "id": "has_psram", "value": [true] }
             ],
             "type": "group",
             "value": [
@@ -2113,7 +2076,8 @@
                     "type": "boolean",
                     "value": false,
                     "disableiffalse": true
-                }, {
+                },
+                {
                     "id": "get_ip_hook",
                     "define": "ESP_GOT_IP_HOOK",
                     "label": "Commands to run when got IP",
@@ -2135,7 +2099,8 @@
                     "type": "boolean",
                     "value": false,
                     "disableiffalse": true
-                }, {
+                },
+                {
                     "id": "get_datetime_hook",
                     "define": "ESP_GOT_DATE_TIME_HOOK",
                     "label": "Commands to run when got date/time",
@@ -2150,7 +2115,6 @@
                     "disableiffalse": true,
                     "setting": true
                 }
-               
             ]
         }
     ],

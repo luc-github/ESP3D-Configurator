@@ -25,10 +25,4 @@ import Input from "./Input"
 import Select from "./Select"
 import LabelCtrl from "./Label"
 
-export {
-    Boolean,
-    FormGroup,
-    Input,
-    Select,
-    LabelCtrl,
-}
+export { Boolean, FormGroup, Input, Select, LabelCtrl }

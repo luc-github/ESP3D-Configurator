@@ -85,19 +85,18 @@ const UiContextProvider = ({ children }) => {
         setModal([])
     }
 
-    useUiContextFn.getValue = (v)=>{console.log(v, "not found")}
-    useUiContextFn.getElement = (v)=>{console.log(v, "not found")}
-
+    useUiContextFn.getValue = (v) => {
+        console.log(v, "not found")
+    }
+    useUiContextFn.getElement = (v) => {
+        console.log(v, "not found")
+    }
 
     useUiContextFn.toasts = { addToast, removeToast, toastList: toasts }
 
-
-    useEffect(() => {
-
-    }, [])
+    useEffect(() => {}, [])
 
     const store = {
-
         toasts: { toastList: toasts, addToast, removeToast },
         modals: {
             modalList: modals,
@@ -106,7 +105,6 @@ const UiContextProvider = ({ children }) => {
             getModalIndex,
             clearModals,
         },
-
     }
 
     return <UiContext.Provider value={store}>{children}</UiContext.Provider>

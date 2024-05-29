@@ -32,23 +32,19 @@ import { HelpCircle, Layout } from "preact-feather"
  */
 
 const ViewContainer = () => {
-        return (
-            <Fragment>
-                <Menu />
-                <MainContainer />
-            </Fragment>
-        )
-    
+    return (
+        <Fragment>
+            <Menu />
+            <MainContainer />
+        </Fragment>
+    )
 }
 
 const ContentContainer = () => {
-
     const { toasts, modals } = useUiContext()
-
 
     useEffect(() => {
         //To init settings
-        
     }, [])
     return <ViewContainer />
 }

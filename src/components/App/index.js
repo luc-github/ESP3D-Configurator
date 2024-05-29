@@ -32,13 +32,13 @@ const App = () => {
     return (
         <div id="app">
             <DatasContextProvider>
-                    <RouterContextProvider>
-                        <UiContextProvider>
-                            <ToastsContainer />
-                            <Modal />
-                            <ContentContainer />
-                        </UiContextProvider>
-                    </RouterContextProvider>
+                <RouterContextProvider>
+                    <UiContextProvider>
+                        <ToastsContainer />
+                        <Modal />
+                        <ContentContainer />
+                    </UiContextProvider>
+                </RouterContextProvider>
             </DatasContextProvider>
         </div>
     )

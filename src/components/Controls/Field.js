@@ -18,14 +18,7 @@ Field.js - ESP3D WebUI component file
 */
 
 import { Fragment, h } from "preact"
-import {
-    FormGroup,
-    Input,
-    Select,
-    Boolean,
-    PickUp,
-    LabelCtrl,
-} from "./Fields"
+import { FormGroup, Input, Select, Boolean, PickUp, LabelCtrl } from "./Fields"
 
 const Field = (props) => {
     const { type, id } = props

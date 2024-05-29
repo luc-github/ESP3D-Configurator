@@ -93,7 +93,7 @@ const sections = {
             ";board_build.f_flash = 80000000L\n" +
             "board_build.flash_mode = $flash_mode\n" +
             "upload_speed = 460800\n" +
-            "extra_scripts = pre:platformIO/extra_script.py\n"+
+            "extra_scripts = pre:platformIO/extra_script.py\n" +
             "board_build.filesystem = $filesystem\n",
         build_flags: " -DCORE_DEBUG_LEVEL=0\n",
         defaultMosi: 23,
@@ -119,7 +119,7 @@ const sections = {
             "board_build.f_flash = 80000000L\n" +
             "board_build.flash_mode = $flash_mode\n" +
             "upload_speed = 460800\n" +
-            "extra_scripts = pre:platformIO/extra_script.py\n"+
+            "extra_scripts = pre:platformIO/extra_script.py\n" +
             "board_build.filesystem = $filesystem\n",
         build_flags:
             "\n     -DCORE_DEBUG_LEVEL=0\n    -DARDUINO_USB_CDC_ON_BOOT=0\n    -DARDUINO_USB_MSC_ON_BOOT=0\n    -DARDUINO_USB_DFU_ON_BOOT=0\n    -DCONFIG_IDF_TARGET_ESP32S2=1\n",
@@ -148,7 +148,7 @@ const sections = {
             "board_build.f_flash = 80000000L\n" +
             "board_build.flash_mode = $flash_mode\n" +
             "upload_speed = 460800\n" +
-            "extra_scripts = pre:platformIO/extra_script.py\n"+
+            "extra_scripts = pre:platformIO/extra_script.py\n" +
             "board_build.filesystem = $filesystem\n",
 
         build_flags:
@@ -177,7 +177,7 @@ const sections = {
             "board_build.f_flash = 80000000L\n" +
             "board_build.flash_mode = $flash_mode\n" +
             "upload_speed = 460800\n" +
-            "extra_scripts = pre:platformIO/extra_script.py\n"+
+            "extra_scripts = pre:platformIO/extra_script.py\n" +
             "board_build.filesystem = $filesystem\n",
         build_flags:
             " -DCORE_DEBUG_LEVEL=0\n    -DCONFIG_IDF_TARGET_ESP32C3=1\n",
@@ -204,7 +204,7 @@ const sections = {
             "board_build.flash_mode = $flash_mode\n" +
             "upload_resetmethod = $resetmethod\n" +
             "upload_speed = 115200\n" +
-            "extra_scripts = pre:platformIO/extra_script.py\n"+
+            "extra_scripts = pre:platformIO/extra_script.py\n" +
             "board_build.filesystem = $filesystem\n",
         build_flags:
             "\n    -D PIO_FRAMEWORK_ARDUINO_LWIP2_LOW_MEMORY\n    -DNONOSDK221=1\n    -DNDEBUG -DVTABLES_IN_FLASH\n    -DWAVEFORM_LOCKED_PWM\n",
@@ -231,7 +231,7 @@ const sections = {
             "board_build.flash_mode = $flash_mode\n" +
             "upload_resetmethod = $resetmethod\n" +
             "upload_speed = 115200\n" +
-            "extra_scripts = pre:platformIO/extra_script.py\n"+
+            "extra_scripts = pre:platformIO/extra_script.py\n" +
             "board_build.filesystem = $filesystem\n",
         build_flags:
             "\n    -D PIO_FRAMEWORK_ARDUINO_LWIP2_LOW_MEMORY\n    -DNONOSDK221=1\n    -DNDEBUG -DVTABLES_IN_FLASH\n    -DWAVEFORM_LOCKED_PWM\n",
@@ -241,8 +241,8 @@ const sections = {
         defaultCs: 15,
         defaultMiso: 12,
         defaultSda: 4,
-        defaultScl: 5
-    }
+        defaultScl: 5,
+    },
 }
 
 const libIgnore = ({
@@ -391,44 +391,43 @@ const convertToPioEnv = ({
     resetmethod,
     memory_type,
 }) => {
-    let res = "[env:" +
-    envName +
-    "]\n" +
-    sections[target].common +
-    partitionScheme(
-        target,
-        targetsize,
-        hasWifi,
-        hasEthernet,
-        hasBT,
-        cameraName
-    ) +
-    libIgnore({
-        target,
-        targetsize,
-        hasWifi,
-        hasEthernet,
-        hasBT,
-        cameraName,
-        displayName,
-    }) +
-    buildFlags({
-        target,
-        targetsize,
-        hasWifi,
-        hasEthernet,
-        hasBT,
-        has_psram,
-        displayName,
-    })
-    res = res.replace(/\$flash_mode/g, flash_mode)   
+    let res =
+        "[env:" +
+        envName +
+        "]\n" +
+        sections[target].common +
+        partitionScheme(
+            target,
+            targetsize,
+            hasWifi,
+            hasEthernet,
+            hasBT,
+            cameraName
+        ) +
+        libIgnore({
+            target,
+            targetsize,
+            hasWifi,
+            hasEthernet,
+            hasBT,
+            cameraName,
+            displayName,
+        }) +
+        buildFlags({
+            target,
+            targetsize,
+            hasWifi,
+            hasEthernet,
+            hasBT,
+            has_psram,
+            displayName,
+        })
+    res = res.replace(/\$flash_mode/g, flash_mode)
     res = res.replace(/\$filesystem/g, filesystem)
     res = res.replace(/\$resetmethod/g, resetmethod)
     res = res.replace(/\$memory_type/g, memory_type)
-    
-    return (
-        res
-    )
+
+    return res
 }
 
 const convertPioToText = () => {
@@ -440,8 +439,14 @@ const convertPioToText = () => {
     const cameraName = useDatasContextFn.getValueId("cameratype")
     const has_psram = useDatasContextFn.getValueId("has_psram")
     const displayName = useDatasContextFn.getValueId("displaytype")
-    const flash_mode = target=="esp8285" || target == "esp8266"?useDatasContextFn.getValueId("flash_mod1"):useDatasContextFn.getValueId("flash_mode")
-    const filesystem = useDatasContextFn.getValueId("flashFS")=="ESP_LITTLEFS_FILESYSTEM"?"littlefs":"fatfs"
+    const flash_mode =
+        target == "esp8285" || target == "esp8266"
+            ? useDatasContextFn.getValueId("flash_mod1")
+            : useDatasContextFn.getValueId("flash_mode")
+    const filesystem =
+        useDatasContextFn.getValueId("flashFS") == "ESP_LITTLEFS_FILESYSTEM"
+            ? "littlefs"
+            : "fatfs"
     const resetmethod = useDatasContextFn.getValueId("resetmethod")
     const memory_type = useDatasContextFn.getValueId("memory_type")
     console.log("filesystem", filesystem)
@@ -554,8 +559,8 @@ const convertToText = (data) => {
                                     help
                                         ? "// " + help + "\n"
                                         : label
-                                        ? "// " + label + "\n"
-                                        : ""
+                                          ? "// " + label + "\n"
+                                          : ""
                                 }` +
                                 `${
                                     element.usedescforoptions
@@ -563,7 +568,9 @@ const convertToText = (data) => {
                                         : ""
                                 }` +
                                 (element.header ? element.header : "") +
-                                (element.define?`#define ${element.define} ${element.value}\n`:"")
+                                (element.define
+                                    ? `#define ${element.define} ${element.value}\n`
+                                    : "")
                             )
                         } else if (element.type == "boolean") {
                             return (
@@ -571,9 +578,13 @@ const convertToText = (data) => {
                                 `\n// ${element.label}\n` +
                                 `// ${element.description}\n` +
                                 (element.header ? element.header : "") +
-                                (element.define?`#define ${element.define} ${
-                                    !element.disableiffalse ? element.value : ""
-                                }\n`:"")
+                                (element.define
+                                    ? `#define ${element.define} ${
+                                          !element.disableiffalse
+                                              ? element.value
+                                              : ""
+                                      }\n`
+                                    : "")
                             )
                         } else if (
                             element.type == "text" ||

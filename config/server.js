@@ -13,4 +13,3 @@ const serverpath = path.normalize(__dirname + "/../server/")
 
 app.listen(port, () => console.log("Devt server"))
 app.timeout = 2000
-

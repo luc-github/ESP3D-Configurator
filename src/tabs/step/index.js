@@ -218,23 +218,23 @@ const StepTab = ({ previous, current, next }) => {
                                                                   options
                                                               )
                                                         : subelement.isport
-                                                        ? subelement.usedefault
-                                                            ? JSON.parse(
-                                                                  JSON.stringify(
-                                                                      mergeListOptions(
-                                                                          portsList,
-                                                                          options
-                                                                      )
-                                                                  ).replaceAll(
-                                                                      "None",
-                                                                      "Default"
-                                                                  )
-                                                              )
-                                                            : mergeListOptions(
-                                                                  portsList,
-                                                                  options
-                                                              )
-                                                        : options
+                                                          ? subelement.usedefault
+                                                              ? JSON.parse(
+                                                                    JSON.stringify(
+                                                                        mergeListOptions(
+                                                                            portsList,
+                                                                            options
+                                                                        )
+                                                                    ).replaceAll(
+                                                                        "None",
+                                                                        "Default"
+                                                                    )
+                                                                )
+                                                              : mergeListOptions(
+                                                                    portsList,
+                                                                    options
+                                                                )
+                                                          : options
                                                 const filteredOptions =
                                                     optionsList
                                                         ? optionsList.filter(
@@ -252,8 +252,8 @@ const StepTab = ({ previous, current, next }) => {
                                                                       subelement.ispin
                                                                           ? usedPinsList
                                                                           : subelement.isport
-                                                                          ? usedPortsList
-                                                                          : null
+                                                                            ? usedPortsList
+                                                                            : null
                                                                   )
                                                               }
                                                           )

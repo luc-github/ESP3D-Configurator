@@ -22,10 +22,9 @@ import { h } from "preact"
 
 import { useState, useEffect, useRef } from "preact/hooks"
 import { Router } from "../components/Router"
-import { useUiContext} from "../contexts"
+import { useUiContext } from "../contexts"
 import About from "../pages/about"
 import Config from "../pages/config"
-
 
 import { FooterContainer } from "./footer"
 

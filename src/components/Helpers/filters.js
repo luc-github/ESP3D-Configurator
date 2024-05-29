@@ -30,8 +30,8 @@ const sortedFilesList = (filesList) => {
         return a.size == -1 && b.size != -1
             ? 1
             : a.size != -1 && b.size == -1
-            ? -1
-            : 0
+              ? -1
+              : 0
     })
     return filesList
 }

@@ -46,7 +46,6 @@ const Boolean = ({
         if (setValue) setValue(e.target.checked)
     }
 
-    
     useEffect(() => {
         //to update state
         if (setValue) setValue(null, true)

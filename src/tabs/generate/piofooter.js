@@ -18,6 +18,7 @@
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 import { h } from "preact"
-const piofooter = "\n\
+const piofooter =
+    "\n\
 "
 export default piofooter

@@ -87,9 +87,4 @@ const Modal = () => {
     )
 }
 
-export {
-    Modal,
-    showConfirmationModal,
-    showProgressModal,
-    showModal,
-}
+export { Modal, showConfirmationModal, showProgressModal, showModal }

@@ -50,8 +50,8 @@ const ButtonImg = ({
                             width
                                 ? `${showlow ? "" : "hide-low"}`
                                 : showlow
-                                ? ""
-                                : "hide-low"
+                                  ? ""
+                                  : "hide-low"
                         }
                         style={
                             "display:inline" +

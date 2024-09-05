@@ -9,7 +9,7 @@
         "value": "USE_SERIAL_1",
         "depend": {
             "id": "targetmcu",
-            "value": ["esp32", "esp32s2", "esp32s3", "esp32c3"]
+            "value": ["esp32", "esp32s2", "esp32s3", "esp32c3",  "esp32c6"]
         }
     },
     {

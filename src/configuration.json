@@ -39,6 +39,10 @@
                         {
                             "label": "ESP32-C3",
                             "value": "esp32c3"
+                        },
+                        {
+                            "label": "ESP32-C6",
+                            "value": "esp32c6"
                         }
                     ]
                 },
@@ -2066,7 +2070,8 @@
                     "type": "boolean",
                     "value": false,
                     "disableiffalse": true,
-                    "setting": true
+                    "setting": true,
+                    "depend": { "id": "targetmcu", "notvalue": ["esp8285", "esp8266"] }
                 },
                 {
                     "id": "hook_ip",

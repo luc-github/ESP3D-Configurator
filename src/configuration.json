@@ -512,6 +512,10 @@
                         {
                             "label": "KSZ8081",
                             "value": "TYPE_ETH_PHY_KSZ8081"
+                        },
+                        {
+                            "label": "W5500 (SPI)",
+                            "value": "TYPE_ETH_PHY_W5500"
                         }
                     ]
                 },
@@ -522,10 +526,16 @@
                     "description": "Mode used by clock",
                     "type": "select",
                     "value": "MODE_ETH_CLOCK_GPIO17_OUT",
-                    "depend": {
-                        "id": "ethernet",
-                        "value": "true"
-                    },
+                    "depend": [
+                        {
+                            "id": "ethernetboard",
+                            "notvalue": "TYPE_ETH_PHY_W5500"
+                        },
+                        {
+                            "id": "ethernet",
+                            "value": "true"
+                        }
+                    ],
                     "setting": true,
                     "usedescforoptions": true,
                     "options": [
@@ -700,10 +710,16 @@
                     "ispin": true,
                     "usedefault": true,
                     "value": "-1",
-                    "depend": {
-                        "id": "ethernet",
-                        "value": "true"
-                    },
+                    "depend": [
+                        {
+                            "id": "ethernetboard",
+                            "notvalue": "TYPE_ETH_PHY_W5500"
+                        },
+                        {
+                            "id": "ethernet",
+                            "value": "true"
+                        }
+                    ],
                     "setting": true,
                     "usedescforoptions": true
                 },
@@ -716,10 +732,16 @@
                     "ispin": true,
                     "usedefault": true,
                     "value": "-1",
-                    "depend": {
-                        "id": "ethernet",
-                        "value": "true"
-                    },
+                    "depend": [
+                        {
+                            "id": "ethernetboard",
+                            "notvalue": "TYPE_ETH_PHY_W5500"
+                        },
+                        {
+                            "id": "ethernet",
+                            "value": "true"
+                        }
+                    ],
                     "setting": true,
                     "usedescforoptions": true
                 },
@@ -732,10 +754,148 @@
                     "ispin": true,
                     "usedefault": true,
                     "value": "-1",
-                    "depend": {
-                        "id": "ethernet",
-                        "value": "true"
-                    },
+                    "depend": [
+                        {
+                            "id": "ethernetboard",
+                            "notvalue": "TYPE_ETH_PHY_W5500"
+                        },
+                        {
+                            "id": "ethernet",
+                            "value": "true"
+                        }
+                    ],
+                    "setting": true,
+                    "usedescforoptions": true
+                },
+                {
+                    "id": "ethernetspiirqpin",
+                    "define": "ETH_PHY_IRQ",
+                    "label": "Ethernet irq pin",
+                    "description": "The pin used for irq",
+                    "type": "select",
+                    "ispin": true,
+                    "usedefault": true,
+                    "value": "-1",
+                    "depend": [
+                        {
+                            "id": "ethernetboard",
+                            "value": "TYPE_ETH_PHY_W5500"
+                        },
+                        {
+                            "id": "ethernet",
+                            "value": "true"
+                        }
+                    ],
+                    "setting": true,
+                    "usedescforoptions": true
+                },
+                {
+                    "id": "ethernetspirstpin",
+                    "define": "ETH_PHY_RST",
+                    "label": "Ethernet reset pin",
+                    "description": "The pin used for reset",
+                    "type": "select",
+                    "ispin": true,
+                    "usedefault": true,
+                    "value": "-1",
+                    "depend": [
+                        {
+                            "id": "ethernetboard",
+                            "value": "TYPE_ETH_PHY_W5500"
+                        },
+                        {
+                            "id": "ethernet",
+                            "value": "true"
+                        }
+                    ],
+                    "setting": true,
+                    "usedescforoptions": true
+                },
+                {
+                    "id": "ethernetspicspin",
+                    "define": "ETH_PHY_CS",
+                    "label": "Ethernet SPI CS pin",
+                    "description": "The CS pin used by dedicated SPI ethernet",
+                    "type": "select",
+                    "ispin": true,
+                    "usedefault": true,
+                    "value": "-1",
+                    "depend": [
+                        {
+                            "id": "ethernetboard",
+                            "value": "TYPE_ETH_PHY_W5500"
+                        },
+                        {
+                            "id": "ethernet",
+                            "value": "true"
+                        }
+                    ],
+                    "setting": true,
+                    "usedescforoptions": true
+                },
+                {
+                    "id": "ethernetspimosipin",
+                    "define": "ETH_SPI_MOSI",
+                    "label": "Ethernet SPI MOSI pin",
+                    "description": "The MOSI pin used by dedicated SPI ethernet",
+                    "type": "select",
+                    "ispin": true,
+                    "usedefault": true,
+                    "value": "-1",
+                    "depend": [
+                        {
+                            "id": "ethernetboard",
+                            "value": "TYPE_ETH_PHY_W5500"
+                        },
+                        {
+                            "id": "ethernet",
+                            "value": "true"
+                        }
+                    ],
+                    "setting": true,
+                    "usedescforoptions": true
+                },
+                {
+                    "id": "ethernetspimisopin",
+                    "define": "ETH_SPI_MISO",
+                    "label": "Ethernet SPI MISO pin",
+                    "description": "The MISO pin used by dedicated SPI ethernet",
+                    "type": "select",
+                    "ispin": true,
+                    "usedefault": true,
+                    "value": "-1",
+                    "depend": [
+                        {
+                            "id": "ethernetboard",
+                            "value": "TYPE_ETH_PHY_W5500"
+                        },
+                        {
+                            "id": "ethernet",
+                            "value": "true"
+                        }
+                    ],
+                    "setting": true,
+                    "usedescforoptions": true
+                },
+                {
+                    "id": "ethernetspisckpin",
+                    "define": "ETH_SPI_SCK",
+                    "label": "Ethernet SPI SCK pin",
+                    "description": "The SCK pin used by dedicated SPI ethernet",
+                    "type": "select",
+                    "ispin": true,
+                    "usedefault": true,
+                    "value": "-1",
+                    "depend": [
+                        {
+                            "id": "ethernetboard",
+                            "value": "TYPE_ETH_PHY_W5500"
+                        },
+                        {
+                            "id": "ethernet",
+                            "value": "true"
+                        }
+                    ],
                     "setting": true,
                     "usedescforoptions": true
                 },

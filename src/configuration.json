@@ -812,6 +812,36 @@
                     "usedescforoptions": true
                 },
                 {
+                    "id": "ethernetspi",
+                    "define": "",
+                    "label": "Ethernet Dedicated SPI",
+                    "description": "SPI Used by Ethernet",
+                    "type": "select",
+                    "value": "ETHERNET_SPI_USE_SPI2",
+                    "depend": [
+                        {
+                            "id": "ethernetboard",
+                            "value": "TYPE_ETH_PHY_W5500"
+                        },
+                        {
+                            "id": "ethernet",
+                            "value": "true"
+                        }
+                    ],
+                    "setting": true,
+                    "usedescforoptions": true,
+                    "options": [
+                        {
+                            "label": "SPI",
+                            "value": "ETHERNET_SPI_USE_SPI"
+                        },
+                        {
+                            "label": "SPI2",
+                            "value": "ETHERNET_SPI_USE_SPI2"
+                        }
+                    ]
+                },
+                {
                     "id": "ethernetspicspin",
                     "define": "ETH_PHY_CS",
                     "label": "Ethernet SPI CS pin",
@@ -2320,20 +2350,6 @@
                             "value": "SETTINGS_IN_PREFERENCES"
                         }
                     ]
-                },
-                {
-                    "id": "serialTask",
-                    "define": "SERIAL_INDEPENDANT_TASK",
-                    "label": "Add serial task",
-                    "description": "ESP32 need to add a task to handle serial communication",
-                    "type": "boolean",
-                    "value": true,
-                    "setting": true,
-                    "disableiffalse": true,
-                    "depend": {
-                        "id": "targetmcu",
-                        "value": ["esp32", "esp32s3"]
-                    }
                 }
             ]
         }

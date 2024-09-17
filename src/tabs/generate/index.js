@@ -365,7 +365,7 @@ const partitionScheme = (
                 if (((hasWifi || hasEthernet) && hasBT) || cameraName != "-1") {
                     return "board_upload.flash_size = 4MB\nboard_build.partitions = min_spiffs.csv\n"
                 }
-                return "board_upload.flash_size = 4MB\nboard_build.partitions = default.csv\n"
+                return "board_upload.flash_size = 4MB\nboard_build.partitions = min_spiffs.csv\n"
             case "8":
                 return "board_upload.flash_size = 8MB\nboard_build.partitions = default_8MB.csv\n"
             case "16":

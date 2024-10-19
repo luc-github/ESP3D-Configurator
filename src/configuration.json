@@ -318,6 +318,20 @@
                     ]
                 },
                 {
+                    "id": "usbserial",
+                    "define": "USB_SERIAL_FEATURE",
+                    "label": "Use USB Serial",
+                    "description": "Enable USB serial OTG port",
+                    "type": "boolean",
+                    "depend": {
+                        "id": "targetmcu",
+                        "value": ["esp32s3", "esp32s2"]
+                    },
+                    "value": false,
+                    "disableiffalse": true,
+                    "setting": true
+                },
+                {
                     "id": "serialBridge",
                     "define": "SERIAL_BRIDGE_FEATURE",
                     "label": "Use serial bridge",

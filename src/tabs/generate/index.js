@@ -102,6 +102,7 @@ const sections = {
         defaultMiso: 19,
         defaultSda: 21,
         defaultScl: 22,
+        lib_ignore: "esp32-usb-serial\n",
     },
     esp32s2: {
         common:
@@ -123,7 +124,7 @@ const sections = {
             "board_build.filesystem = $filesystem\n",
         build_flags:
             "\n     -DCORE_DEBUG_LEVEL=0\n    -DARDUINO_USB_CDC_ON_BOOT=0\n    -DARDUINO_USB_MSC_ON_BOOT=0\n    -DARDUINO_USB_DFU_ON_BOOT=0\n    -DCONFIG_IDF_TARGET_ESP32S2=1\n",
-        lib_ignore: "TFT_eSPI\n",
+     //   lib_ignore: "esp32-usb-serial\n",
         defaultMosi: 35,
         defaultSck: 36,
         defaultCs: 34,
@@ -153,7 +154,7 @@ const sections = {
 
         build_flags:
             "\n    -DCORE_DEBUG_LEVEL=0\n    -DARDUINO_USB_CDC_ON_BOOT=0\n    -DARDUINO_USB_MSC_ON_BOOT=0\n    -DARDUINO_USB_DFU_ON_BOOT=0\n    -DCONFIG_IDF_TARGET_ESP32S3=1\n",
-        lib_ignore: "TFT_eSPI\n",
+        //lib_ignore: "TFT_eSPI\n",
         defaultMosi: 11,
         defaultSck: 12,
         defaultCs: 10,
@@ -181,7 +182,35 @@ const sections = {
             "board_build.filesystem = $filesystem\n",
         build_flags:
             " -DCORE_DEBUG_LEVEL=0\n    -DCONFIG_IDF_TARGET_ESP32C3=1\n",
-        lib_ignore: "TFT_eSPI\n",
+        lib_ignore: "esp32-usb-serial\n",
+        defaultMosi: 6,
+        defaultSck: 4,
+        defaultCs: 7,
+        defaultMiso: 5,
+        defaultSda: 8,
+        defaultScl: 9,
+    },
+    esp32c6: {
+        common:
+            "platform = espressif32@6.2.0\n" +
+            "board =  esp32-c6-devkitc-1\n" +
+            "framework = arduino\n" +
+            "board_build.mcu = esp32c6\n" +
+            "board_build.variant = esp32c6\n" +
+            "monitor_speed = 115200\n" +
+            "monitor_echo = yes\n" +
+            "monitor_filters = send_on_enter, colorize, esp32_exception_decoder\n" +
+            "; set frequency to 240MHz\n" +
+            "board_build.f_cpu = 240000000L\n" +
+            "; set frequency to 80MHz\n" +
+            "board_build.f_flash = 80000000L\n" +
+            "board_build.flash_mode = $flash_mode\n" +
+            "upload_speed = 460800\n" +
+            "extra_scripts = pre:platformIO/extra_script.py\n" +
+            "board_build.filesystem = $filesystem\n",
+        build_flags:
+            " -DCORE_DEBUG_LEVEL=0\n    -DCONFIG_IDF_TARGET_ESP32C6=1\n",
+        lib_ignore: "esp32-usb-serial\n",
         defaultMosi: 6,
         defaultSck: 4,
         defaultCs: 7,
@@ -208,7 +237,7 @@ const sections = {
             "board_build.filesystem = $filesystem\n",
         build_flags:
             "\n    -D PIO_FRAMEWORK_ARDUINO_LWIP2_LOW_MEMORY\n    -DNONOSDK221=1\n    -DNDEBUG -DVTABLES_IN_FLASH\n    -DWAVEFORM_LOCKED_PWM\n",
-        lib_ignore: "ESP32SSDP",
+        lib_ignore: "\n\tESP32SSDP\n\tesp32-usb-serial\n",
         defaultMosi: 13,
         defaultSck: 14,
         defaultCs: 15,
@@ -235,7 +264,7 @@ const sections = {
             "board_build.filesystem = $filesystem\n",
         build_flags:
             "\n    -D PIO_FRAMEWORK_ARDUINO_LWIP2_LOW_MEMORY\n    -DNONOSDK221=1\n    -DNDEBUG -DVTABLES_IN_FLASH\n    -DWAVEFORM_LOCKED_PWM\n",
-        lib_ignore: "ESP32SSDP",
+        lib_ignore: "\n\tESP32SSDP\n\tesp32-usb-serial\n",
         defaultMosi: 13,
         defaultSck: 14,
         defaultCs: 15,

@@ -1226,7 +1226,7 @@
                         },
                         {
                             "label": "Direct connection",
-                            "value": "ESP_DIRECT_SD",
+                            "value": "ESP_NOT_SHARED_SD",
                             "help": "Only your ESP board is connected to SDCard"
                         },
                         {
@@ -1245,7 +1245,7 @@
                     "value": "ESP_SDFAT2",
                     "depend": {
                         "id": "sdconnection",
-                        "value": ["ESP_SHARED_SD", "ESP_DIRECT_SD"]
+                        "value": ["ESP_SHARED_SD", "ESP_NOT_SHARED_SD"]
                     },
                     "setting": true,
                     "options": [
@@ -1310,7 +1310,7 @@
             "type": "group",
             "depend": {
                 "id": "sdconnection",
-                "value": ["ESP_SHARED_SD", "ESP_DIRECT_SD"]
+                "value": ["ESP_SHARED_SD", "ESP_NOT_SHARED_SD"]
             },
             "value": [
                 {
@@ -1323,7 +1323,7 @@
                     "value": "-1",
                     "depend": {
                         "id": "sdconnection",
-                        "value": ["ESP_SHARED_SD", "ESP_DIRECT_SD"]
+                        "value": ["ESP_SHARED_SD", "ESP_NOT_SHARED_SD"]
                     },
                     "setting": true,
                     "usedescforoptions": true

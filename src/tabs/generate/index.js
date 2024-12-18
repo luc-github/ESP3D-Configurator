@@ -81,7 +81,7 @@ const pioFile = () => {
 const sections = {
     esp32: {
         common:
-            "platform = espressif32@6.2.0\n" +
+            "platform = https://github.com/pioarduino/platform-espressif32/releases/download/51.03.04/platform-espressif32.zip\n" +
             "board = esp32dev\n" +
             "framework = arduino\n" +
             "monitor_speed = 115200\n" +
@@ -106,7 +106,7 @@ const sections = {
     },
     esp32s2: {
         common:
-            "platform = espressif32@6.2.0\n" +
+            "platform = https://github.com/pioarduino/platform-espressif32/releases/download/51.03.04/platform-espressif32.zip\n" +
             "board = esp32-s2-saola-1\n" +
             "framework = arduino\n" +
             "board_build.mcu = esp32s2\n" +
@@ -134,7 +134,7 @@ const sections = {
     },
     esp32s3: {
         common:
-            "platform = espressif32@6.2.0\n" +
+            "platform = https://github.com/pioarduino/platform-espressif32/releases/download/51.03.04/platform-espressif32.zip\n" +
             "board = esp32-s3-devkitc-1\n" +
             "framework = arduino\n" +
             "board_build.mcu = esp32s3\n" +
@@ -164,7 +164,7 @@ const sections = {
     },
     esp32c3: {
         common:
-            "platform = espressif32@6.2.0\n" +
+            "platform = https://github.com/pioarduino/platform-espressif32/releases/download/51.03.04/platform-espressif32.zip\n" +
             "board =  esp32-c3-devkitm-1\n" +
             "framework = arduino\n" +
             "board_build.mcu = esp32c3\n" +
@@ -192,7 +192,7 @@ const sections = {
     },
     esp32c6: {
         common:
-            "platform = espressif32@6.2.0\n" +
+            "platform = https://github.com/pioarduino/platform-espressif32/releases/download/51.03.04/platform-espressif32.zip\n" +
             "board =  esp32-c6-devkitc-1\n" +
             "framework = arduino\n" +
             "board_build.mcu = esp32c6\n" +

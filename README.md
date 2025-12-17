@@ -16,7 +16,10 @@ It use same element as ESP3D-WebUI to save development time (yeah I am super laz
 
 It should be something similar to https://www.repetier.com/firmware/v100/index.php but in one static page so it should work online hosted by github or offline on user PC
 
-Status : Beta
+> [!WARNING]
+>### Disclaimer
+> The software is provided 'as is,' without any warranty of any kind, expressed or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and non-infringement. In no event shall the authors or copyright holders be liable for any claim, damages, or other liability, whether in an action of contract, tort, or otherwise, arising from, out of, or in connection with the software or the use or other dealings in the software.
+>It is essential that you carefully read and understand this disclaimer before using this software and its components. If you do not agree with any part of this disclaimer, please refrain from using the software.  
 
 The configurator is available [here](https://luc-github.github.io/)
 

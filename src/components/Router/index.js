@@ -146,29 +146,24 @@ const Link = ({
     ...rest
 }) => {
     const { activeRoute } = useRouterContext()
-    const [mergedClassName, setMergedClassName] = useState()
-
-    useEffect(() => {
-        const route = window.location.hash.slice(1).toLowerCase()
-        if (
-            (activeRoute == "/config" && href == route) ||
-            (route.startsWith("/config") && href == "/config")
-        ) {
-            setMergedClassName(`${className} ${activeClassName}`)
-        } else
-            setMergedClassName(
-                activeRoute === href
-                    ? `${className} ${activeClassName}`
-                    : className
-            )
-    }, [activeRoute])
+    const route =
+        typeof window !== "undefined"
+            ? window.location.hash.slice(1).toLowerCase()
+            : ""
+    let mergedClassName = className
+    if (
+        (activeRoute == "/config" && href == route) ||
+        (route.startsWith("/config") && href == "/config")
+    ) {
+        mergedClassName = `${className} ${activeClassName}`
+    } else if (activeRoute === href) {
+        mergedClassName = `${className} ${activeClassName}`
+    }
 
     return (
-        mergedClassName && (
-            <a href={`#${href}`} className={mergedClassName} {...rest}>
-                {children}
-            </a>
-        )
+        <a href={`#${href}`} className={mergedClassName} {...rest}>
+            {children}
+        </a>
     )
 }
 

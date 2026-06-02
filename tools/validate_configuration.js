@@ -96,17 +96,63 @@ for (const dep of depends) {
     }
 }
 
-// Sections referenced by UI should have a matching JSON file
+// Sections referenced by UI should have a matching JSON file and index export
 const stepsPath = path.join(__dirname, "..", "src", "pages", "config", "steps.js")
+const indexPath = path.join(__dirname, "..", "src", "configuration", "index.js")
 const stepsSource = fs.readFileSync(stepsPath, "utf8")
+const indexSource = fs.readFileSync(indexPath, "utf8")
 const sectionMatches = [...stepsSource.matchAll(/section:\s*"([^"]+)"/g)].map(
     (m) => m[1]
 )
+const indexSections = [
+    ...indexSource.matchAll(/^\s+(\w+):\s+\w+Configuration/gm),
+].map((m) => m[1])
+
 for (const section of sectionMatches) {
     if (section === "generate") continue
-    const expected = `${section}.json`
-    if (!jsonFiles.includes(expected) && section !== "default") {
+    const expected = section === "default" ? "defaults.json" : `${section}.json`
+    if (!jsonFiles.includes(expected)) {
         warnings.push(`configTabs section "${section}" has no ${expected}`)
+    }
+    if (!indexSections.includes(section)) {
+        errors.push(
+            `configTabs section "${section}" is missing from configuration/index.js`
+        )
+    }
+}
+
+if (!indexSections.includes("default")) {
+    errors.push('configuration/index.js must export a "default" section')
+}
+
+const mcuDefaultsPath = path.join(
+    __dirname,
+    "..",
+    "src",
+    "configuration",
+    "mcuPinDefaults.js"
+)
+const mcuSource = fs.readFileSync(mcuDefaultsPath, "utf8")
+const mcuKeys = [
+    ...mcuSource.matchAll(/^\s+(esp32\w*|esp8266|esp8285):\s*\{/gm),
+].map((m) => m[1])
+const generatePath = path.join(
+    __dirname,
+    "..",
+    "src",
+    "tabs",
+    "generate",
+    "index.js"
+)
+const generateSource = fs.readFileSync(generatePath, "utf8")
+for (const mcu of mcuKeys) {
+    if (!generateSource.includes(`${mcu}:`)) {
+        warnings.push(`mcuPinDefaults "${mcu}" has no matching section in generate/index.js`)
+    }
+    if (!generateSource.includes(`mcuPinDefaults.${mcu}`)) {
+        warnings.push(
+            `generate/index.js should spread mcuPinDefaults.${mcu} (single source for default GPIO)`
+        )
     }
 }
 

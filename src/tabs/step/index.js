@@ -30,25 +30,14 @@ import {
     useDatasContext,
     useDatasContextFn,
 } from "../../contexts"
+import { canShowField } from "../../configuration/visibility"
+import { validateField } from "../../configuration/validateField"
+import { buildReservedLists } from "../../configuration/reservedResources"
+import { resolveEffectivePin } from "../../configuration/pinConflicts"
 import { ArrowLeft, ArrowRight } from "preact-feather"
 
 import pinsList from "./pins.json"
 import portsList from "./ports.json"
-
-const usedPinsList = {}
-usedPinsList.current = []
-
-const usedPortsList = {}
-usedPortsList.current = ["USE_SERIAL_0"]
-
-const removeUsedElement = (el, list) => {
-    if (el == "-1") return
-    list.current = list.current.filter((element) => element != el)
-}
-const addUsedElement = (el, list) => {
-    if (el == "-1") return
-    list.current.push(el)
-}
 
 const mergeListOptions = (list, options) => {
     if (list) {
@@ -108,40 +97,26 @@ const getOptionsList = (subelement, options) => {
     return options
 }
 
-const canshow = (depend, value, currentvalue, list = usedPinsList) => {
-    if (value && value != "-1") {
-        if (value == currentvalue && canshow(depend)) {
-            return true
-        }
-        if (list.current.includes(value)) {
-            return false
-        }
+const annotateDefaultPinLabels = (subelement, optionsList) => {
+    if (!optionsList || !subelement.ispin || !subelement.usedefault) {
+        return optionsList
     }
-    if (depend) {
-        if (Array.isArray(depend)) {
-            const res = depend.reduce((acc, curdep) => {
-                if (!acc) return acc
-                const val = useDatasContextFn.getValueId(curdep.id)
-                if (curdep.value) {
-                    return curdep.value.includes(val)
-                }
-                if (curdep.notvalue) {
-                    return !curdep.notvalue.includes(val)
-                }
-            }, true)
-            return res
-        } else {
-            const val = useDatasContextFn.getValueId(depend.id)
-            if (depend.value) {
-                return depend.value.includes(val)
-            }
-            if (depend.notvalue) {
-                return !depend.notvalue.includes(val)
-            }
-        }
-    }
-    return true
+    const effective = resolveEffectivePin(
+        { ...subelement, value: "-1" },
+        useDatasContextFn.getValueId
+    )
+    if (!effective) return optionsList
+    return optionsList.map((opt) =>
+        opt.value == "-1" ? { ...opt, label: `-1 (${effective})` } : opt
+    )
 }
+
+const canshow = (depend, value, currentvalue, list) =>
+    canShowField(depend, useDatasContextFn.getValueId, {
+        resourceValue: value,
+        currentResourceValue: currentvalue,
+        reservedList: list,
+    })
 
 const NavButtons = ({ previous, next }) => {
     return (
@@ -176,24 +151,36 @@ const NavButtons = ({ previous, next }) => {
     )
 }
 
-const StepField = ({ subelement, current, generateValidation }) => {
+const StepField = ({
+    subelement,
+    current,
+    configuration,
+    generateValidation,
+    onFieldChange,
+}) => {
     if (!canshow(subelement.depend)) return null
+    const reserved = buildReservedLists(
+        configuration,
+        useDatasContextFn.getValueId,
+        subelement.id
+    )
+    const pinList = { current: reserved.pins }
+    const portList = { current: reserved.ports }
     if (typeof subelement.initial === "undefined") {
         subelement.initial = subelement.value
     }
     const { label, initial, type, options, value, ...rest } = subelement
-    const optionsList = getOptionsList(subelement, options)
+    const optionsList = annotateDefaultPinLabels(
+        subelement,
+        getOptionsList(subelement, options)
+    )
     const filteredOptions = optionsList
         ? optionsList.filter((opt) => {
               return canshow(
                   opt.depend,
                   subelement.ispin || subelement.isport ? opt.value : null,
                   subelement.ispin || subelement.isport ? subelement.value : null,
-                  subelement.ispin
-                      ? usedPinsList
-                      : subelement.isport
-                        ? usedPortsList
-                        : null
+                  subelement.ispin ? pinList : subelement.isport ? portList : null
               )
           })
         : null
@@ -201,13 +188,8 @@ const StepField = ({ subelement, current, generateValidation }) => {
         filteredOptions &&
         filteredOptions.findIndex((op) => op.value == subelement.value) == -1
     ) {
-        if (subelement.ispin || subelement.isport) {
-            removeUsedElement(
-                subelement.value,
-                subelement.ispin ? usedPinsList : usedPortsList
-            )
-        }
         subelement.value = filteredOptions[0].value
+        onFieldChange()
     }
     const [help, setHelp] = useState(
         subelement.options
@@ -235,17 +217,8 @@ const StepField = ({ subelement, current, generateValidation }) => {
                 validationfn={generateValidation}
                 setValue={(val, update = false) => {
                     if (!update) {
-                        if (subelement.ispin || subelement.isport) {
-                            removeUsedElement(
-                                subelement.value,
-                                subelement.ispin ? usedPinsList : usedPortsList
-                            )
-                            addUsedElement(
-                                val,
-                                subelement.ispin ? usedPinsList : usedPortsList
-                            )
-                        }
                         subelement.value = val
+                        onFieldChange()
                         setHelp(
                             options
                                 ? getHelp(optionsList, val)
@@ -267,18 +240,23 @@ const StepField = ({ subelement, current, generateValidation }) => {
 
 const StepTab = ({ previous, current, next }) => {
     const { configuration } = useDatasContext()
-    const generateValidation = (fieldData) => {
-        const validation = {
-            message: "",
-            valid: true,
-            modified: false,
-        }
-        return validation
+    const [reserveVersion, setReserveVersion] = useState(0)
+    const bumpFieldTree = () => {
+        setReserveVersion((version) => version + 1)
     }
+    const generateValidation = (fieldData) =>
+        validateField(
+            fieldData,
+            useDatasContextFn.getValueId,
+            configuration.current
+        )
     const [isLoading, setIsLoading] = useState(true)
     useEffect(() => {
         setIsLoading(false)
     }, [])
+    useEffect(() => {
+        bumpFieldTree()
+    }, [current])
     return (
         <div id={current} class="m-2">
             {isLoading && <Loading large />}
@@ -292,16 +270,18 @@ const StepTab = ({ previous, current, next }) => {
 
                                 return (
                                     <FieldGroup
-                                        key={element.id}
+                                        key={`${element.id}-${reserveVersion}`}
                                         id={element.id}
                                         label={T(element.label)}
                                     >
                                         {element.value.map((subelement, subindex) => (
                                             <StepField
-                                                key={`${element.id}-${subindex}-${subelement.id || "field"}`}
+                                                key={`${element.id}-${subindex}-${subelement.id || "field"}-${reserveVersion}`}
                                                 subelement={subelement}
                                                 current={current}
+                                                configuration={configuration.current}
                                                 generateValidation={generateValidation}
+                                                onFieldChange={bumpFieldTree}
                                             />
                                         ))}
                                     </FieldGroup>

@@ -10,6 +10,11 @@ Configuration is split per tab under `src/configuration/` (one JSON file per wiz
 src/
   configuration/
     index.js                 # Aggregates all tab sections into one object
+    visibility.js            # Shared depend / visibility rules (UI + generate)
+    mcuPinDefaults.js        # MCU default GPIO for SPI when pin = Default (-1)
+    pinConflicts.js          # Resolve effective GPIO + conflict audit
+    validateField.js         # Per-field validation in step tabs
+    reservedResources.js     # Cross-tab pin/port reservation lists
     tabs/
       features.json          # Tab data (array of groups)
       features.js            # import ... from "./features.json"
@@ -125,7 +130,17 @@ For string defines in `depend.value`, use the same quoting as in `value` (e.g. `
 
 ### Pin and port allocation
 
-When `ispin` or `isport` is set, the step UI tracks used pins/ports globally so the same resource is not selected twice. Lists come from:
+When `ispin` or `isport` is set, the step UI tracks used pins/ports **across all tabs** (not only the current step). Lists come from:
+
+- `reservedResources.js` — explicit GPIO values plus **resolved** defaults (see below)
+- **Download** tab — `auditPinConflicts()` lists any GPIO still shared after resolution; while conflicts remain, **configuration.h** / **platformio.ini** downloads and file previews are hidden
+
+**Default pins (`value: "-1"` + `usedefault: true`)**  
+For shared SPI signals (MOSI/MISO/SCK/CS), `-1` is resolved to the MCU defaults in `mcuPinDefaults.js` (same numbers as `platformio.ini` / TFT build flags). In the UI, the default option is shown as `-1 (5)` (GPIO number for the selected MCU). Example: on ESP32, SD CS Default and TFT CS Default both resolve to GPIO 5 → reported as a conflict.
+
+Field ids mapped to defaults are listed in `defaultPinRoles` inside `mcuPinDefaults.js`. Other `-1` pins (optional / board-specific) are not resolved and do not participate in this check.
+
+Pin/port pick lists:
 
 - `src/tabs/step/pins.json`
 - `src/tabs/step/ports.json`
@@ -152,3 +167,7 @@ Settings in the `default` section are included in `configuration.h` even without
 2. Set `define`, `type`, `value`, `setting`, and `depend` if needed.
 3. Rebuild and test the tab in the UI and on Download (preview + download).
 4. Confirm the matching define exists in [ESP3D](https://github.com/luc-github/ESP3D) firmware.
+
+## Planned (not implemented)
+
+- **Immutable configuration state** — field values are still updated in place on the loaded JSON (`subelement.value = …`). A future refactor would use immutable updates for clearer React updates, undo, and tests.

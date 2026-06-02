@@ -33,6 +33,9 @@ import footer from "./footer"
 import piofooter from "./piofooter"
 import { Version } from "../../components/App/version"
 import { useEffect, useState } from "preact/hooks"
+import { canShowField } from "../../configuration/visibility"
+import { auditPinConflicts } from "../../configuration/pinConflicts"
+import { mcuPinDefaults } from "../../configuration/mcuPinDefaults"
 const pioIcon = (
     <svg
         width="24"
@@ -96,13 +99,8 @@ const sections = {
             "extra_scripts = pre:platformIO/extra_script.py\n" +
             "board_build.filesystem = $filesystem\n",
         build_flags: " -DCORE_DEBUG_LEVEL=0\n",
-        defaultMosi: 23,
-        defaultSck: 18,
-        defaultCs: 5,
-        defaultMiso: 19,
-        defaultSda: 21,
-        defaultScl: 22,
         lib_ignore: "esp32-usb-serial\n",
+        ...mcuPinDefaults.esp32,
     },
     esp32s2: {
         common:
@@ -125,12 +123,7 @@ const sections = {
         build_flags:
             "\n     -DCORE_DEBUG_LEVEL=0\n    -DARDUINO_USB_CDC_ON_BOOT=0\n    -DARDUINO_USB_MSC_ON_BOOT=0\n    -DARDUINO_USB_DFU_ON_BOOT=0\n    -DCONFIG_IDF_TARGET_ESP32S2=1\n",
      //   lib_ignore: "esp32-usb-serial\n",
-        defaultMosi: 35,
-        defaultSck: 36,
-        defaultCs: 34,
-        defaultMiso: 37,
-        defaultSda: 8,
-        defaultScl: 9,
+        ...mcuPinDefaults.esp32s2,
     },
     esp32s3: {
         common:
@@ -155,12 +148,7 @@ const sections = {
         build_flags:
             "\n    -DCORE_DEBUG_LEVEL=0\n    -DARDUINO_USB_CDC_ON_BOOT=0\n    -DARDUINO_USB_MSC_ON_BOOT=0\n    -DARDUINO_USB_DFU_ON_BOOT=0\n    -DCONFIG_IDF_TARGET_ESP32S3=1\n",
         //lib_ignore: "TFT_eSPI\n",
-        defaultMosi: 11,
-        defaultSck: 12,
-        defaultCs: 10,
-        defaultMiso: 13,
-        defaultSda: 8,
-        defaultScl: 9,
+        ...mcuPinDefaults.esp32s3,
     },
     esp32c3: {
         common:
@@ -183,12 +171,7 @@ const sections = {
         build_flags:
             " -DCORE_DEBUG_LEVEL=0\n    -DCONFIG_IDF_TARGET_ESP32C3=1\n",
         lib_ignore: "esp32-usb-serial\n",
-        defaultMosi: 6,
-        defaultSck: 4,
-        defaultCs: 7,
-        defaultMiso: 5,
-        defaultSda: 8,
-        defaultScl: 9,
+        ...mcuPinDefaults.esp32c3,
     },
     esp32c6: {
         common:
@@ -211,12 +194,7 @@ const sections = {
         build_flags:
             " -DCORE_DEBUG_LEVEL=0\n    -DCONFIG_IDF_TARGET_ESP32C6=1\n",
         lib_ignore: "esp32-usb-serial\n",
-        defaultMosi: 6,
-        defaultSck: 4,
-        defaultCs: 7,
-        defaultMiso: 5,
-        defaultSda: 8,
-        defaultScl: 9,
+        ...mcuPinDefaults.esp32c6,
     },
     esp8266: {
         common:
@@ -238,12 +216,7 @@ const sections = {
         build_flags:
             "\n    -D PIO_FRAMEWORK_ARDUINO_LWIP2_LOW_MEMORY\n    -DNONOSDK221=1\n    -DNDEBUG -DVTABLES_IN_FLASH\n    -DWAVEFORM_LOCKED_PWM\n",
         lib_ignore: "\n\tESP32SSDP\n\tesp32-usb-serial\n",
-        defaultMosi: 13,
-        defaultSck: 14,
-        defaultCs: 15,
-        defaultMiso: 12,
-        defaultSda: 4,
-        defaultScl: 5,
+        ...mcuPinDefaults.esp8266,
     },
     esp8285: {
         common:
@@ -265,12 +238,7 @@ const sections = {
         build_flags:
             "\n    -D PIO_FRAMEWORK_ARDUINO_LWIP2_LOW_MEMORY\n    -DNONOSDK221=1\n    -DNDEBUG -DVTABLES_IN_FLASH\n    -DWAVEFORM_LOCKED_PWM\n",
         lib_ignore: "\n\tESP32SSDP\n\tesp32-usb-serial\n",
-        defaultMosi: 13,
-        defaultSck: 14,
-        defaultCs: 15,
-        defaultMiso: 12,
-        defaultSda: 4,
-        defaultScl: 5,
+        ...mcuPinDefaults.esp8285,
     },
 }
 
@@ -478,7 +446,6 @@ const convertPioToText = () => {
             : "fatfs"
     const resetmethod = useDatasContextFn.getValueId("resetmethod")
     const memory_type = useDatasContextFn.getValueId("memory_type")
-    console.log("filesystem", filesystem)
     let res = ""
     const envName = `${target}_${targetsize}MB${
         cameraName == "-1" ? "" : "_cam"
@@ -529,39 +496,10 @@ const getHelp = (item, value) => {
     return null
 }
 
-const canshow = (depend, pinvalue, currentvalue) => {
-    if (pinvalue && pinvalue != "-1") {
-        if (pinvalue == currentvalue && canshow(depend)) return true
-        if (usedPinsList.current.includes(pinvalue)) return false
-    }
-    if (depend) {
-        if (Array.isArray(depend)) {
-            const res = depend.reduce((acc, curdep) => {
-                if (!acc) return acc
-                const val = useDatasContextFn.getValueId(curdep.id)
-                if (curdep.value) {
-                    return curdep.value.includes(val)
-                }
-                if (curdep.notvalue) {
-                    return !curdep.notvalue.includes(val)
-                }
-            }, true)
-            return res
-        } else {
-            const val = useDatasContextFn.getValueId(depend.id)
-            if (depend.value) {
-                return depend.value.includes(val)
-            }
-            if (depend.notvalue) {
-                return !depend.notvalue.includes(val)
-            }
-        }
-    }
-    return true
-}
+const canshow = (depend) =>
+    canShowField(depend, useDatasContextFn.getValueId)
 
 const convertToText = (data) => {
-    //console.log(data)
     let config = ""
     return Object.keys(data).reduce((acc, item) => {
         return data[item].reduce((acc2, item2) => {
@@ -631,15 +569,9 @@ const convertToText = (data) => {
                                 }\n`
                             )
                         } else {
-                            console.log(
-                                "unknown type",
-                                element.type,
-                                " for ",
-                                element
-                            )
                             return (
                                 acc3 +
-                                `\n// Unknow parameter: ${element.label}\n` +
+                                `\n// Unknown parameter: ${element.label}\n` +
                                 `// ${element.description}\n`
                             )
                         }
@@ -659,8 +591,6 @@ const convertToText = (data) => {
                     : acc2 +
                           sectionFormated(item2.label, item2.description) +
                           content
-            } else {
-                console.log("Group definition is missing for " + item2.label)
             }
         }, acc)
     }, config)
@@ -691,10 +621,11 @@ const exportFile = (filecontent, filename) => {
 let showconfig = false
 let showini = false
 
-const NavButtons = ({ previous, next }) => {
+const NavButtons = ({ previous, next, pinConflicts = [] }) => {
     const { configuration } = useDatasContext()
+    const downloadBlocked = pinConflicts.length > 0
     return (
-        <div style="display:flex;justify-content:space-around">
+        <div style="display:flex;justify-content:space-around;flex-wrap:wrap">
             {previous && (
                 <ButtonImg
                     m2
@@ -711,7 +642,10 @@ const NavButtons = ({ previous, next }) => {
                 m2
                 icon={<Save />}
                 label={T("Download configuration.h")}
+                disable={downloadBlocked}
+                disabled={downloadBlocked}
                 onclick={() => {
+                    if (downloadBlocked) return
                     exportFile(
                         configurationFile(configuration.current),
                         "configuration.h"
@@ -722,7 +656,10 @@ const NavButtons = ({ previous, next }) => {
                 m2
                 icon={pioIcon}
                 label={T("Download platformio.ini")}
+                disable={downloadBlocked}
+                disabled={downloadBlocked}
                 onclick={() => {
+                    if (downloadBlocked) return
                     exportFile(pioFile(), "platformio.ini")
                 }}
             />
@@ -764,79 +701,124 @@ const NavButtons = ({ previous, next }) => {
     )
 }
 
+const PinConflictBanner = ({ conflicts }) => {
+    if (!conflicts.length) return null
+    return (
+        <div class="toast toast-error" style="margin-bottom:1rem">
+            <strong>{T("Pin conflicts block download")}</strong>
+            <p>
+                {T(
+                    "Firmware downloads are disabled until each GPIO is used by only one visible feature. Default (-1) pins are resolved for your MCU."
+                )}
+            </p>
+            <ul>
+                {conflicts.map(({ gpio, entries }) => (
+                    <li key={gpio}>
+                        GPIO {gpio}:{" "}
+                        {entries
+                            .map((e) => `${e.label} (${e.description})`)
+                            .join("; ")}
+                    </li>
+                ))}
+            </ul>
+        </div>
+    )
+}
+
 const GenerateTab = ({ previous }) => {
     const { configuration } = useDatasContext()
     const [showContent, setshowContent] = useState(showconfig)
     const [showIniContent, setshowIniContent] = useState(showini)
+    const pinConflicts = auditPinConflicts(
+        configuration.current,
+        useDatasContextFn.getValueId
+    ).conflicts
+    const downloadBlocked = pinConflicts.length > 0
     return (
         <div id="generate" class="m-2">
-            <NavButtons previous={previous} />
-            <div class="accordion">
-                <input
-                    type="checkbox"
-                    id="accordion-1"
-                    name="accordion-checkbox"
-                    hidden
-                />
-                <label
-                    class="accordion-header"
-                    for="accordion-1"
-                    style="cursor:pointer"
-                    onclick={() => {
-                        showconfig = !showconfig
-                        setshowContent(showconfig)
-                    }}
-                >
-                    {!showContent && <i class="icon icon-arrow-right mr-1"></i>}
-                    {showContent && <i class="icon icon-arrow-down mr-1"></i>}
-                    Configuration.h
-                </label>
-                {showContent && (
-                    <div class="accordion-body">
-                        <code>
-                            <pre>
-                                {configurationFile(configuration.current)}
-                            </pre>
-                        </code>
+            <NavButtons previous={previous} pinConflicts={pinConflicts} />
+            <PinConflictBanner conflicts={pinConflicts} />
+            {!downloadBlocked && (
+                <Fragment>
+                    <div class="accordion">
+                        <input
+                            type="checkbox"
+                            id="accordion-1"
+                            name="accordion-checkbox"
+                            hidden
+                        />
+                        <label
+                            class="accordion-header"
+                            for="accordion-1"
+                            style="cursor:pointer"
+                            onclick={() => {
+                                showconfig = !showconfig
+                                setshowContent(showconfig)
+                            }}
+                        >
+                            {!showContent && (
+                                <i class="icon icon-arrow-right mr-1"></i>
+                            )}
+                            {showContent && (
+                                <i class="icon icon-arrow-down mr-1"></i>
+                            )}
+                            Configuration.h
+                        </label>
+                        {showContent && (
+                            <div class="accordion-body">
+                                <code>
+                                    <pre>
+                                        {configurationFile(
+                                            configuration.current
+                                        )}
+                                    </pre>
+                                </code>
+                            </div>
+                        )}
                     </div>
-                )}
-            </div>
 
-            <div class="accordion">
-                <input
-                    type="checkbox"
-                    id="accordion-2"
-                    name="accordion-checkbox"
-                    hidden
-                />
-                <label
-                    class="accordion-header"
-                    for="accordion-2"
-                    style="cursor:pointer"
-                    onclick={() => {
-                        showini = !showini
-                        setshowIniContent(showini)
-                    }}
-                >
-                    {!showIniContent && (
-                        <i class="icon icon-arrow-right mr-1"></i>
-                    )}
-                    {showIniContent && (
-                        <i class="icon icon-arrow-down mr-1"></i>
-                    )}
-                    platformio.ini
-                </label>
-                {showIniContent && (
-                    <div class="accordion-body">
-                        <code>
-                            <pre>{pioFile()}</pre>
-                        </code>
+                    <div class="accordion">
+                        <input
+                            type="checkbox"
+                            id="accordion-2"
+                            name="accordion-checkbox"
+                            hidden
+                        />
+                        <label
+                            class="accordion-header"
+                            for="accordion-2"
+                            style="cursor:pointer"
+                            onclick={() => {
+                                showini = !showini
+                                setshowIniContent(showini)
+                            }}
+                        >
+                            {!showIniContent && (
+                                <i class="icon icon-arrow-right mr-1"></i>
+                            )}
+                            {showIniContent && (
+                                <i class="icon icon-arrow-down mr-1"></i>
+                            )}
+                            platformio.ini
+                        </label>
+                        {showIniContent && (
+                            <div class="accordion-body">
+                                <code>
+                                    <pre>{pioFile()}</pre>
+                                </code>
+                            </div>
+                        )}
+                        <div class="m-2" />
                     </div>
-                )}
-                <div class="m-2" />
-            </div>
 
-            {showContent && <NavButtons previous={previous} />}
+                    {showContent && (
+                        <NavButtons
+                            previous={previous}
+                            pinConflicts={pinConflicts}
+                        />
+                    )}
+                </Fragment>
+            )}
             <br />
         </div>
     )

@@ -10,5 +10,12 @@
     "Others": "Others",
     "Download": "Download",
     "Previous": "Previous",
-    "Next": "Next"
+    "Next": "Next",
+    "Pin conflict warning": "Pin conflict warning",
+    "Some features share the same GPIO. This includes Default (-1) pins resolved for your MCU.": "Some features share the same GPIO. This includes Default (-1) pins resolved for your MCU.",
+    "Pin conflicts block download": "Pin conflicts — fix before download",
+    "Firmware downloads are disabled until each GPIO is used by only one visible feature. Default (-1) pins are resolved for your MCU.": "Firmware downloads are disabled until each GPIO is used by only one visible feature. Default (-1) pins are resolved for your MCU.",
+    "Download configuration.h": "Download configuration.h",
+    "Download platformio.ini": "Download platformio.ini",
+    "Download WebUI": "Download WebUI"
 }

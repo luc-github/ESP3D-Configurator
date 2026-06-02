@@ -23,78 +23,28 @@ import { Router } from "../../components/Router"
 import { StepTab } from "../../tabs/step"
 import { GenerateTab } from "../../tabs/generate"
 import { TabBar } from "../../components/TabBar"
-import { T } from "../../components/Translations"
+import { configTabs } from "./steps"
 
-const routes = {
-    FEATURES: {
-        component: <StepTab current="features" next="networkLink" />,
-        path: "/config/features",
-    },
-    NETWORK: {
-        component: (
-            <StepTab
-                current="network"
-                previous="featuresLink"
-                next="filesystemsLink"
-            />
-        ),
-        path: "/config/network",
-    },
-    FILESYSTEMS: {
-        component: (
-            <StepTab
-                current="filesystems"
-                previous="networkLink"
-                next="updateLink"
-            />
-        ),
-        path: "/config/filesystems",
-    },
-    UPDATE: {
-        component: (
-            <StepTab
-                current="update"
-                previous="filesystemsLink"
-                next="devicesLink"
-            />
-        ),
-        path: "/config/update",
-    },
-    DEVICES: {
-        component: (
-            <StepTab
-                current="devices"
-                previous="updateLink"
-                next="securityLink"
-            />
-        ),
-        path: "/config/devices",
-    },
-    SECURITY: {
-        component: (
-            <StepTab
-                current="security"
-                previous="devicesLink"
-                next="othersLink"
-            />
-        ),
-        path: "/config/security",
-    },
-    OTHERS: {
-        component: (
-            <StepTab
-                current="others"
-                previous="securityLink"
-                next="generateLink"
-            />
-        ),
-        path: "/config/others",
-    },
-    GENERATE: {
-        component: <GenerateTab previous="othersLink" />,
-        path: "/config/generate",
-    },
-}
+const routes = configTabs.reduce((acc, tab, index) => {
+    const previous = index > 0 ? configTabs[index - 1].id : undefined
+    const next =
+        index < configTabs.length - 1 ? configTabs[index + 1].id : undefined
+
+    acc[tab.key] = {
+        component:
+            tab.type === "generate" ? (
+                <GenerateTab previous={previous} />
+            ) : (
+                <StepTab
+                    current={tab.section}
+                    previous={previous}
+                    next={next}
+                />
+            ),
+        path: tab.route,
+    }
+    return acc
+}, {})
 
 const Config = () => {
     return (

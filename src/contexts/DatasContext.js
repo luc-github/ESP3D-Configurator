@@ -18,7 +18,7 @@
 */
 import { h, createContext } from "preact"
 import { useRef, useContext, useState } from "preact/hooks"
-import defaultConfiguration from "../configuration.json"
+import defaultConfiguration from "../configuration"
 
 /*
  * Local const

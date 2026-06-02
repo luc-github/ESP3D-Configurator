@@ -8,7 +8,8 @@
     "front": "webpack serve --config config/webpack.dev.js ",
     "server": "nodemon config/server.js",
     "dev": "concurrently \"npm run server\" \"npm run front\"",
-    "build": "webpack --config config/webpack.prod.js"
+    "build": "webpack --config config/webpack.prod.js",
+    "validate:config": "node tools/validate_configuration.js"
   },
   "author": "",
   "license": "ISC",

@@ -1,0 +1,139 @@
+[
+    {
+        "id": "additional",
+        "description": "Extra settings",
+        "label": "Additional features",
+        "setting": true,
+        "type": "group",
+        "value": [
+            {
+                "id": "directpins",
+                "define": "DIRECT_PIN_FEATURE",
+                "label": "Enable direct control pin",
+                "description": "Controls pins using [ESP201]",
+                "type": "boolean",
+                "value": true,
+                "disableiffalse": true,
+                "setting": true
+            }
+        ]
+    },
+    {
+        "id": "scripting",
+        "description": "Scripting on ESP3D",
+        "label": "Scripting settings",
+        "setting": true,
+        "type": "group",
+        "value": [
+            {
+                "id": "autorunscript",
+                "define": "AUTOSTART_SCRIPT_FEATURE",
+                "label": "Enable Autostart script",
+                "description": "Automaticaly launch script when ESP3D is started",
+                "setting": true,
+                "type": "select",
+                "value": "-1",
+                "usedescforoptions": true,
+                "options": [
+                    {
+                        "label": "None",
+                        "value": "-1"
+                    },
+                    {
+                        "label": "Commands",
+                        "value": "\"script\""
+                    },
+                    {
+                        "label": "File",
+                        "value": "\"file\""
+                    }
+                ]
+            },
+            {
+                "id": "autostartcommands",
+                "define": "ESP_AUTOSTART_SCRIPT",
+                "label": "Commands to run on startup",
+                "description": "Separate commands with ';'",
+                "depend": {
+                    "id": "autorunscript",
+                    "value": ["\"script\""]
+                },
+                "type": "text",
+                "needquote": true,
+                "value": "M117 Mounting SD;M21",
+                "disableiffalse": true,
+                "setting": true
+            },
+            {
+                "id": "autostartfile",
+                "define": "ESP_AUTOSTART_SCRIPT_FILE",
+                "label": "File to run on startup",
+                "description": "The file should be on ESP3D filesystem",
+                "depend": { "id": "autorunscript", "value": ["\"file\""] },
+                "type": "text",
+                "needquote": true,
+                "value": "autorun.gco",
+                "disableiffalse": true,
+                "setting": true
+            },
+            {
+                "id": "luainterpreter",
+                "define": "ESP_LUA_INTERPRETER_FEATURE",
+                "label": "Enable lua interpreter",
+                "description": "Allow to use lua interpreter on ESP3D",
+                "type": "boolean",
+                "value": false,
+                "disableiffalse": true,
+                "setting": true,
+                "depend": { "id": "targetmcu", "notvalue": ["esp8285", "esp8266"] }
+            },
+            {
+                "id": "hook_ip",
+                "label": "Enable hook when getting IP",
+                "description": "Automaticaly launch script when get IP",
+                "setting": true,
+                "type": "boolean",
+                "value": false,
+                "disableiffalse": true
+            },
+            {
+                "id": "get_ip_hook",
+                "define": "ESP_GOT_IP_HOOK",
+                "label": "Commands to run when got IP",
+                "description": "Separate commands with ';'",
+                "depend": {
+                    "id": "hook_ip",
+                    "value": [true]
+                },
+                "type": "text",
+                "needquote": true,
+                "value": "[ESP212]IP:%ESP_IP%",
+                "setting": true
+            },
+            {
+                "id": "hook_datetime",
+                "label": "Enable hook when getting date/time",
+                "description": "Automaticaly launch script when get date/time",
+                "setting": true,
+                "type": "boolean",
+                "value": false,
+                "disableiffalse": true
+            },
+            {
+                "id": "get_datetime_hook",
+                "define": "ESP_GOT_DATE_TIME_HOOK",
+                "label": "Commands to run when got date/time",
+                "description": "Separate commands with ';'",
+                "depend": {
+                    "id": "hook_datetime",
+                    "value": [true]
+                },
+                "type": "text",
+                "needquote": true,
+                "value": "[ESP212]DATE:%ESP_DATETIME%",
+                "disableiffalse": true,
+                "setting": true
+            }
+        ]
+    }
+]

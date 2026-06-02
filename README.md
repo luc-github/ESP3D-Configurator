@@ -5,6 +5,8 @@
 
 Project of Web Configurator to generate ESP3D configuration file.
 
+See [API.md](API.md) for the configuration schema (tabs, fields, dependencies, and how to add features).
+
 Using github-action / issues form bring too many constraints with not really great user experience, so I went for
 a standalone html file instead, and it is hosted in github static page area
 It use same element as ESP3D-WebUI to save development time (yeah I am super lazy...):

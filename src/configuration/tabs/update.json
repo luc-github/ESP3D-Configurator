@@ -1,0 +1,76 @@
+[
+    {
+        "id": "reset",
+        "description": "Reset ESP3D settings",
+        "label": "Reset ESP3D",
+        "setting": true,
+        "type": "group",
+        "value": [
+            {
+                "id": "resetfeature",
+                "define": "PIN_RESET_FEATURE",
+                "label": "Enable pin reset feature",
+                "description": "Use a pin to reset ESP3D settings",
+                "type": "boolean",
+                "value": false,
+                "disableiffalse": true,
+                "setting": false,
+                "hide": true
+            },
+            {
+                "id": "resetpin",
+                "define": "ESP3D_RESET_PIN",
+                "label": "Reset pin",
+                "description": "The pin used to reset ESP3D setting if set to low for more than 1 second at start",
+                "type": "select",
+                "ispin": true,
+                "header": "#define PIN_RESET_FEATURE\n",
+                "depend": { "id": "resetfeature", "value": [true] },
+                "value": "-1",
+                "setting": true,
+                "usedescforoptions": true
+            }
+        ]
+    },
+    {
+        "id": "update",
+        "description": "Update ESP3D firmware",
+        "label": "Update ESP3D",
+        "setting": true,
+        "depend": { "id": "targetflashsize", "notvalue": ["1", "2"] },
+        "type": "group",
+        "value": [
+            {
+                "id": "ota",
+                "define": "OTA_FEATURE",
+                "label": "Enable OTA",
+                "description": "Over The Air Update (OTA)",
+                "type": "boolean",
+                "value": false,
+                "disableiffalse": true,
+                "setting": true
+            },
+            {
+                "id": "webupdate",
+                "define": "WEB_UPDATE_FEATURE",
+                "label": "Enable Web Update",
+                "description": "Update firmware using WebUI",
+                "type": "boolean",
+                "value": true,
+                "disableiffalse": true,
+                "setting": true
+            },
+            {
+                "id": "sdupdate",
+                "define": "SD_UPDATE_FEATURE",
+                "label": "Enable SD card Update",
+                "description": "Update firmware and settings using file on SDCard",
+                "type": "boolean",
+                "depend": { "id": "sdconnection", "notvalue": ["-1"] },
+                "value": true,
+                "disableiffalse": true,
+                "setting": true
+            }
+        ]
+    }
+]

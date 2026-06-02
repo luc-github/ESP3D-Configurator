@@ -1,0 +1,41 @@
+[
+    {
+        "id": "default",
+        "description": "Do not edit them",
+        "label": "Default settings for ESP3D",
+        "setting": true,
+        "type": "group",
+        "value": [
+            {
+                "id": "gcodehost",
+                "define": "GCODE_HOST_FEATURE",
+                "label": "Gcode Host Feature",
+                "description": "This feature allows to process Gcode files like macros.",
+                "type": "boolean",
+                "value": true,
+                "setting": true,
+                "disableiffalse": true
+            },
+            {
+                "id": "settings",
+                "define": "ESP_SAVE_SETTINGS",
+                "label": "Settings location",
+                "description": "Location where ESP3D will save settings",
+                "type": "select",
+                "value": "SETTINGS_IN_EEPROM",
+                "setting": true,
+                "usedescforoptions": true,
+                "options": [
+                    {
+                        "label": "EEPROM",
+                        "value": "SETTINGS_IN_EEPROM"
+                    },
+                    {
+                        "label": "NFS",
+                        "value": "SETTINGS_IN_PREFERENCES"
+                    }
+                ]
+            }
+        ]
+    }
+]

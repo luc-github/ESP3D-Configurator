@@ -1,0 +1,575 @@
+[
+    {
+        "id": "screens",
+        "description": "Rendering screens",
+        "label": "Display settings",
+        "setting": true,
+        "type": "group",
+        "value": [
+            {
+                "id": "printerscreen",
+                "define": "PRINTER_HAS_DISPLAY",
+                "label": "Printer screen",
+                "description": "Your printer has a display",
+                "type": "boolean",
+                "value": true,
+                "depend": {
+                    "id": "systemtype",
+                    "value": [
+                        "Printer3D"
+                    ]
+                },
+                "disableiffalse": true,
+                "setting": true
+            },
+            {
+                "id": "displaytype",
+                "define": "DISPLAY_DEVICE",
+                "label": "ESP3D screen",
+                "description": "Screen connected to ESP board",
+                "type": "select",
+                "value": "-1",
+                "setting": true,
+                "usedescforoptions": true,
+                "depend": {
+                    "id": "formfactor",
+                    "notvalue": [
+                        "esp01"
+                    ]
+                },
+                "options": [
+                    {
+                        "label": "None",
+                        "value": "-1"
+                    },
+                    {
+                        "label": "OLED I2C SSD1306 128X64",
+                        "value": "OLED_I2C_SSD1306_128X64"
+                    },
+                    {
+                        "label": "OLED I2C SSDSH1106 132X64",
+                        "value": "OLED_I2C_SSDSH1106_132X64"
+                    },
+                    {
+                        "label": "TFT SPI ST7789 240X240",
+                        "value": "TFT_SPI_ST7789_240X240"
+                    },
+                    {
+                        "label": "TFT SPI ST7789 135X240",
+                        "value": "TFT_SPI_ST7789_135X240"
+                    }
+                ]
+            },
+            {
+                "id": "flipdisplay",
+                "define": "DISPLAY_FLIP_VERTICALY",
+                "label": "Flip screen",
+                "description": "Flip/rotate screen",
+                "type": "boolean",
+                "value": false,
+                "depend": {
+                    "id": "displaytype",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "disableiffalse": true,
+                "setting": true
+            },
+            {
+                "id": "i2caddressoled",
+                "define": "DISPLAY_I2C_ADDR",
+                "label": "Display i2C address",
+                "description": "Wire address of display",
+                "type": "text",
+                "value": "0x3c",
+                "depend": {
+                    "id": "displaytype",
+                    "value": [
+                        "OLED_I2C_SSD1306_128X64",
+                        "OLED_I2C_SSDSH1106_132X64"
+                    ]
+                },
+                "setting": true
+            },
+            {
+                "id": "oledrstpin",
+                "define": "DISPLAY_I2C_PIN_RST",
+                "label": "Display reset pin",
+                "description": "The pin used to reset the screen (optional)",
+                "type": "select",
+                "ispin": true,
+                "value": "-1",
+                "depend": {
+                    "id": "displaytype",
+                    "value": [
+                        "OLED_I2C_SSD1306_128X64",
+                        "OLED_I2C_SSDSH1106_132X64"
+                    ]
+                },
+                "setting": true,
+                "usedescforoptions": true
+            },
+            {
+                "id": "tftledpin",
+                "define": "DISPLAY_LED_PIN",
+                "label": "TFT led pin",
+                "description": "The pin used for the backlight",
+                "type": "select",
+                "ispin": true,
+                "value": "-1",
+                "depend": {
+                    "id": "displaytype",
+                    "value": [
+                        "TFT_SPI_ST7789_135X240",
+                        "TFT_SPI_ST7789_240X240"
+                    ]
+                },
+                "setting": true,
+                "usedescforoptions": true
+            },
+            {
+                "id": "tftDCpin",
+                "define": "DISPLAY_DC_PIN",
+                "label": "TFT DC pin",
+                "description": "The dc pin used for the display",
+                "type": "select",
+                "ispin": true,
+                "value": "-1",
+                "depend": {
+                    "id": "displaytype",
+                    "value": [
+                        "TFT_SPI_ST7789_135X240",
+                        "TFT_SPI_ST7789_240X240"
+                    ]
+                },
+                "setting": true,
+                "usedescforoptions": true
+            },
+            {
+                "id": "tftRSTpin",
+                "define": "DISPLAY_RST_PIN",
+                "label": "TFT RST pin",
+                "description": "The pin used to reset display",
+                "type": "select",
+                "ispin": true,
+                "value": "-1",
+                "depend": {
+                    "id": "displaytype",
+                    "value": [
+                        "TFT_SPI_ST7789_135X240",
+                        "TFT_SPI_ST7789_240X240"
+                    ]
+                },
+                "setting": true,
+                "usedescforoptions": true
+            },
+            {
+                "id": "tftCSpin",
+                "define": "DISPLAY_CS_PIN",
+                "label": "TFT CS pin",
+                "description": "The CS pin used by display",
+                "type": "select",
+                "ispin": true,
+                "usedefault": true,
+                "value": "-1",
+                "depend": {
+                    "id": "displaytype",
+                    "value": [
+                        "TFT_SPI_ST7789_135X240",
+                        "TFT_SPI_ST7789_240X240"
+                    ]
+                },
+                "setting": true,
+                "usedescforoptions": true
+            },
+            {
+                "id": "tftMOSIpin",
+                "define": "DISPLAY_MOSI_PIN",
+                "label": "TFT MOSI pin",
+                "description": "The MOSI pin used by display",
+                "type": "select",
+                "ispin": true,
+                "usedefault": true,
+                "value": "-1",
+                "depend": {
+                    "id": "displaytype",
+                    "value": [
+                        "TFT_SPI_ST7789_135X240",
+                        "TFT_SPI_ST7789_240X240"
+                    ]
+                },
+                "setting": true,
+                "usedescforoptions": true
+            },
+            {
+                "id": "tftSCKpin",
+                "define": "DISPLAY_SCK_PIN",
+                "label": "TFT SCK pin",
+                "description": "The SCK pin used by display",
+                "type": "select",
+                "ispin": true,
+                "usedefault": true,
+                "value": "-1",
+                "depend": {
+                    "id": "displaytype",
+                    "value": [
+                        "TFT_SPI_ST7789_135X240",
+                        "TFT_SPI_ST7789_240X240"
+                    ]
+                },
+                "setting": true,
+                "usedescforoptions": true
+            }
+        ]
+    },
+    {
+        "id": "buzzer",
+        "description": "Buzzer feature",
+        "label": "Audio settings",
+        "setting": true,
+        "type": "group",
+        "value": [
+            {
+                "id": "buzzerfeature",
+                "define": "BUZZER_DEVICE",
+                "label": "Enable buzzer",
+                "description": "Your esp board has a passive buzzer",
+                "type": "boolean",
+                "value": false,
+                "disableiffalse": true,
+                "setting": true
+            },
+            {
+                "id": "buzzerpin",
+                "define": "ESP3D_BUZZER_PIN",
+                "label": "Buzzer pin",
+                "description": "The pin used for the passive buzzer",
+                "type": "select",
+                "ispin": true,
+                "value": "-1",
+                "depend": {
+                    "id": "buzzerfeature",
+                    "value": [
+                        true
+                    ]
+                },
+                "setting": true,
+                "usedescforoptions": true
+            }
+        ]
+    },
+    {
+        "id": "sensor",
+        "description": "Sensor feature",
+        "label": "Sensor settings",
+        "setting": true,
+        "type": "group",
+        "value": [
+            {
+                "id": "sensortype",
+                "define": "SENSOR_DEVICE",
+                "label": "ESP3D connected sensor",
+                "description": "Sensor connected to ESP board",
+                "type": "select",
+                "value": "-1",
+                "setting": true,
+                "usedescforoptions": true,
+                "options": [
+                    {
+                        "label": "None",
+                        "value": "-1"
+                    },
+                    {
+                        "label": "DHT11",
+                        "value": "DHT11_DEVICE"
+                    },
+                    {
+                        "label": "DHT22",
+                        "value": "DHT22_DEVICE"
+                    },
+                    {
+                        "label": "BMP280",
+                        "value": "BMP280_DEVICE"
+                    },
+                    {
+                        "label": "BME280",
+                        "value": "BME280_DEVICE"
+                    },
+                    {
+                        "label": "Analog sensor",
+                        "value": "ANALOG_DEVICE"
+                    }
+                ]
+            },
+            {
+                "id": "i2caddresssensor",
+                "define": "SENSOR_ADDR",
+                "label": "Sensor i2C address",
+                "description": "Wire address of sensor",
+                "needquote": false,
+                "type": "text",
+                "value": "0x76",
+                "depend": {
+                    "id": "sensortype",
+                    "notvalue": [
+                        "-1",
+                        "ANALOG_DEVICE",
+                        "DHT11_DEVICE",
+                        "DHT22_DEVICE"
+                    ]
+                },
+                "setting": true
+            },
+            {
+                "id": "sensorpin",
+                "define": "ESP3D_SENSOR_PIN",
+                "label": "Sensor pin",
+                "description": "The pin used for the sensor",
+                "type": "select",
+                "ispin": true,
+                "value": "-1",
+                "depend": {
+                    "id": "sensortype",
+                    "notvalue": [
+                        "-1",
+                        "BMP280_DEVICE",
+                        "BME280_DEVICE"
+                    ]
+                },
+                "setting": true,
+                "usedescforoptions": true
+            },
+            {
+                "id": "analogsensorconverter",
+                "define": "SENSOR_CONVERTER(v)",
+                "label": "Conversion formula",
+                "description": "v is the value read from sensor",
+                "type": "text",
+                "value": "v*0.588",
+                "depend": {
+                    "id": "sensortype",
+                    "value": [
+                        "ANALOG_DEVICE"
+                    ]
+                },
+                "setting": true
+            },
+            {
+                "id": "sensorunit",
+                "define": "SENSOR__UNIT",
+                "label": "Unit",
+                "description": "Unit of the sensor result",
+                "type": "select",
+                "depend": {
+                    "id": "sensortype",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "value": "C",
+                "usedescforoptions": true,
+                "options": [
+                    {
+                        "label": "C",
+                        "value": "\"C\""
+                    },
+                    {
+                        "label": "K",
+                        "value": "\"K\""
+                    },
+                    {
+                        "label": "V",
+                        "value": "\"V\"",
+                        "depend": {
+                            "id": "sensortype",
+                            "value": [
+                                "ANALOG_DEVICE"
+                            ]
+                        }
+                    }
+                ],
+                "setting": true
+            }
+        ]
+    },
+    {
+        "id": "camera",
+        "description": "Connected camera",
+        "label": "Camera settings",
+        "setting": true,
+        "depend": [
+            {
+                "id": "targetmcu",
+                "value": [
+                    "esp32",
+                    "esp32s2",
+                    "esp32s3"
+                ]
+            },
+            {
+                "id": "formfactor",
+                "notvalue": [
+                    "esp01"
+                ]
+            },
+            {
+                "id": "has_psram",
+                "value": [
+                    true
+                ]
+            }
+        ],
+        "type": "group",
+        "value": [
+            {
+                "id": "cameratype",
+                "define": "CAMERA_DEVICE",
+                "label": "Camera type",
+                "description": "Camera connected to ESP board, only ones with PSRAM are supported",
+                "type": "select",
+                "value": "-1",
+                "setting": true,
+                "usedescforoptions": true,
+                "options": [
+                    {
+                        "label": "None",
+                        "value": "-1"
+                    },
+                    {
+                        "label": "AI Thinker (ESP32-Cam)",
+                        "value": "CAMERA_MODEL_AI_THINKER",
+                        "depend": {
+                            "id": "targetmcu",
+                            "value": [
+                                "esp32"
+                            ]
+                        }
+                    },
+                    {
+                        "label": "ESP-Eye",
+                        "value": "CAMERA_MODEL_ESP_EYE",
+                        "depend": {
+                            "id": "targetmcu",
+                            "value": [
+                                "esp32"
+                            ]
+                        }
+                    },
+                    {
+                        "label": "ESP-Eye",
+                        "value": "CAMERA_MODEL_ESP32S3_EYE",
+                        "depend": {
+                            "id": "targetmcu",
+                            "value": [
+                                "esp32s3"
+                            ]
+                        }
+                    },
+                    {
+                        "label": "M5Stack",
+                        "value": "CAMERA_MODEL_M5STACK_PSRAM",
+                        "depend": {
+                            "id": "targetmcu",
+                            "value": [
+                                "esp32"
+                            ]
+                        }
+                    },
+                    {
+                        "label": "M5Stack V2",
+                        "value": "CAMERA_MODEL_M5STACK_V2_PSRAM",
+                        "depend": {
+                            "id": "targetmcu",
+                            "value": [
+                                "esp32"
+                            ]
+                        }
+                    },
+                    {
+                        "label": "Wrover Kit",
+                        "value": "CAMERA_MODEL_WROVER_KIT",
+                        "depend": {
+                            "id": "targetmcu",
+                            "value": [
+                                "esp32"
+                            ]
+                        }
+                    },
+                    {
+                        "label": "Espressif Camera",
+                        "value": "CAMERA_MODEL_ESP32_CAM_BOARD",
+                        "depend": {
+                            "id": "targetmcu",
+                            "value": [
+                                "esp32"
+                            ]
+                        }
+                    },
+                    {
+                        "label": "Espressif Camera",
+                        "value": "CAMERA_MODEL_ESP32S2_CAM_BOARD",
+                        "depend": {
+                            "id": "targetmcu",
+                            "value": [
+                                "esp32s2"
+                            ]
+                        }
+                    },
+                    {
+                        "label": "Espressif Camera",
+                        "value": "CAMERA_MODEL_ESP32S3_CAM_LCD",
+                        "depend": {
+                            "id": "targetmcu",
+                            "value": [
+                                "esp32s3"
+                            ]
+                        }
+                    },
+                    {
+                        "label": "Seeed Studio Xiao S3 Sense Camera",
+                        "value": "CAMERA_MODEL_XIAO_ESP32S3",
+                        "depend": {
+                            "id": "targetmcu",
+                            "value": [
+                                "esp32s3"
+                            ]
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "cameraflipverticaly",
+                "define": "CAMERA_DEVICE_FLIP_VERTICALY",
+                "label": "Flip vertically",
+                "description": "Flip camera verticaly",
+                "type": "boolean",
+                "depend": {
+                    "id": "cameratype",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "value": true,
+                "disableiffalse": true,
+                "setting": true
+            },
+            {
+                "id": "camerafliphorizontaly",
+                "define": "CAMERA_DEVICE_FLIP_HORIZONTALY",
+                "label": "Flip horizontally",
+                "description": "Flip camera horizontally",
+                "type": "boolean",
+                "depend": {
+                    "id": "cameratype",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "value": true,
+                "disableiffalse": true,
+                "setting": true
+            }
+        ]
+    }
+]

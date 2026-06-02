@@ -1,0 +1,751 @@
+[
+    {
+        "id": "radiomode",
+        "description": "The radio mode ESP3D communicate with the network",
+        "label": "Radio mode of ESP3D",
+        "setting": true,
+        "type": "group",
+        "value": [
+            {
+                "id": "wifi",
+                "define": "WIFI_FEATURE",
+                "label": "Use WiFi ",
+                "description": "Enable wifi communications",
+                "type": "boolean",
+                "value": true,
+                "disableiffalse": true,
+                "setting": true
+            },
+            {
+                "id": "ethernet",
+                "define": "ETH_FEATURE",
+                "label": "Use Ethernet ",
+                "description": "Enable ethernet communications",
+                "type": "boolean",
+                "value": false,
+                "disableiffalse": true,
+                "setting": true,
+                "depend": [
+                    {
+                        "id": "formfactor",
+                        "notvalue": [
+                            "esp01"
+                        ]
+                    },
+                    {
+                        "id": "targetmcu",
+                        "value": [
+                            "esp32",
+                            "esp32s2",
+                            "esp32s3",
+                            "esp32c3"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "ethernetboard",
+                "define": "ESP3D_ETH_PHY_TYPE",
+                "label": "Ethernet chip",
+                "description": "Chip used by board",
+                "type": "select",
+                "value": "TYPE_ETH_PHY_LAN8720",
+                "depend": {
+                    "id": "ethernet",
+                    "value": "true"
+                },
+                "setting": true,
+                "usedescforoptions": true,
+                "options": [
+                    {
+                        "label": "LAN8720",
+                        "value": "TYPE_ETH_PHY_LAN8720"
+                    },
+                    {
+                        "label": "TLK110",
+                        "value": "TYPE_ETH_PHY_TLK110"
+                    },
+                    {
+                        "label": "RTL8201",
+                        "value": "TYPE_ETH_PHY_RTL8201"
+                    },
+                    {
+                        "label": "DP83848",
+                        "value": "TYPE_ETH_PHY_DP83848"
+                    },
+                    {
+                        "label": "DM9051",
+                        "value": "TYPE_ETH_PHY_DM9051"
+                    },
+                    {
+                        "label": "KSZ8041",
+                        "value": "TYPE_ETH_PHY_KSZ8041"
+                    },
+                    {
+                        "label": "KSZ8081",
+                        "value": "TYPE_ETH_PHY_KSZ8081"
+                    },
+                    {
+                        "label": "W5500 (SPI)",
+                        "value": "TYPE_ETH_PHY_W5500"
+                    }
+                ]
+            },
+            {
+                "id": "ethernetclock",
+                "define": "ESP3D_ETH_CLK_MODE",
+                "label": "Ethernet board clock mode",
+                "description": "Mode used by clock",
+                "type": "select",
+                "value": "MODE_ETH_CLOCK_GPIO17_OUT",
+                "depend": [
+                    {
+                        "id": "ethernetboard",
+                        "notvalue": "TYPE_ETH_PHY_W5500"
+                    },
+                    {
+                        "id": "ethernet",
+                        "value": "true"
+                    }
+                ],
+                "setting": true,
+                "usedescforoptions": true,
+                "options": [
+                    {
+                        "label": "GPIO0 IN",
+                        "value": "MODE_ETH_CLOCK_GPIO0_IN"
+                    },
+                    {
+                        "label": "GPIO0 OUT",
+                        "value": "MODE_ETH_CLOCK_GPIO0_OUT"
+                    },
+                    {
+                        "label": "GPIO16 OUT",
+                        "value": "MODE_ETH_CLOCK_GPIO16_OUT"
+                    },
+                    {
+                        "label": "GPIO17 OUT",
+                        "value": "MODE_ETH_CLOCK_GPIO17_OUT"
+                    }
+                ]
+            },
+            {
+                "id": "ethernetaddress",
+                "define": "ESP3D_ETH_PHY_ADDR",
+                "label": "Ethernet board address",
+                "description": "Address used by clock",
+                "type": "select",
+                "value": "1",
+                "depend": {
+                    "id": "ethernet",
+                    "value": "true"
+                },
+                "setting": true,
+                "usedescforoptions": true,
+                "options": [
+                    {
+                        "label": "0",
+                        "value": "0"
+                    },
+                    {
+                        "label": "1",
+                        "value": "1"
+                    },
+                    {
+                        "label": "2",
+                        "value": "2"
+                    },
+                    {
+                        "label": "3",
+                        "value": "3"
+                    },
+                    {
+                        "label": "4",
+                        "value": "4"
+                    },
+                    {
+                        "label": "5",
+                        "value": "5"
+                    },
+                    {
+                        "label": "6",
+                        "value": "6"
+                    },
+                    {
+                        "label": "7",
+                        "value": "7"
+                    },
+                    {
+                        "label": "8",
+                        "value": "8"
+                    },
+                    {
+                        "label": "9",
+                        "value": "9"
+                    },
+                    {
+                        "label": "10",
+                        "value": "10"
+                    },
+                    {
+                        "label": "11",
+                        "value": "11"
+                    },
+                    {
+                        "label": "12",
+                        "value": "12"
+                    },
+                    {
+                        "label": "13",
+                        "value": "13"
+                    },
+                    {
+                        "label": "14",
+                        "value": "14"
+                    },
+                    {
+                        "label": "15",
+                        "value": "15"
+                    },
+                    {
+                        "label": "16",
+                        "value": "16"
+                    },
+                    {
+                        "label": "17",
+                        "value": "17"
+                    },
+                    {
+                        "label": "18",
+                        "value": "18"
+                    },
+                    {
+                        "label": "19",
+                        "value": "19"
+                    },
+                    {
+                        "label": "20",
+                        "value": "20"
+                    },
+                    {
+                        "label": "21",
+                        "value": "21"
+                    },
+                    {
+                        "label": "22",
+                        "value": "22"
+                    },
+                    {
+                        "label": "23",
+                        "value": "23"
+                    },
+                    {
+                        "label": "24",
+                        "value": "24"
+                    },
+                    {
+                        "label": "25",
+                        "value": "25"
+                    },
+                    {
+                        "label": "26",
+                        "value": "26"
+                    },
+                    {
+                        "label": "27",
+                        "value": "27"
+                    },
+                    {
+                        "label": "28",
+                        "value": "28"
+                    },
+                    {
+                        "label": "29",
+                        "value": "29"
+                    },
+                    {
+                        "label": "30",
+                        "value": "30"
+                    },
+                    {
+                        "label": "31",
+                        "value": "31"
+                    }
+                ]
+            },
+            {
+                "id": "ethernetpowerpin",
+                "define": "ESP3D_ETH_PHY_POWER_PIN",
+                "label": "Ethernet power pin",
+                "description": "The pin used to power ethernet chip",
+                "type": "select",
+                "ispin": true,
+                "usedefault": true,
+                "value": "-1",
+                "depend": [
+                    {
+                        "id": "ethernetboard",
+                        "notvalue": "TYPE_ETH_PHY_W5500"
+                    },
+                    {
+                        "id": "ethernet",
+                        "value": "true"
+                    }
+                ],
+                "setting": true,
+                "usedescforoptions": true
+            },
+            {
+                "id": "ethernetmdcpin",
+                "define": "ESP3D_ETH_PHY_MDC_PIN",
+                "label": "Ethernet mdc pin",
+                "description": "The pin used for MDC signal",
+                "type": "select",
+                "ispin": true,
+                "usedefault": true,
+                "value": "-1",
+                "depend": [
+                    {
+                        "id": "ethernetboard",
+                        "notvalue": "TYPE_ETH_PHY_W5500"
+                    },
+                    {
+                        "id": "ethernet",
+                        "value": "true"
+                    }
+                ],
+                "setting": true,
+                "usedescforoptions": true
+            },
+            {
+                "id": "ethernetmdiopin",
+                "define": "ESP3D_ETH_PHY_MDIO_PIN",
+                "label": "Ethernet mdio pin",
+                "description": "The pin used for MDIO signal",
+                "type": "select",
+                "ispin": true,
+                "usedefault": true,
+                "value": "-1",
+                "depend": [
+                    {
+                        "id": "ethernetboard",
+                        "notvalue": "TYPE_ETH_PHY_W5500"
+                    },
+                    {
+                        "id": "ethernet",
+                        "value": "true"
+                    }
+                ],
+                "setting": true,
+                "usedescforoptions": true
+            },
+            {
+                "id": "ethernetspiirqpin",
+                "define": "ETH_PHY_IRQ",
+                "label": "Ethernet irq pin",
+                "description": "The pin used for irq",
+                "type": "select",
+                "ispin": true,
+                "usedefault": true,
+                "value": "-1",
+                "depend": [
+                    {
+                        "id": "ethernetboard",
+                        "value": "TYPE_ETH_PHY_W5500"
+                    },
+                    {
+                        "id": "ethernet",
+                        "value": "true"
+                    }
+                ],
+                "setting": true,
+                "usedescforoptions": true
+            },
+            {
+                "id": "ethernetspirstpin",
+                "define": "ETH_PHY_RST",
+                "label": "Ethernet reset pin",
+                "description": "The pin used for reset",
+                "type": "select",
+                "ispin": true,
+                "usedefault": true,
+                "value": "-1",
+                "depend": [
+                    {
+                        "id": "ethernetboard",
+                        "value": "TYPE_ETH_PHY_W5500"
+                    },
+                    {
+                        "id": "ethernet",
+                        "value": "true"
+                    }
+                ],
+                "setting": true,
+                "usedescforoptions": true
+            },
+            {
+                "id": "ethernetspi",
+                "define": "",
+                "label": "Ethernet Dedicated SPI",
+                "description": "SPI Used by Ethernet",
+                "type": "select",
+                "value": "ETHERNET_SPI_USE_SPI2",
+                "depend": [
+                    {
+                        "id": "ethernetboard",
+                        "value": "TYPE_ETH_PHY_W5500"
+                    },
+                    {
+                        "id": "ethernet",
+                        "value": "true"
+                    }
+                ],
+                "setting": true,
+                "usedescforoptions": true,
+                "options": [
+                    {
+                        "label": "SPI",
+                        "value": "ETHERNET_SPI_USE_SPI"
+                    },
+                    {
+                        "label": "SPI2",
+                        "value": "ETHERNET_SPI_USE_SPI2"
+                    }
+                ]
+            },
+            {
+                "id": "ethernetspicspin",
+                "define": "ETH_PHY_CS",
+                "label": "Ethernet SPI CS pin",
+                "description": "The CS pin used by dedicated SPI ethernet",
+                "type": "select",
+                "ispin": true,
+                "usedefault": true,
+                "value": "-1",
+                "depend": [
+                    {
+                        "id": "ethernetboard",
+                        "value": "TYPE_ETH_PHY_W5500"
+                    },
+                    {
+                        "id": "ethernet",
+                        "value": "true"
+                    }
+                ],
+                "setting": true,
+                "usedescforoptions": true
+            },
+            {
+                "id": "ethernetspimosipin",
+                "define": "ETH_SPI_MOSI",
+                "label": "Ethernet SPI MOSI pin",
+                "description": "The MOSI pin used by dedicated SPI ethernet",
+                "type": "select",
+                "ispin": true,
+                "usedefault": true,
+                "value": "-1",
+                "depend": [
+                    {
+                        "id": "ethernetboard",
+                        "value": "TYPE_ETH_PHY_W5500"
+                    },
+                    {
+                        "id": "ethernet",
+                        "value": "true"
+                    }
+                ],
+                "setting": true,
+                "usedescforoptions": true
+            },
+            {
+                "id": "ethernetspimisopin",
+                "define": "ETH_SPI_MISO",
+                "label": "Ethernet SPI MISO pin",
+                "description": "The MISO pin used by dedicated SPI ethernet",
+                "type": "select",
+                "ispin": true,
+                "usedefault": true,
+                "value": "-1",
+                "depend": [
+                    {
+                        "id": "ethernetboard",
+                        "value": "TYPE_ETH_PHY_W5500"
+                    },
+                    {
+                        "id": "ethernet",
+                        "value": "true"
+                    }
+                ],
+                "setting": true,
+                "usedescforoptions": true
+            },
+            {
+                "id": "ethernetspisckpin",
+                "define": "ETH_SPI_SCK",
+                "label": "Ethernet SPI SCK pin",
+                "description": "The SCK pin used by dedicated SPI ethernet",
+                "type": "select",
+                "ispin": true,
+                "usedefault": true,
+                "value": "-1",
+                "depend": [
+                    {
+                        "id": "ethernetboard",
+                        "value": "TYPE_ETH_PHY_W5500"
+                    },
+                    {
+                        "id": "ethernet",
+                        "value": "true"
+                    }
+                ],
+                "setting": true,
+                "usedescforoptions": true
+            },
+            {
+                "id": "bluetooth",
+                "define": "BLUETOOTH_FEATURE",
+                "label": "Use Bluetooth ",
+                "description": "Enable serial bluetooth communications",
+                "type": "boolean",
+                "value": false,
+                "disableiffalse": true,
+                "setting": true,
+                "depend": {
+                    "id": "targetmcu",
+                    "value": [
+                        "esp32",
+                        "esp32s2",
+                        "esp32s3",
+                        "esp32c3"
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "id": "channels",
+        "description": "The way ESP3D communicate",
+        "label": "Channels of ESP3D",
+        "setting": true,
+        "type": "group",
+        "value": [
+            {
+                "id": "http",
+                "define": "HTTP_FEATURE",
+                "label": "Use webserver",
+                "description": "Enable http server",
+                "type": "boolean",
+                "value": true,
+                "disableiffalse": true,
+                "setting": true
+            },
+            {
+                "id": "telnet",
+                "define": "TELNET_FEATURE",
+                "label": "Use telnet server",
+                "description": "Enable telnet light (raw tcp) communications",
+                "type": "boolean",
+                "value": true,
+                "disableiffalse": true,
+                "setting": true
+            },
+            {
+                "id": "websocket",
+                "define": "WS_DATA_FEATURE",
+                "label": "Use Websocket server",
+                "description": "Enable websocket communications",
+                "type": "boolean",
+                "value": false,
+                "disableiffalse": true,
+                "setting": true
+            },
+            {
+                "id": "notifications",
+                "define": "NOTIFICATION_FEATURE",
+                "label": "Enable notifications",
+                "description": "Allows to send notifications to the user",
+                "type": "boolean",
+                "value": true,
+                "disableiffalse": true,
+                "setting": true
+            },
+            {
+                "id": "notificationonline",
+                "define": "NOTIFICATION_ESP_ONLINE",
+                "label": "Notification message when online",
+                "description": "The message that will be sent when the ESP is online",
+                "type": "text",
+                "needquote": true,
+                "value": "Hi, %ESP_NAME% is now online at %ESP_IP%",
+                "setting": true,
+                "depend": {
+                    "id": "notifications",
+                    "value": [
+                        true
+                    ]
+                }
+            },
+            {
+                "id": "notificationtitlemsg",
+                "define": "ESP_NOTIFICATION_TITLE",
+                "label": "Notification title message",
+                "description": "The title of notification",
+                "type": "text",
+                "needquote": true,
+                "value": "ESP3D Notification",
+                "setting": true,
+                "depend": {
+                    "id": "notifications",
+                    "value": [
+                        true
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "id": "discovery",
+        "description": "The discovery methods of ESP3D",
+        "label": "Discovery methods of ESP3D",
+        "setting": true,
+        "type": "group",
+        "value": [
+            {
+                "id": "captive",
+                "define": "CAPTIVE_PORTAL_FEATURE",
+                "label": "Use captive portal ",
+                "description": "Enable captive portal in AP mode",
+                "type": "boolean",
+                "value": true,
+                "disableiffalse": true,
+                "setting": true
+            },
+            {
+                "id": "mdns",
+                "define": "MDNS_FEATURE",
+                "label": "Use mDNS discovery",
+                "description": "This method need `bonjour` protocol on windows, or `avahi` on linux",
+                "type": "boolean",
+                "value": true,
+                "disableiffalse": true,
+                "setting": true
+            },
+            {
+                "id": "ssdp",
+                "define": "SSDP_FEATURE",
+                "label": "Use Simple Service Discovery Protocol",
+                "description": "It is supported on Windows out of the box",
+                "type": "boolean",
+                "value": true,
+                "disableiffalse": true,
+                "setting": true
+            }
+        ]
+    },
+    {
+        "id": "customizationSSDP",
+        "description": "Customize your ESP3D",
+        "label": "SSDP Customization settings",
+        "setting": true,
+        "depend": {
+            "id": "ssdp",
+            "value": [
+                true
+            ]
+        },
+        "type": "group",
+        "value": [
+            {
+                "id": "ssdpmodelename32",
+                "define": "ESP_MODEL_NAME",
+                "label": "Model name",
+                "description": "Modele name of device",
+                "type": "text",
+                "value": "ESP32",
+                "needquote": true,
+                "depend": {
+                    "id": "targetmcu",
+                    "value": [
+                        "esp32",
+                        "esp32s2",
+                        "esp32s3",
+                        "esp32c3"
+                    ]
+                },
+                "setting": true
+            },
+            {
+                "id": "ssdpmodelename8285",
+                "define": "ESP_MODEL_NAME",
+                "label": "Model name",
+                "description": "Modele name of device",
+                "type": "text",
+                "value": "ESP8285",
+                "needquote": true,
+                "depend": {
+                    "id": "targetmcu",
+                    "value": [
+                        "esp8285"
+                    ]
+                },
+                "setting": true
+            },
+            {
+                "id": "ssdpmodelename8266",
+                "define": "ESP_MODEL_NAME",
+                "label": "Model name",
+                "description": "Modele name of device",
+                "type": "text",
+                "value": "ESP8266",
+                "needquote": true,
+                "depend": {
+                    "id": "targetmcu",
+                    "value": [
+                        "esp8266"
+                    ]
+                },
+                "setting": true
+            },
+            {
+                "id": "ssdpmodelenamenumber",
+                "define": "ESP_MODEL_NUMBER",
+                "label": "Model number",
+                "description": "Modele number of device",
+                "type": "text",
+                "needquote": true,
+                "value": "ESP3D 3.0",
+                "setting": true
+            },
+            {
+                "id": "ssdpmodeleurl",
+                "define": "ESP_MODEL_URL",
+                "label": "Model url",
+                "description": "Modele url of device",
+                "type": "text",
+                "needquote": true,
+                "value": "https://www.espressif.com/en/products/devkits",
+                "setting": true
+            },
+            {
+                "id": "ssdpmodelemanufacturername",
+                "define": "ESP_MANUFACTURER_NAME",
+                "label": "Manufacturer name",
+                "description": "Manufacturer name of device",
+                "type": "text",
+                "needquote": true,
+                "value": "Espressif Systems",
+                "setting": true
+            },
+            {
+                "id": "ssdpmodelemanufacturerurl",
+                "define": "ESP_MANUFACTURER_URL",
+                "label": "Manufacturer url",
+                "description": "Manufacturer url of device",
+                "type": "text",
+                "needquote": true,
+                "value": "https://www.espressif.com",
+                "setting": true
+            }
+        ]
+    }
+]

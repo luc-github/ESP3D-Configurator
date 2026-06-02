@@ -29,7 +29,6 @@ import { T } from "../../components/Translations"
 import {
     useDatasContext,
     useDatasContextFn,
-    useUiContext,
 } from "../../contexts"
 import { ArrowLeft, ArrowRight } from "preact-feather"
 
@@ -81,6 +80,32 @@ const getHelp = (item, value) => {
         if (index > -1) return item[index].help
     }
     return null
+}
+
+const getOptionsList = (subelement, options) => {
+    if (subelement.ispin) {
+        if (subelement.usedefault) {
+            return JSON.parse(
+                JSON.stringify(mergeListOptions(pinsList, options)).replaceAll(
+                    "None",
+                    "Default"
+                )
+            )
+        }
+        return mergeListOptions(pinsList, options)
+    }
+    if (subelement.isport) {
+        if (subelement.usedefault) {
+            return JSON.parse(
+                JSON.stringify(mergeListOptions(portsList, options)).replaceAll(
+                    "None",
+                    "Default"
+                )
+            )
+        }
+        return mergeListOptions(portsList, options)
+    }
+    return options
 }
 
 const canshow = (depend, value, currentvalue, list = usedPinsList) => {
@@ -151,6 +176,95 @@ const NavButtons = ({ previous, next }) => {
     )
 }
 
+const StepField = ({ subelement, current, generateValidation }) => {
+    if (!canshow(subelement.depend)) return null
+    if (typeof subelement.initial === "undefined") {
+        subelement.initial = subelement.value
+    }
+    const { label, initial, type, options, value, ...rest } = subelement
+    const optionsList = getOptionsList(subelement, options)
+    const filteredOptions = optionsList
+        ? optionsList.filter((opt) => {
+              return canshow(
+                  opt.depend,
+                  subelement.ispin || subelement.isport ? opt.value : null,
+                  subelement.ispin || subelement.isport ? subelement.value : null,
+                  subelement.ispin
+                      ? usedPinsList
+                      : subelement.isport
+                        ? usedPortsList
+                        : null
+              )
+          })
+        : null
+    if (
+        filteredOptions &&
+        filteredOptions.findIndex((op) => op.value == subelement.value) == -1
+    ) {
+        if (subelement.ispin || subelement.isport) {
+            removeUsedElement(
+                subelement.value,
+                subelement.ispin ? usedPinsList : usedPortsList
+            )
+        }
+        subelement.value = filteredOptions[0].value
+    }
+    const [help, setHelp] = useState(
+        subelement.options
+            ? getHelp(optionsList, subelement.value)
+            : subelement.description
+    )
+    const [validation, setvalidation] = useState()
+
+    useEffect(() => {
+        setHelp(
+            optionsList ? getHelp(optionsList, subelement.value) : subelement.description
+        )
+    }, [subelement.value, current])
+
+    return (
+        <Fragment>
+            <Field
+                inline
+                className="fit-content"
+                label={T(label)}
+                options={filteredOptions}
+                value={value}
+                type={type}
+                {...rest}
+                validationfn={generateValidation}
+                setValue={(val, update = false) => {
+                    if (!update) {
+                        if (subelement.ispin || subelement.isport) {
+                            removeUsedElement(
+                                subelement.value,
+                                subelement.ispin ? usedPinsList : usedPortsList
+                            )
+                            addUsedElement(
+                                val,
+                                subelement.ispin ? usedPinsList : usedPortsList
+                            )
+                        }
+                        subelement.value = val
+                        setHelp(
+                            options
+                                ? getHelp(optionsList, val)
+                                : subelement.description
+                        )
+                    }
+                    setvalidation(generateValidation(subelement))
+                }}
+                validation={validation}
+            />
+            {help && <div class="m-1">{help}</div>}
+            {subelement.usedescforoptions && (
+                <div class="m-1">{subelement.description}</div>
+            )}
+            <div class="m-1 divider" style="border-color: #dadee4" />
+        </Fragment>
+    )
+}
+
 const StepTab = ({ previous, current, next }) => {
     const { configuration } = useDatasContext()
     const generateValidation = (fieldData) => {
@@ -178,226 +292,18 @@ const StepTab = ({ previous, current, next }) => {
 
                                 return (
                                     <FieldGroup
+                                        key={element.id}
                                         id={element.id}
                                         label={T(element.label)}
                                     >
-                                        {element.value.map(
-                                            (subelement, subindex) => {
-                                                if (!canshow(subelement.depend))
-                                                    return null
-                                                if (
-                                                    typeof subelement.initial ===
-                                                    "undefined"
-                                                )
-                                                    subelement.initial =
-                                                        subelement.value
-                                                const {
-                                                    label,
-                                                    initial,
-                                                    type,
-                                                    options,
-                                                    value,
-                                                    ...rest
-                                                } = subelement
-                                                const optionsList =
-                                                    subelement.ispin
-                                                        ? subelement.usedefault
-                                                            ? JSON.parse(
-                                                                  JSON.stringify(
-                                                                      mergeListOptions(
-                                                                          pinsList,
-                                                                          options
-                                                                      )
-                                                                  ).replaceAll(
-                                                                      "None",
-                                                                      "Default"
-                                                                  )
-                                                              )
-                                                            : mergeListOptions(
-                                                                  pinsList,
-                                                                  options
-                                                              )
-                                                        : subelement.isport
-                                                          ? subelement.usedefault
-                                                              ? JSON.parse(
-                                                                    JSON.stringify(
-                                                                        mergeListOptions(
-                                                                            portsList,
-                                                                            options
-                                                                        )
-                                                                    ).replaceAll(
-                                                                        "None",
-                                                                        "Default"
-                                                                    )
-                                                                )
-                                                              : mergeListOptions(
-                                                                    portsList,
-                                                                    options
-                                                                )
-                                                          : options
-                                                const filteredOptions =
-                                                    optionsList
-                                                        ? optionsList.filter(
-                                                              (opt) => {
-                                                                  return canshow(
-                                                                      opt.depend,
-                                                                      subelement.ispin ||
-                                                                          subelement.isport
-                                                                          ? opt.value
-                                                                          : null,
-                                                                      subelement.ispin ||
-                                                                          subelement.isport
-                                                                          ? subelement.value
-                                                                          : null,
-                                                                      subelement.ispin
-                                                                          ? usedPinsList
-                                                                          : subelement.isport
-                                                                            ? usedPortsList
-                                                                            : null
-                                                                  )
-                                                              }
-                                                          )
-                                                        : null
-                                                if (
-                                                    filteredOptions &&
-                                                    filteredOptions.findIndex(
-                                                        (op) =>
-                                                            op.value ==
-                                                            subelement.value
-                                                    ) == -1
-                                                ) {
-                                                    if (
-                                                        subelement.ispin ||
-                                                        subelement.isport
-                                                    ) {
-                                                        removeUsedElement(
-                                                            subelement.value,
-                                                            subelement.ispin
-                                                                ? usedPinsList
-                                                                : usedPortsList
-                                                        )
-                                                    }
-                                                    subelement.value =
-                                                        filteredOptions[0].value
-                                                }
-                                                const [help, setHelp] =
-                                                    useState(
-                                                        subelement.options
-                                                            ? getHelp(
-                                                                  optionsList,
-                                                                  subelement.value
-                                                              )
-                                                            : subelement.description
-                                                    )
-                                                const [
-                                                    validation,
-                                                    setvalidation,
-                                                ] = useState()
-                                                //workaround to useState not always updating help at begining and use another one from another page...
-                                                useEffect(() => {
-                                                    setHelp(
-                                                        optionsList
-                                                            ? getHelp(
-                                                                  optionsList,
-                                                                  subelement.value
-                                                              )
-                                                            : subelement.description
-                                                    )
-                                                }, [])
-                                                useEffect(() => {
-                                                    setHelp(
-                                                        optionsList
-                                                            ? getHelp(
-                                                                  optionsList,
-                                                                  subelement.value
-                                                              )
-                                                            : subelement.description
-                                                    )
-                                                }, [subelement.value, current])
-                                                return (
-                                                    <Fragment>
-                                                        <Field
-                                                            inline
-                                                            className="fit-content"
-                                                            label={T(label)}
-                                                            options={
-                                                                filteredOptions
-                                                            }
-                                                            value={value}
-                                                            type={type}
-                                                            {...rest}
-                                                            validationfn={
-                                                                generateValidation
-                                                            }
-                                                            setValue={(
-                                                                val,
-                                                                update = false
-                                                            ) => {
-                                                                if (!update) {
-                                                                    if (
-                                                                        subelement.ispin ||
-                                                                        subelement.isport
-                                                                    ) {
-                                                                        removeUsedElement(
-                                                                            subelement.value,
-                                                                            subelement.ispin
-                                                                                ? usedPinsList
-                                                                                : usedPortsList
-                                                                        )
-                                                                        addUsedElement(
-                                                                            val,
-                                                                            subelement.ispin
-                                                                                ? usedPinsList
-                                                                                : usedPortsList
-                                                                        )
-                                                                        console.log(
-                                                                            subelement.ispin
-                                                                                ? usedPinsList
-                                                                                : usedPortsList
-                                                                        )
-                                                                    }
-                                                                    subelement.value =
-                                                                        val
-
-                                                                    setHelp(
-                                                                        options
-                                                                            ? getHelp(
-                                                                                  optionsList,
-                                                                                  val
-                                                                              )
-                                                                            : subelement.description
-                                                                    )
-                                                                }
-                                                                setvalidation(
-                                                                    generateValidation(
-                                                                        subelement
-                                                                    )
-                                                                )
-                                                            }}
-                                                            validation={
-                                                                validation
-                                                            }
-                                                        />
-                                                        {help && (
-                                                            <div class="m-1">
-                                                                {help}
-                                                            </div>
-                                                        )}
-                                                        {subelement.usedescforoptions && (
-                                                            <div class="m-1">
-                                                                {
-                                                                    subelement.description
-                                                                }
-                                                            </div>
-                                                        )}
-                                                        <div
-                                                            class="m-1 divider"
-                                                            style="border-color: #dadee4"
-                                                        />
-                                                    </Fragment>
-                                                )
-                                            }
-                                        )}
+                                        {element.value.map((subelement, subindex) => (
+                                            <StepField
+                                                key={`${element.id}-${subindex}-${subelement.id || "field"}`}
+                                                subelement={subelement}
+                                                current={current}
+                                                generateValidation={generateValidation}
+                                            />
+                                        ))}
                                     </FieldGroup>
                                 )
                             } else {

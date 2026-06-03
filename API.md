@@ -4,29 +4,54 @@ This document describes how the configurator defines UI tabs, form fields, depen
 
 Configuration is split per tab under `src/configuration/` (one JSON file per wizard section).
 
+## Documentation map
+
+| Document | Audience | Contents |
+|----------|----------|----------|
+| [README.md](README.md) | Everyone | Project overview, live demo link, dev quick start |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Developers | Clone, scripts, PR checklist, CI |
+| **API.md** (this file) | Developers | Schema, modules, pins, export/import, presets |
+
 ## Architecture
 
 ```
 src/
   configuration/
-    index.js                 # Aggregates all tab sections into one object
-    visibility.js            # Shared depend / visibility rules (UI + generate)
-    mcuPinDefaults.js        # MCU default GPIO for SPI when pin = Default (-1)
-    pinConflicts.js          # Resolve effective GPIO + conflict audit
-    validateField.js         # Per-field validation in step tabs
-    reservedResources.js     # Cross-tab pin/port reservation lists
-    tabs/
-      features.json          # Tab data (array of groups)
-      features.js            # import ... from "./features.json"
-      network.json
-      ...
-  pages/config/
-    steps.js                 # Tab bar order, routes, icons (UI registry)
+    index.js                    # Aggregates all tab sections
+    visibility.js               # depend / visibility (UI + generate)
+    applyBoardPreset.js         # Apply preset or import snapshot by field id
+    boardPresets.json           # Built-in board starting profiles
+    configurationSnapshot.js    # JSON snapshot in configuration.h (export/import)
+    mcuPinDefaults.js           # MCU default GPIO for SPI when pin = Default (-1)
+    pinCapabilities.js          # Filter/validate GPIO by MCU + pinRole
+    pinUsageRoles.json          # Field id → pinRole registry
+    psramReservedPins.js        # PSRAM / camera reserved GPIO per MCU
+    serialPinDefaults.js        # UART default GPIO labels for -1
+    serialPins.js               # Extra #defines for serial RX/TX in configuration.h
+    cameraPins.js               # Camera model pin maps + #defines
+    cameraPinMaps.json
+    pinConflicts.js             # Resolve effective GPIO + conflict audit
+    validateField.js            # Per-field validation in step tabs
+    reservedResources.js        # Cross-tab pin/port reservation lists
+    tabs/                       # One JSON (+ .js re-export) per wizard section
+  components/
+    BoardPresetPicker/          # Preset dropdown + Import configuration.h (Features)
+    ThemeToggle/                # Light / Auto / Dark (navbar)
+  theme/theme.js                # Theme persistence (localStorage)
   contexts/
-    DatasContext.js          # Loads aggregated configuration
+    DatasContext.js             # configuration ref, configRevision, importSnapshot
+    UiContext.js                # Modals, toasts
+  pages/config/
+    steps.js                    # Tab bar order, routes, icons
   tabs/
-    step/                    # Renders step tabs; pins.json / ports.json
-    generate/                # Builds configuration.h and platformio.ini
+    step/                       # Step tabs; pins.json / ports.json
+    generate/                   # configuration.h + platformio.ini
+  translations/
+    en.json                     # Base strings for T()
+tools/
+  validate_configuration.js     # npm run validate:config
+  sync_pin_roles.js             # npm run sync:pin-roles
+  check_esp3d_reference.js      # npm run check:esp3d (needs tmp/esp3d)
 ```
 
 | Layer | Role |
@@ -34,9 +59,71 @@ src/
 | `configTabs` (`steps.js`) | Wizard navigation: label, route, link id, icon, `section` key |
 | `tabs/<section>.json` | Field definitions for one configurator step |
 | `configuration/index.js` | `{ features: [...], network: [...], ... }` for the app |
-| `GenerateTab` | Reads full configuration and exports `configuration.h` / `platformio.ini` |
+| `BoardPresetPicker` | Features tab: presets + import; same confirm dialog as preset apply |
+| `GenerateTab` | Reads configuration and exports `configuration.h` / `platformio.ini` |
+| `DatasContext` | Mutable `configuration.current`; `configRevision` bumps UI after import |
 
 The `default` section exists in `configuration/index.js` (from `defaults.json`) and is included in generated headers, but it has **no dedicated tab** in the UI.
+
+## Development workflow
+
+### Prerequisites
+
+- **Node.js** 20+ (matches [CI](.github/workflows/ci.yml))
+- **npm** (lockfile: commit `package-lock.json` if present)
+
+### Install and run
+
+```bash
+npm ci          # or npm install
+npm run dev     # webpack dev server + express (see config/server.js)
+npm run build   # production bundle → build/
+```
+
+Open the URL printed by the dev server (or serve `build/` statically for a production-like test).
+
+### npm scripts
+
+| Script | Command | Purpose |
+|--------|---------|---------|
+| `dev` | `concurrently` front + server | Local development |
+| `front` | `webpack serve` | UI only |
+| `server` | `nodemon config/server.js` | Dev backend |
+| `build` | `webpack --config config/webpack.prod.js` | Release build |
+| `validate:config` | `node tools/validate_configuration.js` | Unique ids, `depend` refs, pin roles |
+| `sync:pin-roles` | `node tools/sync_pin_roles.js` | Sync `pinRole` from `pinUsageRoles.json` into tab JSON |
+| `check:esp3d` | `node tools/check_esp3d_reference.js` | Camera models vs `tmp/esp3d` (optional) |
+
+**Before opening a PR:** `npm run validate:config` and `npm run build` (same as CI).
+
+### Continuous integration
+
+GitHub Actions workflow `.github/workflows/ci.yml` on push/PR to `main` / `master`:
+
+1. `npm ci`
+2. `npm run validate:config`
+3. `npm run build`
+
+### Internationalization (i18n)
+
+UI strings use `T("English key")` from `src/components/Translations/index.js`.
+
+- Base catalog: `src/translations/en.json`
+- New user-visible text: add the **English sentence as key and value** in `en.json`, then use `T("…")` in components
+- Toasts use the `content` property (not `message`); import feedback can pass `literal: true` to skip re-translation
+
+### UI theme
+
+- Toggle in navbar: **Light** / **Auto** / **Dark** (`src/components/ThemeToggle`, `src/theme/theme.js`)
+- Stored in `localStorage` key `esp3d-configurator-ui-theme` (default `auto` → follows `prefers-color-scheme`)
+- Resolved theme on `<html data-theme="light|dark">`; tokens in `src/style/_theme.scss`
+
+### Manual test checklist (config changes)
+
+1. Features → change MCU, preset, **Import configuration.h** (confirm dialog → file → green message + toast).
+2. Walk affected tabs (pins, serial, camera).
+3. Download → preview `configuration.h` (snapshot at end) and `platformio.ini`; fix pin conflicts if download is blocked.
+4. Re-import the downloaded `configuration.h` and confirm values match.
 
 ## Configurator tabs (UI)
 
@@ -170,6 +257,8 @@ There is no separate settings file. **Download configuration.h** already embeds 
 
 Older `configuration.h` files without this block cannot be imported through this flow.
 
+**Groups omitted from the header (still in snapshot):** e.g. **Board description** (`features` group `mcu`) uses `skipExport: true` on the group — UI unchanged, values only in JSON snapshot, not as comment banner in `configuration.h`.
+
 ## Maintenance notes
 
 - Avoid duplicate `id` values (e.g. multiple `ssdpmodelename` for different MCUs). Duplicates break `getValueId()` and can cause React key warnings; use distinct ids or a single control with `depend` on options.
@@ -228,9 +317,11 @@ npm run check:esp3d
 
 This checks that every `CAMERA_MODEL_*` in `tmp/esp3d/src/include/esp3d_defines.h` appears in the configurator UI.
 
-## Board presets
+## Board presets and import
 
-Starting profiles for common boards live in `src/configuration/boardPresets.json`. Each preset has:
+UI: `src/components/BoardPresetPicker` on the **Features** tab (preset `<select>` + **Import configuration.h** button).
+
+Built-in profiles: `src/configuration/boardPresets.json`. Applied via `applyBoardPreset()` in `applyBoardPreset.js` (also used for snapshot import).
 
 | Field | Description |
 |-------|-------------|
@@ -239,13 +330,31 @@ Starting profiles for common boards live in `src/configuration/boardPresets.json
 | `description` | Short help text |
 | `values` | Map of **field id** → value (same ids as in tab JSON, across all sections) |
 
-The picker on the **Features** tab applies a preset when you change the dropdown (confirmation dialog). **Cancel** restores the previous selection without applying. It overwrites only the fields listed in `values`; other settings are left unchanged.
+### Apply preset (dropdown)
 
-To add a preset:
+1. User selects a preset (or re-selects imported entry).
+2. Modal **Apply board preset**: warns that settings in the preset will overwrite wizard values (all tabs).
+3. **Apply** → `applyBoardPreset(configuration, preset)`; `configRevision` increments so step fields re-render.
+4. **Cancel** → no change (dropdown can be reverted by user).
 
-1. Add an entry to `boardPresets.json` (use only existing field ids).
-2. Run `npm run validate:config`.
-3. Test in the UI on Features → **Apply preset**.
+Only keys present in `values` are written; other fields stay as-is. If `values.cameratype` is set and not `-1`, `syncCameraPinsForModel()` updates camera GPIO fields.
+
+### Import configuration.h (button)
+
+1. User clicks **Import configuration.h**.
+2. **Same modal** as preset apply (title **Apply board preset**, same overwrite warning; description explains choosing a file next).
+3. **Apply** → hidden file input opens.
+4. After file read: `parseSnapshotFromText()` extracts JSON between `ESP3D_CONFIG_SNAPSHOT_BEGIN` / `END`.
+5. On success: apply immediately (no second modal), add/replace dynamic preset id `imported-configuration-h` (label = file name), select it in the list, show **green** status under the button + **success** toast.
+6. On error: **red** status under the button + **error** toast (missing snapshot, invalid JSON, read failure).
+
+Imported preset exists only in memory until page reload (not persisted to `boardPresets.json`).
+
+### Add a built-in preset
+
+1. Add an entry to `boardPresets.json` (only existing field ids).
+2. `npm run validate:config`
+3. Test: Features → preset dropdown → confirm → check tabs and Download.
 
 ## Quick checklist: new feature flag
 

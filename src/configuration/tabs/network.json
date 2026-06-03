@@ -293,7 +293,8 @@
                     }
                 ],
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "output"
             },
             {
                 "id": "ethernetmdcpin",
@@ -315,7 +316,8 @@
                     }
                 ],
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "output"
             },
             {
                 "id": "ethernetmdiopin",
@@ -337,7 +339,8 @@
                     }
                 ],
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "bidirectional"
             },
             {
                 "id": "ethernetspiirqpin",
@@ -359,7 +362,8 @@
                     }
                 ],
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "input"
             },
             {
                 "id": "ethernetspirstpin",
@@ -381,7 +385,8 @@
                     }
                 ],
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "output"
             },
             {
                 "id": "ethernetspi",
@@ -433,7 +438,8 @@
                     }
                 ],
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "output"
             },
             {
                 "id": "ethernetspimosipin",
@@ -455,7 +461,8 @@
                     }
                 ],
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "bidirectional"
             },
             {
                 "id": "ethernetspimisopin",
@@ -477,7 +484,8 @@
                     }
                 ],
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "bidirectional"
             },
             {
                 "id": "ethernetspisckpin",
@@ -499,7 +507,8 @@
                     }
                 ],
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "output"
             },
             {
                 "id": "bluetooth",

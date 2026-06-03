@@ -26,7 +26,12 @@
                         "help": "Only on ESP32 with large flash",
                         "depend": {
                             "id": "targetmcu",
-                            "value": ["esp32", "esp32s2", "esp32s3", "esp32c3"]
+                            "value": [
+                                "esp32",
+                                "esp32s2",
+                                "esp32s3",
+                                "esp32c3"
+                            ]
                         }
                     }
                 ]
@@ -49,7 +54,12 @@
         "label": "SD filesystem",
         "setting": true,
         "type": "group",
-        "depend": { "id": "formfactor", "notvalue": ["esp01"] },
+        "depend": {
+            "id": "formfactor",
+            "notvalue": [
+                "esp01"
+            ]
+        },
         "value": [
             {
                 "id": "sdconnection",
@@ -87,7 +97,10 @@
                 "value": "ESP_SDFAT2",
                 "depend": {
                     "id": "sdconnection",
-                    "value": ["ESP_SHARED_SD", "ESP_NOT_SHARED_SD"]
+                    "value": [
+                        "ESP_SHARED_SD",
+                        "ESP_NOT_SHARED_SD"
+                    ]
                 },
                 "setting": true,
                 "options": [
@@ -107,7 +120,12 @@
                         "help": "Used by SDMMC",
                         "depend": {
                             "id": "targetmcu",
-                            "value": ["esp32", "esp32s2", "esp32s3", "esp32c3"]
+                            "value": [
+                                "esp32",
+                                "esp32s2",
+                                "esp32s3",
+                                "esp32c3"
+                            ]
                         }
                     }
                 ]
@@ -119,7 +137,12 @@
                 "description": "Mode used by SDIO library",
                 "type": "select",
                 "value": "SD_FOUR_BIT_MODE",
-                "depend": { "id": "sdfs", "value": ["ESP_SDIO"] },
+                "depend": {
+                    "id": "sdfs",
+                    "value": [
+                        "ESP_SDIO"
+                    ]
+                },
                 "setting": true,
                 "options": [
                     {
@@ -152,7 +175,10 @@
         "type": "group",
         "depend": {
             "id": "sdconnection",
-            "value": ["ESP_SHARED_SD", "ESP_NOT_SHARED_SD"]
+            "value": [
+                "ESP_SHARED_SD",
+                "ESP_NOT_SHARED_SD"
+            ]
         },
         "value": [
             {
@@ -165,10 +191,14 @@
                 "value": "-1",
                 "depend": {
                     "id": "sdconnection",
-                    "value": ["ESP_SHARED_SD", "ESP_NOT_SHARED_SD"]
+                    "value": [
+                        "ESP_SHARED_SD",
+                        "ESP_NOT_SHARED_SD"
+                    ]
                 },
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "input"
             },
             {
                 "id": "sddetectvalue",
@@ -177,7 +207,12 @@
                 "description": "State of SD card detect pin when card is present",
                 "type": "select",
                 "value": "0",
-                "depend": { "id": "detectsdpin", "notvalue": ["-1"] },
+                "depend": {
+                    "id": "detectsdpin",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
                 "setting": true,
                 "usedescforoptions": true,
                 "options": [
@@ -201,10 +236,13 @@
                 "value": "-1",
                 "depend": {
                     "id": "sdconnection",
-                    "value": ["ESP_SHARED_SD"]
+                    "value": [
+                        "ESP_SHARED_SD"
+                    ]
                 },
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "output"
             },
             {
                 "id": "shareflagsdvalue",
@@ -213,7 +251,12 @@
                 "description": "State of SD card share pin for ESP board",
                 "type": "select",
                 "value": "0",
-                "depend": { "id": "shareflagsdpin", "notvalue": ["-1"] },
+                "depend": {
+                    "id": "shareflagsdpin",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
                 "setting": true,
                 "usedescforoptions": true,
                 "options": [
@@ -236,9 +279,15 @@
                 "ispin": true,
                 "usedefault": true,
                 "value": "-1",
-                "depend": { "id": "sdfs", "notvalue": ["ESP_SDIO"] },
+                "depend": {
+                    "id": "sdfs",
+                    "notvalue": [
+                        "ESP_SDIO"
+                    ]
+                },
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "output"
             },
             {
                 "id": "sdmosipin",
@@ -250,11 +299,23 @@
                 "usedefault": true,
                 "value": "-1",
                 "depend": [
-                    { "id": "sdfs", "notvalue": ["ESP_SDIO"] },
-                    { "id": "targetmcu", "notvalue": ["esp8266", "esp8285"] }
+                    {
+                        "id": "sdfs",
+                        "notvalue": [
+                            "ESP_SDIO"
+                        ]
+                    },
+                    {
+                        "id": "targetmcu",
+                        "notvalue": [
+                            "esp8266",
+                            "esp8285"
+                        ]
+                    }
                 ],
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "bidirectional"
             },
             {
                 "id": "sdmisopin",
@@ -266,11 +327,23 @@
                 "usedefault": true,
                 "value": "-1",
                 "depend": [
-                    { "id": "sdfs", "notvalue": ["ESP_SDIO"] },
-                    { "id": "targetmcu", "notvalue": ["esp8266", "esp8285"] }
+                    {
+                        "id": "sdfs",
+                        "notvalue": [
+                            "ESP_SDIO"
+                        ]
+                    },
+                    {
+                        "id": "targetmcu",
+                        "notvalue": [
+                            "esp8266",
+                            "esp8285"
+                        ]
+                    }
                 ],
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "bidirectional"
             },
             {
                 "id": "sdsckpin",
@@ -282,11 +355,23 @@
                 "usedefault": true,
                 "value": "-1",
                 "depend": [
-                    { "id": "sdfs", "notvalue": ["ESP_SDIO"] },
-                    { "id": "targetmcu", "notvalue": ["esp8266", "esp8285"] }
+                    {
+                        "id": "sdfs",
+                        "notvalue": [
+                            "ESP_SDIO"
+                        ]
+                    },
+                    {
+                        "id": "targetmcu",
+                        "notvalue": [
+                            "esp8266",
+                            "esp8285"
+                        ]
+                    }
                 ],
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "output"
             },
             {
                 "id": "sdioclkpin",
@@ -297,9 +382,15 @@
                 "ispin": true,
                 "usedefault": true,
                 "value": "-1",
-                "depend": { "id": "sdfs", "value": ["ESP_SDIO"] },
+                "depend": {
+                    "id": "sdfs",
+                    "value": [
+                        "ESP_SDIO"
+                    ]
+                },
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "output"
             },
             {
                 "id": "sdiocmdpin",
@@ -310,9 +401,15 @@
                 "ispin": true,
                 "usedefault": true,
                 "value": "-1",
-                "depend": { "id": "sdfs", "value": ["ESP_SDIO"] },
+                "depend": {
+                    "id": "sdfs",
+                    "value": [
+                        "ESP_SDIO"
+                    ]
+                },
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "bidirectional"
             },
             {
                 "id": "sdiod0pin",
@@ -323,9 +420,15 @@
                 "ispin": true,
                 "usedefault": true,
                 "value": "-1",
-                "depend": { "id": "sdfs", "value": ["ESP_SDIO"] },
+                "depend": {
+                    "id": "sdfs",
+                    "value": [
+                        "ESP_SDIO"
+                    ]
+                },
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "bidirectional"
             },
             {
                 "id": "sdiod1pin",
@@ -337,11 +440,22 @@
                 "usedefault": true,
                 "value": "-1",
                 "depend": [
-                    { "id": "sdfs", "value": ["ESP_SDIO"] },
-                    { "id": "sdio", "value": ["SD_FOUR_BIT_MODE"] }
+                    {
+                        "id": "sdfs",
+                        "value": [
+                            "ESP_SDIO"
+                        ]
+                    },
+                    {
+                        "id": "sdio",
+                        "value": [
+                            "SD_FOUR_BIT_MODE"
+                        ]
+                    }
                 ],
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "bidirectional"
             },
             {
                 "id": "sdiod2pin",
@@ -353,11 +467,22 @@
                 "usedefault": true,
                 "value": "-1",
                 "depend": [
-                    { "id": "sdfs", "value": ["ESP_SDIO"] },
-                    { "id": "sdio", "value": ["SD_FOUR_BIT_MODE"] }
+                    {
+                        "id": "sdfs",
+                        "value": [
+                            "ESP_SDIO"
+                        ]
+                    },
+                    {
+                        "id": "sdio",
+                        "value": [
+                            "SD_FOUR_BIT_MODE"
+                        ]
+                    }
                 ],
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "bidirectional"
             },
             {
                 "id": "sdiod3pin",
@@ -369,11 +494,22 @@
                 "usedefault": true,
                 "value": "-1",
                 "depend": [
-                    { "id": "sdfs", "value": ["ESP_SDIO"] },
-                    { "id": "sdio", "value": ["SD_FOUR_BIT_MODE"] }
+                    {
+                        "id": "sdfs",
+                        "value": [
+                            "ESP_SDIO"
+                        ]
+                    },
+                    {
+                        "id": "sdio",
+                        "value": [
+                            "SD_FOUR_BIT_MODE"
+                        ]
+                    }
                 ],
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "bidirectional"
             }
         ]
     },
@@ -391,7 +527,12 @@
                 "description": "Allows to access to all filesystems fromsame location",
                 "type": "boolean",
                 "value": false,
-                "depend": { "id": "sdconnection", "notvalue": ["-1"] },
+                "depend": {
+                    "id": "sdconnection",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
                 "disableiffalse": true,
                 "setting": true
             },
@@ -412,7 +553,12 @@
                     {
                         "label": "All filesystems",
                         "value": "FS_ROOT",
-                        "depend": { "id": "globalFS", "value": [true] }
+                        "depend": {
+                            "id": "globalFS",
+                            "value": [
+                                true
+                            ]
+                        }
                     },
                     {
                         "label": "ESP3D Flash",
@@ -423,7 +569,9 @@
                         "value": "FS_SD",
                         "depend": {
                             "id": "sdconnection",
-                            "notvalue": ["-1"]
+                            "notvalue": [
+                                "-1"
+                            ]
                         }
                     }
                 ]
@@ -445,7 +593,12 @@
                     {
                         "label": "All filesystems",
                         "value": "FS_ROOT",
-                        "depend": { "id": "globalFS", "value": [true] }
+                        "depend": {
+                            "id": "globalFS",
+                            "value": [
+                                true
+                            ]
+                        }
                     },
                     {
                         "label": "ESP3D Flash",
@@ -456,7 +609,9 @@
                         "value": "FS_SD",
                         "depend": {
                             "id": "sdconnection",
-                            "notvalue": ["-1"]
+                            "notvalue": [
+                                "-1"
+                            ]
                         }
                     }
                 ]

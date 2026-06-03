@@ -31,6 +31,38 @@ const collectIds = (node, file, locations, ids) => {
     if (node.options) collectIds(node.options, file, `${locations}.options`, ids)
 }
 
+const rolesPath = path.join(
+    __dirname,
+    "..",
+    "src",
+    "configuration",
+    "pinUsageRoles.json"
+)
+let pinRoleRegistry = {}
+let allowedPinRoles = []
+try {
+    const rolesDoc = JSON.parse(fs.readFileSync(rolesPath, "utf8"))
+    pinRoleRegistry = rolesDoc.fields || {}
+    allowedPinRoles = Object.keys(rolesDoc.taxonomy?.fieldRoles || {})
+} catch (e) {
+    errors.push(`pinUsageRoles.json: ${e.message}`)
+}
+
+const collectPinRoleFields = (node, file, locations, pinFields) => {
+    if (!node || typeof node !== "object") return
+    if (Array.isArray(node)) {
+        node.forEach((item, index) =>
+            collectPinRoleFields(item, file, `${locations}[${index}]`, pinFields)
+        )
+        return
+    }
+    if (typeof node.id === "string" && (node.ispin || pinRoleRegistry[node.id])) {
+        pinFields.push({ id: node.id, file, location: locations, field: node })
+    }
+    if (node.value) collectPinRoleFields(node.value, file, `${locations}.value`, pinFields)
+    if (node.options) collectPinRoleFields(node.options, file, `${locations}.options`, pinFields)
+}
+
 const collectDependIds = (node, file, locations, depends) => {
     if (!node || typeof node !== "object") return
     if (Array.isArray(node)) {
@@ -62,6 +94,7 @@ const jsonFiles = fs
 
 const ids = new Map()
 const depends = []
+const pinFields = []
 
 for (const file of jsonFiles) {
     const filePath = path.join(tabsDir, file)
@@ -78,6 +111,31 @@ for (const file of jsonFiles) {
     }
     collectIds(data, file, file, ids)
     collectDependIds(data, file, file, depends)
+    collectPinRoleFields(data, file, file, pinFields)
+}
+
+for (const { id, file, location, field } of pinFields) {
+    if (!field.pinRole) {
+        errors.push(`${file} (${location}): "${id}" missing pinRole`)
+        continue
+    }
+    if (!allowedPinRoles.includes(field.pinRole)) {
+        errors.push(
+            `${file} (${location}): "${id}" invalid pinRole "${field.pinRole}"`
+        )
+    }
+    const spec = pinRoleRegistry[id]
+    if (spec && field.pinRole !== spec.role) {
+        errors.push(
+            `${file} (${location}): "${id}" pinRole "${field.pinRole}" !== registry "${spec.role}"`
+        )
+    }
+}
+
+for (const registryId of Object.keys(pinRoleRegistry)) {
+    if (!pinFields.some((p) => p.id === registryId)) {
+        warnings.push(`pinUsageRoles.json: "${registryId}" has no tab field`)
+    }
 }
 
 for (const [id, locations] of ids) {
@@ -156,6 +214,47 @@ for (const mcu of mcuKeys) {
     }
 }
 
+const presetsPath = path.join(
+    __dirname,
+    "..",
+    "src",
+    "configuration",
+    "boardPresets.json"
+)
+let presetCount = 0
+try {
+    const presets = JSON.parse(fs.readFileSync(presetsPath, "utf8"))
+    if (!Array.isArray(presets)) {
+        errors.push("boardPresets.json: root must be an array")
+    } else {
+        const presetIds = new Set()
+        presets.forEach((preset, index) => {
+            presetCount += 1
+            if (!preset.id) {
+                errors.push(`boardPresets[${index}]: missing id`)
+                return
+            }
+            if (presetIds.has(preset.id)) {
+                errors.push(`boardPresets: duplicate preset id "${preset.id}"`)
+            }
+            presetIds.add(preset.id)
+            if (!preset.values || typeof preset.values !== "object") {
+                errors.push(`boardPresets "${preset.id}": missing values object`)
+                return
+            }
+            Object.keys(preset.values).forEach((fieldId) => {
+                if (!idSet.has(fieldId)) {
+                    errors.push(
+                        `boardPresets "${preset.id}": unknown field id "${fieldId}"`
+                    )
+                }
+            })
+        })
+    }
+} catch (e) {
+    errors.push(`boardPresets.json: ${e.message}`)
+}
+
 if (warnings.length) {
     console.warn("Warnings:")
     warnings.forEach((w) => console.warn(`  - ${w}`))
@@ -168,5 +267,5 @@ if (errors.length) {
 }
 
 console.log(
-    `Configuration OK (${jsonFiles.length} tab files, ${idSet.size} unique field ids, ${depends.length} depend rules checked)`
+    `Configuration OK (${jsonFiles.length} tab files, ${presetCount} board presets, ${idSet.size} unique field ids, ${depends.length} depend rules checked)`
 )

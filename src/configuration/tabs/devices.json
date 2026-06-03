@@ -108,7 +108,8 @@
                     ]
                 },
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "output"
             },
             {
                 "id": "tftledpin",
@@ -126,7 +127,8 @@
                     ]
                 },
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "output"
             },
             {
                 "id": "tftDCpin",
@@ -144,7 +146,8 @@
                     ]
                 },
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "output"
             },
             {
                 "id": "tftRSTpin",
@@ -162,7 +165,8 @@
                     ]
                 },
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "output"
             },
             {
                 "id": "tftCSpin",
@@ -181,7 +185,8 @@
                     ]
                 },
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "output"
             },
             {
                 "id": "tftMOSIpin",
@@ -200,7 +205,8 @@
                     ]
                 },
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "bidirectional"
             },
             {
                 "id": "tftSCKpin",
@@ -219,7 +225,8 @@
                     ]
                 },
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "output"
             }
         ]
     },
@@ -255,7 +262,8 @@
                     ]
                 },
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "output"
             }
         ]
     },
@@ -338,7 +346,16 @@
                     ]
                 },
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "input",
+                "pinRoleWhen": {
+                    "dependId": "sensortype",
+                    "map": {
+                        "ANALOG_DEVICE": "analog_input",
+                        "DHT11_DEVICE": "bidirectional",
+                        "DHT22_DEVICE": "bidirectional"
+                    }
+                }
             },
             {
                 "id": "analogsensorconverter",
@@ -395,7 +412,7 @@
     },
     {
         "id": "camera",
-        "description": "Connected camera",
+        "description": "Connected camera — only boards with PSRAM are supported. Enable Has PSRAM on Features first.",
         "label": "Camera settings",
         "setting": true,
         "depend": [
@@ -487,6 +504,16 @@
                         }
                     },
                     {
+                        "label": "M5Stack Wide",
+                        "value": "CAMERA_MODEL_M5STACK_WIDE",
+                        "depend": {
+                            "id": "targetmcu",
+                            "value": [
+                                "esp32"
+                            ]
+                        }
+                    },
+                    {
                         "label": "Wrover Kit",
                         "value": "CAMERA_MODEL_WROVER_KIT",
                         "depend": {
@@ -535,6 +562,29 @@
                                 "esp32s3"
                             ]
                         }
+                    },
+                    {
+                        "label": "UICPAL ESP32-S3",
+                        "value": "CAMERA_MODEL_UICPAL_ESP32S3",
+                        "depend": {
+                            "id": "targetmcu",
+                            "value": [
+                                "esp32s3"
+                            ]
+                        }
+                    },
+                    {
+                        "label": "Custom",
+                        "value": "CAMERA_MODEL_CUSTOM",
+                        "help": "Edit GPIO below; values are written to configuration.h",
+                        "depend": {
+                            "id": "targetmcu",
+                            "value": [
+                                "esp32",
+                                "esp32s2",
+                                "esp32s3"
+                            ]
+                        }
                     }
                 ]
             },
@@ -569,6 +619,352 @@
                 "value": true,
                 "disableiffalse": true,
                 "setting": true
+            }
+        ]
+    },
+    {
+        "id": "camerapins",
+        "label": "Camera GPIO map",
+        "description": "Pin map for the selected camera model (read-only unless Custom). Custom pins use the same GPIO filters as other features; -1 = unused.",
+        "type": "group",
+        "setting": false,
+        "depend": [
+            {
+                "id": "cameratype",
+                "notvalue": [
+                    "-1"
+                ]
+            },
+            {
+                "id": "has_psram",
+                "value": [
+                    true
+                ]
+            }
+        ],
+        "value": [
+            {
+                "id": "CAM_LED_PIN",
+                "define": "CAM_LED_PIN",
+                "label": "CAM_LED_PIN",
+                "description": "Camera GPIO (-1 = unused)",
+                "type": "select",
+                "value": "4",
+                "setting": false,
+                "depend": {
+                    "id": "cameratype",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "pinRole": "output",
+                "ispin": true
+            },
+            {
+                "id": "CAM_PULLUP1",
+                "define": "CAM_PULLUP1",
+                "label": "CAM_PULLUP1",
+                "description": "Camera GPIO (-1 = unused)",
+                "type": "select",
+                "value": "-1",
+                "setting": false,
+                "depend": {
+                    "id": "cameratype",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "pinRole": "optional_gpio",
+                "ispin": true
+            },
+            {
+                "id": "CAM_PULLUP2",
+                "define": "CAM_PULLUP2",
+                "label": "CAM_PULLUP2",
+                "description": "Camera GPIO (-1 = unused)",
+                "type": "select",
+                "value": "-1",
+                "setting": false,
+                "depend": {
+                    "id": "cameratype",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "pinRole": "optional_gpio",
+                "ispin": true
+            },
+            {
+                "id": "PWDN_GPIO_NUM",
+                "define": "PWDN_GPIO_NUM",
+                "label": "PWDN_GPIO_NUM",
+                "description": "Camera GPIO (-1 = unused)",
+                "type": "select",
+                "value": "32",
+                "setting": false,
+                "depend": {
+                    "id": "cameratype",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "pinRole": "output",
+                "ispin": true
+            },
+            {
+                "id": "RESET_GPIO_NUM",
+                "define": "RESET_GPIO_NUM",
+                "label": "RESET_GPIO_NUM",
+                "description": "Camera GPIO (-1 = unused)",
+                "type": "select",
+                "value": "-1",
+                "setting": false,
+                "depend": {
+                    "id": "cameratype",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "pinRole": "output",
+                "ispin": true
+            },
+            {
+                "id": "XCLK_GPIO_NUM",
+                "define": "XCLK_GPIO_NUM",
+                "label": "XCLK_GPIO_NUM",
+                "description": "Camera GPIO (-1 = unused)",
+                "type": "select",
+                "value": "0",
+                "setting": false,
+                "depend": {
+                    "id": "cameratype",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "pinRole": "output",
+                "ispin": true
+            },
+            {
+                "id": "SIOD_GPIO_NUM",
+                "define": "SIOD_GPIO_NUM",
+                "label": "SIOD_GPIO_NUM",
+                "description": "Camera GPIO (-1 = unused)",
+                "type": "select",
+                "value": "26",
+                "setting": false,
+                "depend": {
+                    "id": "cameratype",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "pinRole": "bidirectional",
+                "ispin": true
+            },
+            {
+                "id": "SIOC_GPIO_NUM",
+                "define": "SIOC_GPIO_NUM",
+                "label": "SIOC_GPIO_NUM",
+                "description": "Camera GPIO (-1 = unused)",
+                "type": "select",
+                "value": "27",
+                "setting": false,
+                "depend": {
+                    "id": "cameratype",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "pinRole": "bidirectional",
+                "ispin": true
+            },
+            {
+                "id": "Y9_GPIO_NUM",
+                "define": "Y9_GPIO_NUM",
+                "label": "Y9_GPIO_NUM",
+                "description": "Camera GPIO (-1 = unused)",
+                "type": "select",
+                "value": "35",
+                "setting": false,
+                "depend": {
+                    "id": "cameratype",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "pinRole": "input",
+                "ispin": true
+            },
+            {
+                "id": "Y8_GPIO_NUM",
+                "define": "Y8_GPIO_NUM",
+                "label": "Y8_GPIO_NUM",
+                "description": "Camera GPIO (-1 = unused)",
+                "type": "select",
+                "value": "34",
+                "setting": false,
+                "depend": {
+                    "id": "cameratype",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "pinRole": "input",
+                "ispin": true
+            },
+            {
+                "id": "Y7_GPIO_NUM",
+                "define": "Y7_GPIO_NUM",
+                "label": "Y7_GPIO_NUM",
+                "description": "Camera GPIO (-1 = unused)",
+                "type": "select",
+                "value": "39",
+                "setting": false,
+                "depend": {
+                    "id": "cameratype",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "pinRole": "input",
+                "ispin": true
+            },
+            {
+                "id": "Y6_GPIO_NUM",
+                "define": "Y6_GPIO_NUM",
+                "label": "Y6_GPIO_NUM",
+                "description": "Camera GPIO (-1 = unused)",
+                "type": "select",
+                "value": "36",
+                "setting": false,
+                "depend": {
+                    "id": "cameratype",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "pinRole": "input",
+                "ispin": true
+            },
+            {
+                "id": "Y5_GPIO_NUM",
+                "define": "Y5_GPIO_NUM",
+                "label": "Y5_GPIO_NUM",
+                "description": "Camera GPIO (-1 = unused)",
+                "type": "select",
+                "value": "21",
+                "setting": false,
+                "depend": {
+                    "id": "cameratype",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "pinRole": "input",
+                "ispin": true
+            },
+            {
+                "id": "Y4_GPIO_NUM",
+                "define": "Y4_GPIO_NUM",
+                "label": "Y4_GPIO_NUM",
+                "description": "Camera GPIO (-1 = unused)",
+                "type": "select",
+                "value": "19",
+                "setting": false,
+                "depend": {
+                    "id": "cameratype",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "pinRole": "input",
+                "ispin": true
+            },
+            {
+                "id": "Y3_GPIO_NUM",
+                "define": "Y3_GPIO_NUM",
+                "label": "Y3_GPIO_NUM",
+                "description": "Camera GPIO (-1 = unused)",
+                "type": "select",
+                "value": "18",
+                "setting": false,
+                "depend": {
+                    "id": "cameratype",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "pinRole": "input",
+                "ispin": true
+            },
+            {
+                "id": "Y2_GPIO_NUM",
+                "define": "Y2_GPIO_NUM",
+                "label": "Y2_GPIO_NUM",
+                "description": "Camera GPIO (-1 = unused)",
+                "type": "select",
+                "value": "5",
+                "setting": false,
+                "depend": {
+                    "id": "cameratype",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "pinRole": "input",
+                "ispin": true
+            },
+            {
+                "id": "VSYNC_GPIO_NUM",
+                "define": "VSYNC_GPIO_NUM",
+                "label": "VSYNC_GPIO_NUM",
+                "description": "Camera GPIO (-1 = unused)",
+                "type": "select",
+                "value": "25",
+                "setting": false,
+                "depend": {
+                    "id": "cameratype",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "pinRole": "input",
+                "ispin": true
+            },
+            {
+                "id": "HREF_GPIO_NUM",
+                "define": "HREF_GPIO_NUM",
+                "label": "HREF_GPIO_NUM",
+                "description": "Camera GPIO (-1 = unused)",
+                "type": "select",
+                "value": "23",
+                "setting": false,
+                "depend": {
+                    "id": "cameratype",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "pinRole": "input",
+                "ispin": true
+            },
+            {
+                "id": "PCLK_GPIO_NUM",
+                "define": "PCLK_GPIO_NUM",
+                "label": "PCLK_GPIO_NUM",
+                "description": "Camera GPIO (-1 = unused)",
+                "type": "select",
+                "value": "22",
+                "setting": false,
+                "depend": {
+                    "id": "cameratype",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "pinRole": "input",
+                "ispin": true
             }
         ]
     }

@@ -49,16 +49,10 @@ const UiContextProvider = ({ children }) => {
             ":" +
             now.getSeconds().toString().padStart(2, "0")
 
-        setToasts([...toastsRef.current, { ...newToast, id }])
-        setNotifications([
-            ...notificationsRef.current,
-            { ...newToast, id, time },
-        ])
+        setToasts([...toastsRef.current, { ...newToast, id, time }])
     }
 
-    const clearNotifications = () => {
-        setNotifications([])
-    }
+    const clearNotifications = () => {}
 
     const removeToast = (uids) => {
         const removedIds = removeEntriesByIDs(toastsRef.current, uids)
@@ -91,6 +85,7 @@ const UiContextProvider = ({ children }) => {
     useUiContextFn.getElement = (v) => {
         console.log(v, "not found")
     }
+    useUiContextFn.haptic = () => {}
 
     useUiContextFn.toasts = { addToast, removeToast, toastList: toasts }
 

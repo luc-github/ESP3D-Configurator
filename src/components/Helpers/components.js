@@ -31,7 +31,7 @@ const generateUID = () => Math.random().toString(36).substr(2, 9)
 
 const createComponent =
     (is, className, classModifier = {}) =>
-    ({ is: Tag = is, class: c = "", id = "", ...props }) => {
+    ({ is: Tag = is, class: c = "", id = "", children, ...props }) => {
         const splittedArgs = Object.keys(props).reduce(
             (acc, curr) => {
                 if (Object.keys(classModifier).includes(curr))
@@ -49,7 +49,11 @@ const createComponent =
         const classNames = `${className} ${splittedArgs.classes.join(
             " "
         )} ${c}`.trim()
-        return <Tag class={classNames} id={id} {...splittedArgs.props} />
+        return (
+            <Tag class={classNames} id={id} {...splittedArgs.props}>
+                {children}
+            </Tag>
+        )
     }
 
 /*

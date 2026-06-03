@@ -19,6 +19,8 @@ import { h } from "preact"
 import { HelpCircle } from "preact-feather"
 import { showModal } from "./genericModal"
 
+const CONFIRMATION_MODAL_ID = "confirmation"
+
 const showConfirmationModal = ({
     modals,
     title,
@@ -26,13 +28,17 @@ const showConfirmationModal = ({
     button1,
     button2,
 }) => {
+    const existing = modals.getModalIndex(CONFIRMATION_MODAL_ID)
+    if (existing !== -1) {
+        modals.removeModal(existing)
+    }
     showModal({
         modals,
         title,
         content,
         button1,
         button2,
-        id: "confirmation",
+        id: CONFIRMATION_MODAL_ID,
         icon: <HelpCircle />,
         hideclose: true,
     })

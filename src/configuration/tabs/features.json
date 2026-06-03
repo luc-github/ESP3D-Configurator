@@ -4,6 +4,7 @@
         "description": "ESP Board  using ESP3D firmware",
         "label": "Board description",
         "setting": false,
+        "skipExport": true,
         "type": "group",
         "value": [
             {
@@ -208,7 +209,9 @@
             {
                 "id": "has_psram",
                 "define": "BOARD_HAS_PSRAM",
-                "description": "Has External PSRAM",
+                "description": "Enable if your module includes PSRAM (required for camera).",
+                "footnote": "With PSRAM enabled: ESP32 (WROVER) reserves GPIO 16–17; ESP32-S3 reserves GPIO 26–32 (and 33–37 with octal PSRAM). These GPIO are tracked for conflicts.",
+                "footnoteWhenActive": true,
                 "label": "Has PSRAM",
                 "type": "boolean",
                 "depend": {
@@ -224,10 +227,11 @@
             {
                 "id": "memory_type",
                 "define": "board_build.arduino.memory_type",
-                "description": "Memory type",
+                "description": "Flash and PSRAM bus mode for platformio.ini (ESP32-S3 modules). Must match your board (e.g. N8R2 vs N16R8, octal PSRAM).",
                 "label": "Memory type",
                 "type": "select",
                 "value": "qio_qspi",
+                "footnote": "Please note: if the board fails to boot, this setting may not match your module and must be adjusted accordingly.",
                 "depend": [
                     {
                         "id": "targetmcu",
@@ -295,12 +299,36 @@
             {
                 "id": "serialport",
                 "define": "ESP_SERIAL_OUTPUT",
-                "description": "Which serial port ESP3D use to communicate with printer or TFT",
-                "label": "Serial port",
+                "description": "UART used for printer or TFT (main serial)",
+                "label": "Main serial port",
                 "type": "select",
                 "value": "USE_SERIAL_0",
                 "setting": true,
                 "isport": true
+            },
+            {
+                "id": "ESP_RX_PIN",
+                "define": "ESP_RX_PIN",
+                "label": "RX",
+                "description": "Default (-1) uses board UART pins for the selected main serial port",
+                "type": "select",
+                "value": "-1",
+                "setting": false,
+                "ispin": true,
+                "usedefault": true,
+                "pinRole": "input"
+            },
+            {
+                "id": "ESP_TX_PIN",
+                "define": "ESP_TX_PIN",
+                "label": "TX",
+                "description": "Default (-1) uses board UART pins for the selected main serial port",
+                "type": "select",
+                "value": "-1",
+                "setting": false,
+                "ispin": true,
+                "usedefault": true,
+                "pinRole": "output"
             },
             {
                 "id": "serialbuffer",
@@ -366,13 +394,12 @@
                 },
                 "value": false,
                 "disableiffalse": true,
-                "hide": true,
-                "setting": false
+                "setting": true
             },
             {
                 "id": "serialBridgeport",
                 "define": "ESP_SERIAL_BRIDGE_OUTPUT",
-                "description": "Which serial port serial bridge to output to",
+                "description": "Second UART for serial bridge (must differ from main serial port when possible)",
                 "depend": {
                     "id": "serialBridge",
                     "value": [
@@ -381,9 +408,63 @@
                 },
                 "label": "Serial bridge port",
                 "type": "select",
-                "value": "-1",
+                "value": "USE_SERIAL_1",
                 "setting": true,
                 "isport": true
+            },
+            {
+                "id": "ESP_BRIDGE_RX_PIN",
+                "define": "ESP_BRIDGE_RX_PIN",
+                "label": "RX",
+                "description": "Default (-1) uses board UART pins for the selected bridge port",
+                "type": "select",
+                "value": "-1",
+                "setting": false,
+                "ispin": true,
+                "usedefault": true,
+                "depend": [
+                    {
+                        "id": "serialBridge",
+                        "value": [
+                            true
+                        ]
+                    },
+                    {
+                        "id": "targetmcu",
+                        "notvalue": [
+                            "esp8266",
+                            "esp8285"
+                        ]
+                    }
+                ],
+                "pinRole": "input"
+            },
+            {
+                "id": "ESP_BRIDGE_TX_PIN",
+                "define": "ESP_BRIDGE_TX_PIN",
+                "label": "TX",
+                "description": "Default (-1) uses board UART pins for the selected bridge port",
+                "type": "select",
+                "value": "-1",
+                "setting": false,
+                "ispin": true,
+                "usedefault": true,
+                "depend": [
+                    {
+                        "id": "serialBridge",
+                        "value": [
+                            true
+                        ]
+                    },
+                    {
+                        "id": "targetmcu",
+                        "notvalue": [
+                            "esp8266",
+                            "esp8285"
+                        ]
+                    }
+                ],
+                "pinRole": "output"
             }
         ]
     },

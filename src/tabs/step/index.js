@@ -34,7 +34,15 @@ import { canShowField } from "../../configuration/visibility"
 import { validateField } from "../../configuration/validateField"
 import { buildReservedLists } from "../../configuration/reservedResources"
 import { resolveEffectivePin } from "../../configuration/pinConflicts"
-import { ArrowLeft, ArrowRight } from "preact-feather"
+import { isPinOptionAllowed } from "../../configuration/pinCapabilities"
+import { setFieldValueById } from "../../configuration/applyBoardPreset"
+import {
+    CAMERA_PIN_KEYS,
+    isCustomCameraModel,
+    syncCameraPinsForModel,
+} from "../../configuration/cameraPins"
+import { ArrowLeft, ArrowRight, Info } from "preact-feather"
+import { BoardPresetPicker } from "../../components/BoardPresetPicker"
 
 import pinsList from "./pins.json"
 import portsList from "./ports.json"
@@ -176,12 +184,30 @@ const StepField = ({
     )
     const filteredOptions = optionsList
         ? optionsList.filter((opt) => {
-              return canshow(
-                  opt.depend,
-                  subelement.ispin || subelement.isport ? opt.value : null,
-                  subelement.ispin || subelement.isport ? subelement.value : null,
-                  subelement.ispin ? pinList : subelement.isport ? portList : null
-              )
+              if (
+                  !canshow(
+                      opt.depend,
+                      subelement.ispin || subelement.isport ? opt.value : null,
+                      subelement.ispin || subelement.isport
+                          ? subelement.value
+                          : null,
+                      subelement.ispin ? pinList : subelement.isport ? portList : null
+                  )
+              ) {
+                  return false
+              }
+              if (
+                  subelement.ispin &&
+                  (subelement.pinRole ||
+                      CAMERA_PIN_KEYS.includes(subelement.id))
+              ) {
+                  return isPinOptionAllowed(
+                      subelement,
+                      opt.value,
+                      useDatasContextFn.getValueId
+                  )
+              }
+              return true
           })
         : null
     if (
@@ -197,6 +223,13 @@ const StepField = ({
             : subelement.description
     )
     const [validation, setvalidation] = useState()
+    const cameraModel = useDatasContextFn.getValueId("cameratype")
+    const cameraPinReadOnly =
+        CAMERA_PIN_KEYS.includes(subelement.id) &&
+        !isCustomCameraModel(cameraModel)
+    const showFootnote =
+        subelement.footnote &&
+        (!subelement.footnoteWhenActive || subelement.value === true)
 
     useEffect(() => {
         setHelp(
@@ -213,11 +246,18 @@ const StepField = ({
                 options={filteredOptions}
                 value={value}
                 type={type}
+                disabled={cameraPinReadOnly}
                 {...rest}
                 validationfn={generateValidation}
                 setValue={(val, update = false) => {
                     if (!update) {
                         subelement.value = val
+                        if (subelement.id === "cameratype" && configuration) {
+                            if (val != "-1") {
+                                setFieldValueById(configuration, "has_psram", true)
+                                syncCameraPinsForModel(configuration, val)
+                            }
+                        }
                         onFieldChange()
                         setHelp(
                             options
@@ -233,13 +273,19 @@ const StepField = ({
             {subelement.usedescforoptions && (
                 <div class="m-1">{subelement.description}</div>
             )}
+            {showFootnote && (
+                <div class="m-1 field-footnote" role="note">
+                    <Info size={16} class="field-footnote-icon" aria-hidden="true" />
+                    <span>{subelement.footnote}</span>
+                </div>
+            )}
             <div class="m-1 divider" style="border-color: #dadee4" />
         </Fragment>
     )
 }
 
 const StepTab = ({ previous, current, next }) => {
-    const { configuration } = useDatasContext()
+    const { configuration, configRevision } = useDatasContext()
     const [reserveVersion, setReserveVersion] = useState(0)
     const bumpFieldTree = () => {
         setReserveVersion((version) => version + 1)
@@ -263,6 +309,9 @@ const StepTab = ({ previous, current, next }) => {
             {!isLoading && (
                 <div class="center">
                     <NavButtons previous={previous} next={next} />
+                    {current === "features" && (
+                        <BoardPresetPicker onApplied={bumpFieldTree} />
+                    )}
                     {configuration.current[current] &&
                         configuration.current[current].map((element, index) => {
                             if (element.type === "group") {
@@ -270,13 +319,13 @@ const StepTab = ({ previous, current, next }) => {
 
                                 return (
                                     <FieldGroup
-                                        key={`${element.id}-${reserveVersion}`}
+                                        key={`${element.id}-${reserveVersion}-${configRevision}`}
                                         id={element.id}
                                         label={T(element.label)}
                                     >
                                         {element.value.map((subelement, subindex) => (
                                             <StepField
-                                                key={`${element.id}-${subindex}-${subelement.id || "field"}-${reserveVersion}`}
+                                                key={`${element.id}-${subindex}-${subelement.id || "field"}-${reserveVersion}-${configRevision}`}
                                                 subelement={subelement}
                                                 current={current}
                                                 configuration={configuration.current}

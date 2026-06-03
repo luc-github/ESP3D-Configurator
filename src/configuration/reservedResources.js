@@ -1,5 +1,6 @@
 import { canShowField } from "./visibility"
 import { resolveEffectivePin } from "./pinConflicts"
+import { getPsramReservedGpios } from "./psramReservedPins"
 
 const forEachField = (configuration, getValueId, visitor) => {
     if (!configuration) return
@@ -44,6 +45,7 @@ const buildReservedLists = (configuration, getValueId, excludeFieldId) => {
             ports.push(String(field.value))
         }
     })
+    getPsramReservedGpios(getValueId).forEach((gpio) => pins.push(gpio))
     if (ports.length === 0) {
         ports.push("USE_SERIAL_0")
     }

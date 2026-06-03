@@ -1,0 +1,137 @@
+[
+    {
+        "id": "esp32-devkit-4mb",
+        "label": "ESP32 devkit (4 MB)",
+        "description": "Generic ESP32 module, 4 MB flash, full pinout, WiFi, no SD or camera.",
+        "values": {
+            "targetmcu": "esp32",
+            "targetflashsize": "4",
+            "formfactor": "original",
+            "flash_mode": "dio",
+            "has_psram": false,
+            "wifi": true,
+            "ethernet": false,
+            "sdconnection": "-1",
+            "cameratype": "-1",
+            "displaytype": "-1",
+            "systemtype": "Printer3D",
+            "defaultfw": "MARLIN",
+            "serialprotocol": "RAW_SERIAL",
+            "serialport": "USE_SERIAL_0"
+        }
+    },
+    {
+        "id": "esp32-devkit-sd",
+        "label": "ESP32 devkit + SD (SPI)",
+        "description": "ESP32 with dedicated SD card on SPI (MCU default pins).",
+        "values": {
+            "targetmcu": "esp32",
+            "targetflashsize": "4",
+            "formfactor": "original",
+            "flash_mode": "dio",
+            "has_psram": false,
+            "wifi": true,
+            "ethernet": false,
+            "sdconnection": "ESP_NOT_SHARED_SD",
+            "sdfs": "ESP_SDFAT2",
+            "sdcspin": "-1",
+            "sdmosipin": "-1",
+            "sdmisopin": "-1",
+            "sdsckpin": "-1",
+            "cameratype": "-1",
+            "displaytype": "-1",
+            "systemtype": "Printer3D",
+            "defaultfw": "MARLIN",
+            "serialprotocol": "RAW_SERIAL",
+            "serialport": "USE_SERIAL_0"
+        }
+    },
+    {
+        "id": "esp32-cam-ai-thinker",
+        "label": "ESP32-CAM (AI-Thinker)",
+        "description": "ESP32 with PSRAM and AI-Thinker camera module.",
+        "values": {
+            "targetmcu": "esp32",
+            "targetflashsize": "4",
+            "formfactor": "original",
+            "flash_mode": "dio",
+            "has_psram": true,
+            "wifi": true,
+            "ethernet": false,
+            "cameratype": "CAMERA_MODEL_AI_THINKER",
+            "sdconnection": "ESP_NOT_SHARED_SD",
+            "sdfs": "ESP_SD_NATIVE",
+            "displaytype": "-1",
+            "systemtype": "Printer3D",
+            "defaultfw": "MARLIN",
+            "serialprotocol": "RAW_SERIAL",
+            "serialport": "USE_SERIAL_0"
+        }
+    },
+    {
+        "id": "esp8266-esp01-1mb",
+        "label": "ESP8266 ESP-01 (1 MB)",
+        "description": "ESP-01 form factor, 1 MB flash, WiFi only.",
+        "values": {
+            "targetmcu": "esp8266",
+            "targetflashsize": "1",
+            "formfactor": "esp01",
+            "flash_mod1": "dio",
+            "resetmethod": "ck",
+            "wifi": true,
+            "sdconnection": "-1",
+            "cameratype": "-1",
+            "displaytype": "-1",
+            "systemtype": "Printer3D",
+            "defaultfw": "MARLIN",
+            "serialprotocol": "RAW_SERIAL",
+            "serialport": "USE_SERIAL_0"
+        }
+    },
+    {
+        "id": "esp32s3-devkit-8mb",
+        "label": "ESP32-S3 devkit (8 MB)",
+        "description": "ESP32-S3 with 8 MB flash and octal PSRAM profile, no camera.",
+        "values": {
+            "targetmcu": "esp32s3",
+            "targetflashsize": "8",
+            "formfactor": "original",
+            "flash_mode": "qio",
+            "has_psram": true,
+            "memory_type": "qio_opi",
+            "wifi": true,
+            "ethernet": false,
+            "usbserial": false,
+            "sdconnection": "-1",
+            "cameratype": "-1",
+            "displaytype": "-1",
+            "systemtype": "Printer3D",
+            "defaultfw": "MARLIN",
+            "serialprotocol": "RAW_SERIAL",
+            "serialport": "USE_SERIAL_0"
+        }
+    },
+    {
+        "id": "esp32s3-xiao-sense",
+        "label": "ESP32-S3 (Seeed Xiao Sense + camera)",
+        "description": "ESP32-S3 devkit profile with PSRAM and Xiao ESP32-S3 Sense camera pin map.",
+        "values": {
+            "targetmcu": "esp32s3",
+            "targetflashsize": "8",
+            "formfactor": "original",
+            "flash_mode": "qio",
+            "has_psram": true,
+            "memory_type": "qio_opi",
+            "wifi": true,
+            "ethernet": false,
+            "usbserial": false,
+            "sdconnection": "-1",
+            "cameratype": "CAMERA_MODEL_XIAO_ESP32S3",
+            "displaytype": "-1",
+            "systemtype": "Printer3D",
+            "defaultfw": "MARLIN",
+            "serialprotocol": "RAW_SERIAL",
+            "serialport": "USE_SERIAL_0"
+        }
+    }
+]

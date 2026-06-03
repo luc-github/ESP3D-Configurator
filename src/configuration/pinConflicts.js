@@ -1,5 +1,10 @@
 import { canShowField } from "./visibility"
 import { mcuPinDefaults, defaultPinRoles } from "./mcuPinDefaults"
+import {
+    isSerialPinField,
+    resolveSerialEffectivePin,
+} from "./serialPinDefaults"
+import { psramPinUsages } from "./psramReservedPins"
 
 const forEachField = (configuration, getValueId, visitor) => {
     if (!configuration) return
@@ -18,6 +23,9 @@ const forEachField = (configuration, getValueId, visitor) => {
 }
 
 const resolveEffectivePin = (field, getValueId) => {
+    if (isSerialPinField(field.id)) {
+        return resolveSerialEffectivePin(field, getValueId)
+    }
     if (!field.ispin) return null
     const raw = field.value
     if (raw != "-1") return String(raw)
@@ -54,6 +62,7 @@ const collectPinUsages = (configuration, getValueId) => {
             description: describePinAssignment(field, effective),
         })
     })
+    usages.push(...psramPinUsages(getValueId))
     return usages
 }
 

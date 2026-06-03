@@ -25,10 +25,16 @@
                 "type": "select",
                 "ispin": true,
                 "header": "#define PIN_RESET_FEATURE\n",
-                "depend": { "id": "resetfeature", "value": [true] },
+                "depend": {
+                    "id": "resetfeature",
+                    "value": [
+                        true
+                    ]
+                },
                 "value": "-1",
                 "setting": true,
-                "usedescforoptions": true
+                "usedescforoptions": true,
+                "pinRole": "input"
             }
         ]
     },
@@ -37,7 +43,13 @@
         "description": "Update ESP3D firmware",
         "label": "Update ESP3D",
         "setting": true,
-        "depend": { "id": "targetflashsize", "notvalue": ["1", "2"] },
+        "depend": {
+            "id": "targetflashsize",
+            "notvalue": [
+                "1",
+                "2"
+            ]
+        },
         "type": "group",
         "value": [
             {
@@ -66,7 +78,12 @@
                 "label": "Enable SD card Update",
                 "description": "Update firmware and settings using file on SDCard",
                 "type": "boolean",
-                "depend": { "id": "sdconnection", "notvalue": ["-1"] },
+                "depend": {
+                    "id": "sdconnection",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
                 "value": true,
                 "disableiffalse": true,
                 "setting": true

@@ -1,0 +1,115 @@
+{
+    "_comment": "MCU-independent roles required by each config field. Hardware tags (input-only GPIO, PSRAM, …) come later per MCU.",
+    "taxonomy": {
+        "fieldRoles": {
+            "output": "Digital output (drive HIGH/LOW): CS, RST, LED, buzzer, UART TX, camera control, power enable.",
+            "input": "Digital input (read level): UART RX, card detect, IRQ, parallel camera sync/data in.",
+            "bidirectional": "Digital in+out on same line or bus bit: SPI MOSI/MISO, SDIO, MDIO, DHT one-wire, I2C SCCB (open-drain).",
+            "analog_input": "ADC reading only (e.g. analog sensor).",
+            "optional_gpio": "May be -1 (unused); when set, same rules as sibling role in notes."
+        },
+        "hardwareTags": {
+            "_note": "Not field roles — applied per GPIO per MCU when building pin pickers.",
+            "reserved": "Flash / PSRAM / strapping / USB — never offered (see psramReservedPins.js).",
+            "input_only": "GPIO cannot be configured as output (ESP32: 34–39).",
+            "output_only": "GPIO cannot be configured as input (rare on ESP32).",
+            "adc": "Valid ADC channel when analog read is needed.",
+            "bidirectional": "Normal GPIO (input+output)."
+        },
+        "userProposalMapping": {
+            "Any (Input/Output/ADC)": "Too loose for validation — use bidirectional or split by field.",
+            "Input/Output (Not ADC)": "≈ bidirectional (digital features).",
+            "Input only": "Hardware tag, not a field role — use with input fields.",
+            "Output only": "Hardware tag — use with output fields.",
+            "Input only ADC": "Hardware tag — required for analog_input fields.",
+            "Output only ADC": "Not used on ESP32 (no ADC output); use output or DAC later if needed.",
+            "Reserved": "hardwareTags.reserved — orthogonal to field roles."
+        },
+        "recommendedMinimum": [
+            "output",
+            "input",
+            "bidirectional",
+            "analog_input",
+            "reserved (hardware only)"
+        ]
+    },
+    "fields": {
+        "ESP_RX_PIN": { "role": "input", "group": "serial", "label": "Main serial RX" },
+        "ESP_TX_PIN": { "role": "output", "group": "serial", "label": "Main serial TX" },
+        "ESP_BRIDGE_RX_PIN": { "role": "input", "group": "serial", "label": "Bridge serial RX" },
+        "ESP_BRIDGE_TX_PIN": { "role": "output", "group": "serial", "label": "Bridge serial TX" },
+
+        "oledrstpin": { "role": "output", "group": "display", "label": "OLED reset", "notes": "optional -1" },
+        "tftledpin": { "role": "output", "group": "display", "label": "TFT backlight" },
+        "tftDCpin": { "role": "output", "group": "display", "label": "TFT DC" },
+        "tftRSTpin": { "role": "output", "group": "display", "label": "TFT reset" },
+        "tftCSpin": { "role": "output", "group": "display", "label": "TFT CS" },
+        "tftMOSIpin": { "role": "bidirectional", "group": "display", "label": "TFT MOSI", "notes": "SPI master out; output-heavy" },
+        "tftSCKpin": { "role": "output", "group": "display", "label": "TFT SCK" },
+
+        "buzzerpin": { "role": "output", "group": "devices", "label": "Buzzer" },
+        "sensorpin": {
+            "role": "input",
+            "group": "devices",
+            "label": "Sensor data pin",
+            "roleWhen": {
+                "sensortype": {
+                    "ANALOG_DEVICE": "analog_input",
+                    "DHT11_DEVICE": "bidirectional",
+                    "DHT22_DEVICE": "bidirectional"
+                }
+            }
+        },
+        "resetpin": { "role": "input", "group": "update", "label": "Settings reset", "notes": "Held low at boot; input with pull-up" },
+
+        "ethernetpowerpin": { "role": "output", "group": "ethernet", "label": "PHY power" },
+        "ethernetmdcpin": { "role": "output", "group": "ethernet", "label": "PHY MDC" },
+        "ethernetmdiopin": { "role": "bidirectional", "group": "ethernet", "label": "PHY MDIO" },
+        "ethernetspiirqpin": { "role": "input", "group": "ethernet", "label": "SPI PHY IRQ" },
+        "ethernetspirstpin": { "role": "output", "group": "ethernet", "label": "SPI PHY reset" },
+        "ethernetspicspin": { "role": "output", "group": "ethernet", "label": "SPI PHY CS" },
+        "ethernetspimosipin": { "role": "bidirectional", "group": "ethernet", "label": "SPI PHY MOSI" },
+        "ethernetspimisopin": { "role": "bidirectional", "group": "ethernet", "label": "SPI PHY MISO" },
+        "ethernetspisckpin": { "role": "output", "group": "ethernet", "label": "SPI PHY SCK" },
+
+        "detectsdpin": { "role": "input", "group": "sd", "label": "SD card detect", "notes": "optional -1" },
+        "shareflagsdpin": { "role": "output", "group": "sd", "label": "SD shared flag" },
+        "sdcspin": { "role": "output", "group": "sd_spi", "label": "SD CS" },
+        "sdmosipin": { "role": "bidirectional", "group": "sd_spi", "label": "SD MOSI" },
+        "sdmisopin": { "role": "bidirectional", "group": "sd_spi", "label": "SD MISO" },
+        "sdsckpin": { "role": "output", "group": "sd_spi", "label": "SD SCK" },
+        "sdioclkpin": { "role": "output", "group": "sd_sdio", "label": "SDIO CLK" },
+        "sdiocmdpin": { "role": "bidirectional", "group": "sd_sdio", "label": "SDIO CMD" },
+        "sdiod0pin": { "role": "bidirectional", "group": "sd_sdio", "label": "SDIO D0" },
+        "sdiod1pin": { "role": "bidirectional", "group": "sd_sdio", "label": "SDIO D1" },
+        "sdiod2pin": { "role": "bidirectional", "group": "sd_sdio", "label": "SDIO D2" },
+        "sdiod3pin": { "role": "bidirectional", "group": "sd_sdio", "label": "SDIO D3" },
+
+        "CAM_LED_PIN": { "role": "output", "group": "camera", "label": "Camera LED", "notes": "optional -1" },
+        "CAM_PULLUP1": { "role": "optional_gpio", "group": "camera", "label": "Camera pull-up 1", "notes": "optional -1; when set treat as input or output per board" },
+        "CAM_PULLUP2": { "role": "optional_gpio", "group": "camera", "label": "Camera pull-up 2", "notes": "optional -1" },
+        "PWDN_GPIO_NUM": { "role": "output", "group": "camera", "label": "Camera power-down" },
+        "RESET_GPIO_NUM": { "role": "output", "group": "camera", "label": "Camera reset", "notes": "optional -1" },
+        "XCLK_GPIO_NUM": { "role": "output", "group": "camera", "label": "Camera XCLK" },
+        "SIOD_GPIO_NUM": { "role": "bidirectional", "group": "camera", "label": "Camera I2C SDA", "notes": "open-drain" },
+        "SIOC_GPIO_NUM": { "role": "bidirectional", "group": "camera", "label": "Camera I2C SCL", "notes": "open-drain" },
+        "Y2_GPIO_NUM": { "role": "input", "group": "camera", "label": "DVP Y2" },
+        "Y3_GPIO_NUM": { "role": "input", "group": "camera", "label": "DVP Y3" },
+        "Y4_GPIO_NUM": { "role": "input", "group": "camera", "label": "DVP Y4" },
+        "Y5_GPIO_NUM": { "role": "input", "group": "camera", "label": "DVP Y5" },
+        "Y6_GPIO_NUM": { "role": "input", "group": "camera", "label": "DVP Y6" },
+        "Y7_GPIO_NUM": { "role": "input", "group": "camera", "label": "DVP Y7" },
+        "Y8_GPIO_NUM": { "role": "input", "group": "camera", "label": "DVP Y8" },
+        "Y9_GPIO_NUM": { "role": "input", "group": "camera", "label": "DVP Y9" },
+        "VSYNC_GPIO_NUM": { "role": "input", "group": "camera", "label": "DVP VSYNC" },
+        "HREF_GPIO_NUM": { "role": "input", "group": "camera", "label": "DVP HREF" },
+        "PCLK_GPIO_NUM": { "role": "input", "group": "camera", "label": "DVP PCLK" }
+    },
+    "summaryByRole": {
+        "output": 22,
+        "input": 17,
+        "bidirectional": 13,
+        "optional_gpio": 2,
+        "analog_input": "sensorpin only when sensortype=ANALOG_DEVICE (see roleWhen)"
+    }
+}

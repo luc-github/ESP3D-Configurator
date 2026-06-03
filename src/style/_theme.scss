@@ -1,0 +1,157 @@
+// UI theme tokens (light defaults on :root; dark overrides on [data-theme="dark"])
+
+:root {
+    color-scheme: light;
+    --th-bg-page: #{$bg-color};
+    --th-bg-surface: #ffffff;
+    --th-bg-muted: #f1f1fc;
+    --th-bg-navbar: #{$bg-color-dark};
+    --th-text: #{$body-font-color};
+    --th-text-muted: #{$gray-color};
+    --th-primary: #{$primary-color};
+    --th-link: blue;
+    --th-border: #dadee4;
+    --th-input-bg: #ffffff;
+    --th-shadow: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] {
+    color-scheme: dark;
+    --th-bg-page: #1a1d23;
+    --th-bg-surface: #252930;
+    --th-bg-muted: #2e3340;
+    --th-bg-navbar: #12151a;
+    --th-text: #e4e6eb;
+    --th-text-muted: #a8adb8;
+    --th-primary: #8b89ff;
+    --th-link: #9d9bff;
+    --th-border: #3d4452;
+    --th-input-bg: #2a2f3a;
+    --th-shadow: rgba(0, 0, 0, 0.35);
+}
+
+html,
+body,
+#app {
+    background-color: var(--th-bg-page);
+    color: var(--th-text);
+}
+
+.navbar {
+    background-color: var(--th-bg-navbar) !important;
+}
+
+.panel .navbar,
+.panel .navbar-section {
+    background: var(--th-bg-muted) !important;
+    color: var(--th-primary) !important;
+}
+
+.panel .tab-item,
+.field-group,
+.tab-item {
+    color: var(--th-primary) !important;
+}
+
+section .active,
+li .active {
+    color: var(--th-link) !important;
+}
+
+.mobile-view section .active,
+.mobile-view li .active {
+    background-color: rgba(139, 137, 255, 0.15) !important;
+}
+
+.form-input,
+.form-select,
+textarea.form-input {
+    background-color: var(--th-input-bg);
+    color: var(--th-text);
+    border-color: var(--th-border);
+}
+
+.form-label,
+.text-dark {
+    color: var(--th-text) !important;
+}
+
+.fieldset-bottom-separator,
+.fieldset-top-separator,
+.itemEditor,
+.files-list {
+    border-color: var(--th-border);
+}
+
+.btn-link,
+.feather-icon-container {
+    color: var(--th-primary);
+}
+
+.btn-header,
+.item-selection-list:hover,
+.btn-header {
+    background-color: var(--th-bg-muted);
+}
+
+.column .panel {
+    box-shadow: 0 0 14px -5px var(--th-shadow);
+}
+
+.modal-container .modal,
+.toast {
+    background: var(--th-bg-surface);
+    color: var(--th-text);
+}
+
+// Spectre sets colored backgrounds on .toast-success / .toast-error; keep surface
+// background so message text (green/red) stays readable.
+.toasts-container .toast.toast-success,
+.toasts-container .toast.toast-error {
+    background: var(--th-bg-surface) !important;
+    border: 0.05rem solid var(--th-border) !important;
+    color: var(--th-text) !important;
+    min-width: 12rem;
+}
+
+.toasts-container .toast.toast-success {
+    border-left: 0.25rem solid $success-color !important;
+
+    .toast-message {
+        color: $success-color !important;
+    }
+}
+
+.toasts-container .toast.toast-error {
+    border-left: 0.25rem solid $error-color !important;
+
+    .toast-message {
+        color: $error-color !important;
+    }
+}
+
+.toasts-container .toast .toast-message {
+    display: block;
+    padding-right: 1.75rem;
+}
+
+.board-preset-intro {
+    color: var(--th-text-muted);
+}
+
+fieldset.board-preset-picker.field-group {
+    p.board-preset-import-feedback--success {
+        color: $success-color !important;
+    }
+
+    p.board-preset-import-feedback--error {
+        color: $error-color !important;
+    }
+}
+
+[data-theme="dark"] .accordion-header,
+[data-theme="dark"] pre,
+[data-theme="dark"] code {
+    background: var(--th-bg-muted);
+    color: var(--th-text);
+}

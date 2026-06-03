@@ -29,27 +29,23 @@ import { T } from "../../components/Translations"
 import {
     useDatasContext,
     useDatasContextFn,
-    useUiContext,
 } from "../../contexts"
-import { ArrowLeft, ArrowRight } from "preact-feather"
+import { canShowField } from "../../configuration/visibility"
+import { validateField } from "../../configuration/validateField"
+import { buildReservedLists } from "../../configuration/reservedResources"
+import { resolveEffectivePin } from "../../configuration/pinConflicts"
+import { isPinOptionAllowed } from "../../configuration/pinCapabilities"
+import { setFieldValueById } from "../../configuration/applyBoardPreset"
+import {
+    CAMERA_PIN_KEYS,
+    isCustomCameraModel,
+    syncCameraPinsForModel,
+} from "../../configuration/cameraPins"
+import { ArrowLeft, ArrowRight, Info } from "preact-feather"
+import { BoardPresetPicker } from "../../components/BoardPresetPicker"
 
 import pinsList from "./pins.json"
 import portsList from "./ports.json"
-
-const usedPinsList = {}
-usedPinsList.current = []
-
-const usedPortsList = {}
-usedPortsList.current = ["USE_SERIAL_0"]
-
-const removeUsedElement = (el, list) => {
-    if (el == "-1") return
-    list.current = list.current.filter((element) => element != el)
-}
-const addUsedElement = (el, list) => {
-    if (el == "-1") return
-    list.current.push(el)
-}
 
 const mergeListOptions = (list, options) => {
     if (list) {
@@ -83,40 +79,52 @@ const getHelp = (item, value) => {
     return null
 }
 
-const canshow = (depend, value, currentvalue, list = usedPinsList) => {
-    if (value && value != "-1") {
-        if (value == currentvalue && canshow(depend)) {
-            return true
+const getOptionsList = (subelement, options) => {
+    if (subelement.ispin) {
+        if (subelement.usedefault) {
+            return JSON.parse(
+                JSON.stringify(mergeListOptions(pinsList, options)).replaceAll(
+                    "None",
+                    "Default"
+                )
+            )
         }
-        if (list.current.includes(value)) {
-            return false
-        }
+        return mergeListOptions(pinsList, options)
     }
-    if (depend) {
-        if (Array.isArray(depend)) {
-            const res = depend.reduce((acc, curdep) => {
-                if (!acc) return acc
-                const val = useDatasContextFn.getValueId(curdep.id)
-                if (curdep.value) {
-                    return curdep.value.includes(val)
-                }
-                if (curdep.notvalue) {
-                    return !curdep.notvalue.includes(val)
-                }
-            }, true)
-            return res
-        } else {
-            const val = useDatasContextFn.getValueId(depend.id)
-            if (depend.value) {
-                return depend.value.includes(val)
-            }
-            if (depend.notvalue) {
-                return !depend.notvalue.includes(val)
-            }
+    if (subelement.isport) {
+        if (subelement.usedefault) {
+            return JSON.parse(
+                JSON.stringify(mergeListOptions(portsList, options)).replaceAll(
+                    "None",
+                    "Default"
+                )
+            )
         }
+        return mergeListOptions(portsList, options)
     }
-    return true
+    return options
 }
+
+const annotateDefaultPinLabels = (subelement, optionsList) => {
+    if (!optionsList || !subelement.ispin || !subelement.usedefault) {
+        return optionsList
+    }
+    const effective = resolveEffectivePin(
+        { ...subelement, value: "-1" },
+        useDatasContextFn.getValueId
+    )
+    if (!effective) return optionsList
+    return optionsList.map((opt) =>
+        opt.value == "-1" ? { ...opt, label: `-1 (${effective})` } : opt
+    )
+}
+
+const canshow = (depend, value, currentvalue, list) =>
+    canShowField(depend, useDatasContextFn.getValueId, {
+        resourceValue: value,
+        currentResourceValue: currentvalue,
+        reservedList: list,
+    })
 
 const NavButtons = ({ previous, next }) => {
     return (
@@ -151,26 +159,159 @@ const NavButtons = ({ previous, next }) => {
     )
 }
 
-const StepTab = ({ previous, current, next }) => {
-    const { configuration } = useDatasContext()
-    const generateValidation = (fieldData) => {
-        const validation = {
-            message: "",
-            valid: true,
-            modified: false,
-        }
-        return validation
+const StepField = ({
+    subelement,
+    current,
+    configuration,
+    generateValidation,
+    onFieldChange,
+}) => {
+    if (!canshow(subelement.depend)) return null
+    const reserved = buildReservedLists(
+        configuration,
+        useDatasContextFn.getValueId,
+        subelement.id
+    )
+    const pinList = { current: reserved.pins }
+    const portList = { current: reserved.ports }
+    if (typeof subelement.initial === "undefined") {
+        subelement.initial = subelement.value
     }
+    const { label, initial, type, options, value, ...rest } = subelement
+    const optionsList = annotateDefaultPinLabels(
+        subelement,
+        getOptionsList(subelement, options)
+    )
+    const filteredOptions = optionsList
+        ? optionsList.filter((opt) => {
+              if (
+                  !canshow(
+                      opt.depend,
+                      subelement.ispin || subelement.isport ? opt.value : null,
+                      subelement.ispin || subelement.isport
+                          ? subelement.value
+                          : null,
+                      subelement.ispin ? pinList : subelement.isport ? portList : null
+                  )
+              ) {
+                  return false
+              }
+              if (
+                  subelement.ispin &&
+                  (subelement.pinRole ||
+                      CAMERA_PIN_KEYS.includes(subelement.id))
+              ) {
+                  return isPinOptionAllowed(
+                      subelement,
+                      opt.value,
+                      useDatasContextFn.getValueId
+                  )
+              }
+              return true
+          })
+        : null
+    if (
+        filteredOptions &&
+        filteredOptions.findIndex((op) => op.value == subelement.value) == -1
+    ) {
+        subelement.value = filteredOptions[0].value
+        onFieldChange()
+    }
+    const [help, setHelp] = useState(
+        subelement.options
+            ? getHelp(optionsList, subelement.value)
+            : subelement.description
+    )
+    const [validation, setvalidation] = useState()
+    const cameraModel = useDatasContextFn.getValueId("cameratype")
+    const cameraPinReadOnly =
+        CAMERA_PIN_KEYS.includes(subelement.id) &&
+        !isCustomCameraModel(cameraModel)
+    const showFootnote =
+        subelement.footnote &&
+        (!subelement.footnoteWhenActive || subelement.value === true)
+
+    useEffect(() => {
+        setHelp(
+            optionsList ? getHelp(optionsList, subelement.value) : subelement.description
+        )
+    }, [subelement.value, current])
+
+    return (
+        <Fragment>
+            <Field
+                inline
+                className="fit-content"
+                label={T(label)}
+                options={filteredOptions}
+                value={value}
+                type={type}
+                disabled={cameraPinReadOnly}
+                {...rest}
+                validationfn={generateValidation}
+                setValue={(val, update = false) => {
+                    if (!update) {
+                        subelement.value = val
+                        if (subelement.id === "cameratype" && configuration) {
+                            if (val != "-1") {
+                                setFieldValueById(configuration, "has_psram", true)
+                                syncCameraPinsForModel(configuration, val)
+                            }
+                        }
+                        onFieldChange()
+                        setHelp(
+                            options
+                                ? getHelp(optionsList, val)
+                                : subelement.description
+                        )
+                    }
+                    setvalidation(generateValidation(subelement))
+                }}
+                validation={validation}
+            />
+            {help && <div class="m-1">{help}</div>}
+            {subelement.usedescforoptions && (
+                <div class="m-1">{subelement.description}</div>
+            )}
+            {showFootnote && (
+                <div class="m-1 field-footnote" role="note">
+                    <Info size={16} class="field-footnote-icon" aria-hidden="true" />
+                    <span>{subelement.footnote}</span>
+                </div>
+            )}
+            <div class="m-1 divider" style="border-color: #dadee4" />
+        </Fragment>
+    )
+}
+
+const StepTab = ({ previous, current, next }) => {
+    const { configuration, configRevision } = useDatasContext()
+    const [reserveVersion, setReserveVersion] = useState(0)
+    const bumpFieldTree = () => {
+        setReserveVersion((version) => version + 1)
+    }
+    const generateValidation = (fieldData) =>
+        validateField(
+            fieldData,
+            useDatasContextFn.getValueId,
+            configuration.current
+        )
     const [isLoading, setIsLoading] = useState(true)
     useEffect(() => {
         setIsLoading(false)
     }, [])
+    useEffect(() => {
+        bumpFieldTree()
+    }, [current])
     return (
         <div id={current} class="m-2">
             {isLoading && <Loading large />}
             {!isLoading && (
                 <div class="center">
                     <NavButtons previous={previous} next={next} />
+                    {current === "features" && (
+                        <BoardPresetPicker onApplied={bumpFieldTree} />
+                    )}
                     {configuration.current[current] &&
                         configuration.current[current].map((element, index) => {
                             if (element.type === "group") {
@@ -178,226 +319,20 @@ const StepTab = ({ previous, current, next }) => {
 
                                 return (
                                     <FieldGroup
+                                        key={`${element.id}-${reserveVersion}-${configRevision}`}
                                         id={element.id}
                                         label={T(element.label)}
                                     >
-                                        {element.value.map(
-                                            (subelement, subindex) => {
-                                                if (!canshow(subelement.depend))
-                                                    return null
-                                                if (
-                                                    typeof subelement.initial ===
-                                                    "undefined"
-                                                )
-                                                    subelement.initial =
-                                                        subelement.value
-                                                const {
-                                                    label,
-                                                    initial,
-                                                    type,
-                                                    options,
-                                                    value,
-                                                    ...rest
-                                                } = subelement
-                                                const optionsList =
-                                                    subelement.ispin
-                                                        ? subelement.usedefault
-                                                            ? JSON.parse(
-                                                                  JSON.stringify(
-                                                                      mergeListOptions(
-                                                                          pinsList,
-                                                                          options
-                                                                      )
-                                                                  ).replaceAll(
-                                                                      "None",
-                                                                      "Default"
-                                                                  )
-                                                              )
-                                                            : mergeListOptions(
-                                                                  pinsList,
-                                                                  options
-                                                              )
-                                                        : subelement.isport
-                                                          ? subelement.usedefault
-                                                              ? JSON.parse(
-                                                                    JSON.stringify(
-                                                                        mergeListOptions(
-                                                                            portsList,
-                                                                            options
-                                                                        )
-                                                                    ).replaceAll(
-                                                                        "None",
-                                                                        "Default"
-                                                                    )
-                                                                )
-                                                              : mergeListOptions(
-                                                                    portsList,
-                                                                    options
-                                                                )
-                                                          : options
-                                                const filteredOptions =
-                                                    optionsList
-                                                        ? optionsList.filter(
-                                                              (opt) => {
-                                                                  return canshow(
-                                                                      opt.depend,
-                                                                      subelement.ispin ||
-                                                                          subelement.isport
-                                                                          ? opt.value
-                                                                          : null,
-                                                                      subelement.ispin ||
-                                                                          subelement.isport
-                                                                          ? subelement.value
-                                                                          : null,
-                                                                      subelement.ispin
-                                                                          ? usedPinsList
-                                                                          : subelement.isport
-                                                                            ? usedPortsList
-                                                                            : null
-                                                                  )
-                                                              }
-                                                          )
-                                                        : null
-                                                if (
-                                                    filteredOptions &&
-                                                    filteredOptions.findIndex(
-                                                        (op) =>
-                                                            op.value ==
-                                                            subelement.value
-                                                    ) == -1
-                                                ) {
-                                                    if (
-                                                        subelement.ispin ||
-                                                        subelement.isport
-                                                    ) {
-                                                        removeUsedElement(
-                                                            subelement.value,
-                                                            subelement.ispin
-                                                                ? usedPinsList
-                                                                : usedPortsList
-                                                        )
-                                                    }
-                                                    subelement.value =
-                                                        filteredOptions[0].value
-                                                }
-                                                const [help, setHelp] =
-                                                    useState(
-                                                        subelement.options
-                                                            ? getHelp(
-                                                                  optionsList,
-                                                                  subelement.value
-                                                              )
-                                                            : subelement.description
-                                                    )
-                                                const [
-                                                    validation,
-                                                    setvalidation,
-                                                ] = useState()
-                                                //workaround to useState not always updating help at begining and use another one from another page...
-                                                useEffect(() => {
-                                                    setHelp(
-                                                        optionsList
-                                                            ? getHelp(
-                                                                  optionsList,
-                                                                  subelement.value
-                                                              )
-                                                            : subelement.description
-                                                    )
-                                                }, [])
-                                                useEffect(() => {
-                                                    setHelp(
-                                                        optionsList
-                                                            ? getHelp(
-                                                                  optionsList,
-                                                                  subelement.value
-                                                              )
-                                                            : subelement.description
-                                                    )
-                                                }, [subelement.value, current])
-                                                return (
-                                                    <Fragment>
-                                                        <Field
-                                                            inline
-                                                            className="fit-content"
-                                                            label={T(label)}
-                                                            options={
-                                                                filteredOptions
-                                                            }
-                                                            value={value}
-                                                            type={type}
-                                                            {...rest}
-                                                            validationfn={
-                                                                generateValidation
-                                                            }
-                                                            setValue={(
-                                                                val,
-                                                                update = false
-                                                            ) => {
-                                                                if (!update) {
-                                                                    if (
-                                                                        subelement.ispin ||
-                                                                        subelement.isport
-                                                                    ) {
-                                                                        removeUsedElement(
-                                                                            subelement.value,
-                                                                            subelement.ispin
-                                                                                ? usedPinsList
-                                                                                : usedPortsList
-                                                                        )
-                                                                        addUsedElement(
-                                                                            val,
-                                                                            subelement.ispin
-                                                                                ? usedPinsList
-                                                                                : usedPortsList
-                                                                        )
-                                                                        console.log(
-                                                                            subelement.ispin
-                                                                                ? usedPinsList
-                                                                                : usedPortsList
-                                                                        )
-                                                                    }
-                                                                    subelement.value =
-                                                                        val
-
-                                                                    setHelp(
-                                                                        options
-                                                                            ? getHelp(
-                                                                                  optionsList,
-                                                                                  val
-                                                                              )
-                                                                            : subelement.description
-                                                                    )
-                                                                }
-                                                                setvalidation(
-                                                                    generateValidation(
-                                                                        subelement
-                                                                    )
-                                                                )
-                                                            }}
-                                                            validation={
-                                                                validation
-                                                            }
-                                                        />
-                                                        {help && (
-                                                            <div class="m-1">
-                                                                {help}
-                                                            </div>
-                                                        )}
-                                                        {subelement.usedescforoptions && (
-                                                            <div class="m-1">
-                                                                {
-                                                                    subelement.description
-                                                                }
-                                                            </div>
-                                                        )}
-                                                        <div
-                                                            class="m-1 divider"
-                                                            style="border-color: #dadee4"
-                                                        />
-                                                    </Fragment>
-                                                )
-                                            }
-                                        )}
+                                        {element.value.map((subelement, subindex) => (
+                                            <StepField
+                                                key={`${element.id}-${subindex}-${subelement.id || "field"}-${reserveVersion}-${configRevision}`}
+                                                subelement={subelement}
+                                                current={current}
+                                                configuration={configuration.current}
+                                                generateValidation={generateValidation}
+                                                onFieldChange={bumpFieldTree}
+                                            />
+                                        ))}
                                     </FieldGroup>
                                 )
                             } else {

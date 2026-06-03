@@ -18,7 +18,8 @@
 */
 import { h, createContext } from "preact"
 import { useRef, useContext, useState } from "preact/hooks"
-import defaultConfiguration from "../configuration.json"
+import defaultConfiguration from "../configuration"
+import { applyConfigurationSnapshot } from "../configuration/configurationSnapshot"
 
 /*
  * Local const
@@ -96,8 +97,21 @@ const DatasContextProvider = ({ children }) => {
     }
     useDatasContextFn.getValue = getValue
     useDatasContextFn.getValueId = getValueId
+
+    const [configRevision, setConfigRevision] = useState(0)
+    const importConfigurationSnapshot = (snapshot) => {
+        const result = applyConfigurationSnapshot(
+            configuration.current,
+            snapshot
+        )
+        setConfigRevision((revision) => revision + 1)
+        return result
+    }
+
     const store = {
         configuration,
+        configRevision,
+        importConfigurationSnapshot,
     }
 
     return (

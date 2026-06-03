@@ -8,7 +8,10 @@
     "front": "webpack serve --config config/webpack.dev.js ",
     "server": "nodemon config/server.js",
     "dev": "concurrently \"npm run server\" \"npm run front\"",
-    "build": "webpack --config config/webpack.prod.js"
+    "build": "webpack --config config/webpack.prod.js",
+    "validate:config": "node tools/validate_configuration.js",
+    "sync:pin-roles": "node tools/sync_pin_roles.js",
+    "check:esp3d": "node tools/check_esp3d_reference.js"
   },
   "author": "",
   "license": "ISC",

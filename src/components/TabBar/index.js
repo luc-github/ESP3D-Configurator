@@ -21,89 +21,24 @@ TabBar.js - ESP3D WebUI Tabs bar file
 import { h } from "preact"
 import { Link } from "../Router"
 import { T } from "../Translations"
-import { AppLogo } from "../Images/logo"
-import { useUiContext, useUiContextFn } from "../../contexts"
-import {
-    Camera,
-    Download,
-    HardDrive,
-    Tool,
-    Wifi,
-    Lock,
-    Upload,
-} from "preact-feather"
+import { configTabs } from "../../pages/config/steps"
 
 /*
  * Local const
  *
  */
-const defaultLinks = [
-    {
-        label: "Features",
-        icon: <AppLogo height="24px" />,
-        href: "/config/features",
-        id: "featuresLink",
-    },
-    {
-        label: "Network",
-        icon: <Wifi />,
-        href: "/config/network",
-        id: "networkLink",
-    },
-    {
-        label: "Filesystems",
-        icon: <HardDrive />,
-        href: "/config/filesystems",
-        id: "filesystemsLink",
-    },
-    {
-        label: "Update",
-        icon: <Upload />,
-        href: "/config/update",
-        id: "updateLink",
-    },
-    {
-        label: "Devices",
-        icon: <Camera />,
-        href: "/config/devices",
-        id: "devicesLink",
-    },
-
-    {
-        label: "Security",
-        icon: <Lock />,
-        href: "/config/security",
-        id: "securityLink",
-    },
-    {
-        label: "Others",
-        icon: <Tool />,
-        href: "/config/others",
-        id: "othersLink",
-    },
-    {
-        label: "Download",
-        icon: <Download />,
-        href: "/config/generate",
-        id: "generateLink",
-    },
-]
 const TabBar = () => {
-    const { uisettings } = useUiContext()
     return (
         <ul class="tab tab-block">
-            {defaultLinks &&
-                defaultLinks.map(({ label, icon, href, id }) => {
+            {configTabs &&
+                configTabs.map(({ label, icon, route, id }) => {
                     return (
                         <li class="tab-item">
                             <Link
                                 id={id}
                                 className="btn btn-link no-box feather-icon-container"
                                 activeClassName="active"
-                                href={href}
-                                onclick={(e) => {
-                                    //TBD
-                                }}
+                                href={route}
                             >
                                 {icon}
                                 <label class="hide-low">{T(label)}</label>

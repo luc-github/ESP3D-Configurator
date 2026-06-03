@@ -20,7 +20,10 @@
 if (process.env.NODE_ENV === "development") {
     require("preact/debug")
 }
+import { initTheme } from "./theme/theme"
 import { h, render } from "preact"
 import { App } from "./components/App"
 import "./style/index.scss"
+
+initTheme()
 render(<App />, document.body)

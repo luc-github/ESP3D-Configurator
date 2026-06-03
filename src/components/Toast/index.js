@@ -17,15 +17,18 @@
 */
 import { h } from "preact"
 import { useEffect } from "preact/hooks"
-import { useUiContext } from "../../contexts"
-import { Toast as SpectreToast } from "../Controls"
+import { useUiContext, useUiContextFn } from "../../contexts"
 import { T } from "../Translations"
 
-/*
- * Local const
- *
- */
-const Toast = ({ index, type = "", children, timeout = 2000, remove }) => {
+const modifierClass = (type) => {
+    if (type === "success") return "toast-success"
+    if (type === "error") return "toast-error"
+    if (type === "warning") return "toast-warning"
+    if (type === "primary") return "toast-primary"
+    return ""
+}
+
+const Toast = ({ index, type = "", message = "", timeout = 2000, remove }) => {
     useEffect(() => {
         let timer
         if (timeout) {
@@ -36,16 +39,21 @@ const Toast = ({ index, type = "", children, timeout = 2000, remove }) => {
         }
     }, [])
 
+    const variantClass = modifierClass(type)
+
     return (
-        <SpectreToast {...{ [type]: true }}>
-            <SpectreToast.Close
+        <div class={`toast ${variantClass}`.trim()}>
+            <span class="toast-message">{message}</span>
+            <button
+                type="button"
+                class="btn btn-clear float-right"
+                aria-label="Close"
                 onClick={() => {
                     useUiContextFn.haptic()
                     remove(index)
                 }}
             />
-            {children}
-        </SpectreToast>
+        </div>
     )
 }
 
@@ -55,16 +63,21 @@ const ToastsContainer = () => {
         toasts.toastList && (
             <div class="toasts-container">
                 {toasts.toastList.map((toast) => {
-                    const { id, type, content } = toast
+                    const { id, type, content, message, literal } = toast
+                    const text = content ?? message
+                    const label = text
+                        ? literal
+                            ? String(text)
+                            : T(text)
+                        : ""
                     return (
                         <Toast
                             remove={toasts.removeToast}
                             index={id}
                             type={type}
+                            message={label}
                             key={id}
-                        >
-                            {T(content)}
-                        </Toast>
+                        />
                     )
                 })}
             </div>

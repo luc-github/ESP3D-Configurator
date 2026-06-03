@@ -1,0 +1,46 @@
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.15rem;
+    border-radius: 0.35rem;
+    background: var(--th-bg-muted);
+    border: 0.05rem solid var(--th-border);
+    gap: 0.1rem;
+}
+
+.theme-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: none;
+    border-radius: 0.25rem;
+    background: transparent;
+    color: var(--th-text-muted);
+    cursor: pointer;
+    transition:
+        background-color 0.15s ease,
+        color 0.15s ease;
+
+    &:hover {
+        color: var(--th-primary);
+        background: var(--th-bg-surface);
+    }
+
+    &.is-active {
+        color: var(--th-primary);
+        background: var(--th-bg-surface);
+        box-shadow: 0 0 0 0.05rem var(--th-border);
+    }
+
+    svg {
+        stroke: currentColor;
+    }
+}
+
+.navbar-section-right {
+    margin-left: auto;
+    padding-right: 0.75rem;
+}

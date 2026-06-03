@@ -24,6 +24,7 @@ import { Settings } from "preact-feather"
 import { AppLogo } from "../Images/logo"
 import { Link } from "../Router"
 import { T } from "../Translations"
+import { ThemeToggle } from "../ThemeToggle"
 
 /*
  * Local const
@@ -72,6 +73,9 @@ const Navbar = () => {
                             </Link>
                         )
                     })}
+            </section>
+            <section class="navbar-section navbar-section-right">
+                <ThemeToggle />
             </section>
         </header>
     )

@@ -1,0 +1,567 @@
+[
+    {
+        "id": "mcu",
+        "description": "ESP Board  using ESP3D firmware",
+        "label": "Board description",
+        "setting": false,
+        "skipExport": true,
+        "type": "group",
+        "value": [
+            {
+                "id": "targetmcu",
+                "define": "ESP_MCU",
+                "description": "MCU",
+                "label": "MCU",
+                "type": "select",
+                "value": "esp32",
+                "setting": false,
+                "options": [
+                    {
+                        "label": "ESP8285",
+                        "value": "esp8285"
+                    },
+                    {
+                        "label": "ESP8266",
+                        "value": "esp8266"
+                    },
+                    {
+                        "label": "ESP32",
+                        "value": "esp32"
+                    },
+                    {
+                        "label": "ESP32-S2",
+                        "value": "esp32s2"
+                    },
+                    {
+                        "label": "ESP32-S3",
+                        "value": "esp32s3"
+                    },
+                    {
+                        "label": "ESP32-C3",
+                        "value": "esp32c3"
+                    },
+                    {
+                        "label": "ESP32-C6",
+                        "value": "esp32c6"
+                    }
+                ]
+            },
+            {
+                "id": "targetflashsize",
+                "define": "FLASH_SIZE",
+                "description": "ESP flash size",
+                "label": "ESP flash size",
+                "type": "select",
+                "value": "4",
+                "setting": false,
+                "options": [
+                    {
+                        "label": "1MB",
+                        "value": "1",
+                        "depend": {
+                            "id": "targetmcu",
+                            "value": [
+                                "esp8266",
+                                "esp8285"
+                            ]
+                        },
+                        "help": "No OTA/ Web update possible"
+                    },
+                    {
+                        "label": "2MB",
+                        "value": "2",
+                        "help": "No OTA/ Web update possible"
+                    },
+                    {
+                        "label": "4MB",
+                        "value": "4"
+                    },
+                    {
+                        "label": "8MB",
+                        "value": "8"
+                    },
+                    {
+                        "label": "16MB",
+                        "value": "16"
+                    }
+                ]
+            },
+            {
+                "id": "formfactor",
+                "define": "ESP_FORM_FACTOR",
+                "description": "Pins form factor",
+                "label": "Form factor",
+                "type": "select",
+                "value": "original",
+                "setting": false,
+                "options": [
+                    {
+                        "label": "Original (all pins)",
+                        "value": "original"
+                    },
+                    {
+                        "label": "ESP01 (8 pins)",
+                        "value": "esp01"
+                    }
+                ]
+            },
+            {
+                "id": "flash_mod1",
+                "define": "flash_mode",
+                "description": "Flash mode",
+                "label": "Flash mode",
+                "type": "select",
+                "value": "dio",
+                "depend": {
+                    "id": "targetmcu",
+                    "value": [
+                        "esp8266",
+                        "esp8285"
+                    ]
+                },
+                "setting": false,
+                "options": [
+                    {
+                        "label": "qio",
+                        "value": "qio"
+                    },
+                    {
+                        "label": "dio",
+                        "value": "dio"
+                    },
+                    {
+                        "label": "dout",
+                        "value": "dout"
+                    },
+                    {
+                        "label": "qout",
+                        "value": "qout"
+                    }
+                ]
+            },
+            {
+                "id": "flash_mode",
+                "define": "flash_mode",
+                "description": "Flash mode",
+                "label": "Flash mode",
+                "type": "select",
+                "value": "qio",
+                "depend": {
+                    "id": "targetmcu",
+                    "notvalue": [
+                        "esp8266",
+                        "esp8285"
+                    ]
+                },
+                "setting": false,
+                "options": [
+                    {
+                        "label": "qio",
+                        "value": "qio"
+                    },
+                    {
+                        "label": "dio",
+                        "value": "dio"
+                    },
+                    {
+                        "label": "dout",
+                        "value": "dout"
+                    },
+                    {
+                        "label": "qout",
+                        "value": "qout"
+                    }
+                ]
+            },
+            {
+                "id": "resetmethod",
+                "define": "upload_resetmethod",
+                "description": "Reset method for upload",
+                "label": "Reset method for upload",
+                "type": "select",
+                "depend": {
+                    "id": "targetmcu",
+                    "value": [
+                        "esp8266",
+                        "esp8285"
+                    ]
+                },
+                "value": "ck",
+                "setting": false,
+                "options": [
+                    {
+                        "label": "ck",
+                        "value": "ck",
+                        "help": "Need to manually set GPIO 0 to gnd"
+                    },
+                    {
+                        "label": "nodemcu",
+                        "value": "nodemcu",
+                        "help": "Automatically set GPIO 0 to gnd via 2 NPN transistors"
+                    },
+                    {
+                        "label": "wifio",
+                        "value": "wifio",
+                        "help": "Automatically set GPIO 0 to gnd via TX and DTR controls"
+                    }
+                ]
+            },
+            {
+                "id": "has_psram",
+                "define": "BOARD_HAS_PSRAM",
+                "description": "Enable if your module includes PSRAM (required for camera).",
+                "footnote": "With PSRAM enabled: ESP32 (WROVER) reserves GPIO 16–17; ESP32-S3 reserves GPIO 26–32 (and 33–37 with octal PSRAM). These GPIO are tracked for conflicts.",
+                "footnoteWhenActive": true,
+                "label": "Has PSRAM",
+                "type": "boolean",
+                "depend": {
+                    "id": "targetmcu",
+                    "notvalue": [
+                        "esp8266",
+                        "esp8285"
+                    ]
+                },
+                "value": false,
+                "setting": false
+            },
+            {
+                "id": "memory_type",
+                "define": "board_build.arduino.memory_type",
+                "description": "Flash and PSRAM bus mode for platformio.ini (ESP32-S3 modules). Must match your board (e.g. N8R2 vs N16R8, octal PSRAM).",
+                "label": "Memory type",
+                "type": "select",
+                "value": "qio_qspi",
+                "footnote": "Please note: if the board fails to boot, this setting may not match your module and must be adjusted accordingly.",
+                "depend": [
+                    {
+                        "id": "targetmcu",
+                        "value": [
+                            "esp32s3"
+                        ]
+                    },
+                    {
+                        "id": "has_psram",
+                        "value": [
+                            true
+                        ]
+                    }
+                ],
+                "setting": false,
+                "options": [
+                    {
+                        "label": "Dio Flash / Octal PSRAM",
+                        "value": "dio_opi"
+                    },
+                    {
+                        "label": "Quad",
+                        "value": "qio_qspi"
+                    },
+                    {
+                        "label": "Quad Flash/ Octal PSRAM",
+                        "value": "qio_opi"
+                    },
+                    {
+                        "label": "Octal",
+                        "value": "opi_opi"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "communication",
+        "description": "Settings and protocols",
+        "label": "Serial Communications",
+        "setting": true,
+        "type": "group",
+        "value": [
+            {
+                "id": "serialprotocol",
+                "define": "COMMUNICATION_PROTOCOL",
+                "description": "Communication protocol used by ESP3D to discuss with printer or TFT",
+                "label": "Serial Communication protocol",
+                "type": "select",
+                "value": "RAW_SERIAL",
+                "setting": true,
+                "options": [
+                    {
+                        "label": "Raw serial",
+                        "value": "RAW_SERIAL",
+                        "help": "Basic serial protocol, without data change"
+                    },
+                    {
+                        "label": "MKS serial",
+                        "value": "MKS_SERIAL",
+                        "help": "This is a MakerBase communication protocol, used with MKS printers and TFT, it encapsulated data in a custom protocol"
+                    }
+                ]
+            },
+            {
+                "id": "serialport",
+                "define": "ESP_SERIAL_OUTPUT",
+                "description": "UART used for printer or TFT (main serial)",
+                "label": "Main serial port",
+                "type": "select",
+                "value": "USE_SERIAL_0",
+                "setting": true,
+                "isport": true
+            },
+            {
+                "id": "ESP_RX_PIN",
+                "define": "ESP_RX_PIN",
+                "label": "RX",
+                "description": "Default (-1) uses board UART pins for the selected main serial port",
+                "type": "select",
+                "value": "-1",
+                "setting": false,
+                "ispin": true,
+                "usedefault": true,
+                "pinRole": "input"
+            },
+            {
+                "id": "ESP_TX_PIN",
+                "define": "ESP_TX_PIN",
+                "label": "TX",
+                "description": "Default (-1) uses board UART pins for the selected main serial port",
+                "type": "select",
+                "value": "-1",
+                "setting": false,
+                "ispin": true,
+                "usedefault": true,
+                "pinRole": "output"
+            },
+            {
+                "id": "serialbuffer",
+                "define": "SERIAL_RX_BUFFER_SIZE",
+                "description": "Maximum size of the serial buffer",
+                "label": "Serial buffer size",
+                "type": "select",
+                "value": "512",
+                "setting": true,
+                "usedescforoptions": true,
+                "options": [
+                    {
+                        "label": "0 Byte",
+                        "value": "0"
+                    },
+                    {
+                        "label": "128 Bytes",
+                        "value": "128"
+                    },
+                    {
+                        "label": "256 Bytes",
+                        "value": "256"
+                    },
+                    {
+                        "label": "512 Bytes",
+                        "value": "512"
+                    },
+                    {
+                        "label": "1024 Bytes",
+                        "value": "1024"
+                    }
+                ]
+            },
+            {
+                "id": "usbserial",
+                "define": "USB_SERIAL_FEATURE",
+                "label": "Use USB Serial",
+                "description": "Enable USB serial OTG port",
+                "type": "boolean",
+                "depend": {
+                    "id": "targetmcu",
+                    "value": [
+                        "esp32s3",
+                        "esp32s2"
+                    ]
+                },
+                "value": false,
+                "disableiffalse": true,
+                "setting": true
+            },
+            {
+                "id": "serialBridge",
+                "define": "SERIAL_BRIDGE_FEATURE",
+                "label": "Use serial bridge",
+                "description": "Enable serial bridge feature",
+                "type": "boolean",
+                "depend": {
+                    "id": "targetmcu",
+                    "notvalue": [
+                        "esp8266",
+                        "esp8285"
+                    ]
+                },
+                "value": false,
+                "disableiffalse": true,
+                "setting": true
+            },
+            {
+                "id": "serialBridgeport",
+                "define": "ESP_SERIAL_BRIDGE_OUTPUT",
+                "description": "Second UART for serial bridge (must differ from main serial port when possible)",
+                "depend": {
+                    "id": "serialBridge",
+                    "value": [
+                        true
+                    ]
+                },
+                "label": "Serial bridge port",
+                "type": "select",
+                "value": "USE_SERIAL_1",
+                "setting": true,
+                "isport": true
+            },
+            {
+                "id": "ESP_BRIDGE_RX_PIN",
+                "define": "ESP_BRIDGE_RX_PIN",
+                "label": "RX",
+                "description": "Default (-1) uses board UART pins for the selected bridge port",
+                "type": "select",
+                "value": "-1",
+                "setting": false,
+                "ispin": true,
+                "usedefault": true,
+                "depend": [
+                    {
+                        "id": "serialBridge",
+                        "value": [
+                            true
+                        ]
+                    },
+                    {
+                        "id": "targetmcu",
+                        "notvalue": [
+                            "esp8266",
+                            "esp8285"
+                        ]
+                    }
+                ],
+                "pinRole": "input"
+            },
+            {
+                "id": "ESP_BRIDGE_TX_PIN",
+                "define": "ESP_BRIDGE_TX_PIN",
+                "label": "TX",
+                "description": "Default (-1) uses board UART pins for the selected bridge port",
+                "type": "select",
+                "value": "-1",
+                "setting": false,
+                "ispin": true,
+                "usedefault": true,
+                "depend": [
+                    {
+                        "id": "serialBridge",
+                        "value": [
+                            true
+                        ]
+                    },
+                    {
+                        "id": "targetmcu",
+                        "notvalue": [
+                            "esp8266",
+                            "esp8285"
+                        ]
+                    }
+                ],
+                "pinRole": "output"
+            }
+        ]
+    },
+    {
+        "id": "targetFW",
+        "description": "Targeted firmware that ESP3D will communicate with",
+        "label": "Target firmware",
+        "setting": true,
+        "type": "group",
+        "value": [
+            {
+                "id": "systemtype",
+                "define": "SYSTEM_TYPE",
+                "description": "The type of your system",
+                "label": "System type",
+                "type": "select",
+                "value": "Printer3D",
+                "setting": false,
+                "options": [
+                    {
+                        "label": "CNC",
+                        "value": "CNC",
+                        "help": "CNC system used for milling/laser engraving/cutting"
+                    },
+                    {
+                        "label": "3D printer",
+                        "value": "Printer3D",
+                        "help": "3D printer system used with filaments"
+                    },
+                    {
+                        "label": "Sand Table",
+                        "value": "SandTable",
+                        "help": "System doing kinetic art, zen garden, sand table, etc."
+                    }
+                ]
+            },
+            {
+                "id": "defaultfw",
+                "define": "DEFAULT_FW",
+                "description": "The firmware that ESP3D will use by default",
+                "label": "Target firmware",
+                "type": "select",
+                "value": "UNKNOWN_FW",
+                "setting": true,
+                "options": [
+                    {
+                        "label": "Undefined",
+                        "value": "UNKNOWN_FW",
+                        "help": "Undefined firmware"
+                    },
+                    {
+                        "label": "Marlin",
+                        "value": "MARLIN",
+                        "help": "Marlin 2.x firmware",
+                        "depend": {
+                            "id": "systemtype",
+                            "value": [
+                                "Printer3D"
+                            ]
+                        }
+                    },
+                    {
+                        "label": "Repetier",
+                        "value": "REPETIER",
+                        "help": "Repetier 1.x/2.x firmware",
+                        "depend": {
+                            "id": "systemtype",
+                            "value": [
+                                "Printer3D"
+                            ]
+                        }
+                    },
+                    {
+                        "label": "Smoothieware",
+                        "value": "SMOOTHIEWARE",
+                        "help": "Smoothieware 1.x/2.x firmware",
+                        "depend": {
+                            "id": "systemtype",
+                            "value": [
+                                "Printer3D"
+                            ]
+                        }
+                    },
+                    {
+                        "label": "Grbl",
+                        "value": "GRBL",
+                        "help": "Grbl 1.1 firmware",
+                        "depend": {
+                            "id": "systemtype",
+                            "value": [
+                                "CNC",
+                                "SandTable"
+                            ]
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+]

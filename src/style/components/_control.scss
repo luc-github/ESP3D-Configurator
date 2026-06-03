@@ -371,6 +371,59 @@ a label {
     width: fit-content;
 }
 
+.field-footnote {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4rem;
+    color: $primary-color;
+
+    .field-footnote-icon {
+        flex-shrink: 0;
+        margin-top: 0.15rem;
+        color: $primary-color;
+        stroke: $primary-color;
+    }
+}
+
+.board-preset-picker {
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+
+    .board-preset-intro {
+        max-width: 28rem;
+        text-align: left;
+        color: $body-font-color;
+    }
+
+    .field-group-content {
+        align-items: flex-start;
+    }
+
+    .board-preset-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        gap: 0.5rem;
+    }
+
+    .board-preset-import-feedback {
+        max-width: 28rem;
+        text-align: left;
+        font-size: 0.9rem;
+        margin-top: 0.25rem;
+        font-weight: 500;
+
+        &--success {
+            color: $success-color !important;
+        }
+
+        &--error {
+            color: $error-color !important;
+        }
+    }
+}
+
 .has-modification svg {
     color: $warning-color;
 }

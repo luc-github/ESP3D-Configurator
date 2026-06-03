@@ -5,6 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ESP3D-Configurator</title>
+    <script>
+      (function () {
+        var k = "esp3d-configurator-ui-theme";
+        var m = localStorage.getItem(k);
+        if (m !== "light" && m !== "dark" && m !== "auto") m = "auto";
+        var t =
+          m === "dark"
+            ? "dark"
+            : m === "light"
+              ? "light"
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+        document.documentElement.dataset.themeMode = m;
+        document.documentElement.dataset.theme = t;
+      })();
+    </script>
   </head>
   <body>
 

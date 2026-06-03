@@ -1,0 +1,621 @@
+[
+    {
+        "id": "flash",
+        "description": "Filesystem on flash",
+        "label": "Flash filesystem",
+        "setting": true,
+        "type": "group",
+        "value": [
+            {
+                "id": "flashFS",
+                "define": "FILESYSTEM_FEATURE",
+                "label": "File system type",
+                "description": "Type of file system used by ESP3D to store files",
+                "type": "select",
+                "value": "ESP_LITTLEFS_FILESYSTEM",
+                "setting": true,
+                "usedescforoptions": true,
+                "options": [
+                    {
+                        "label": "LittleFS",
+                        "value": "ESP_LITTLEFS_FILESYSTEM"
+                    },
+                    {
+                        "label": "FatFS",
+                        "value": "ESP_FAT_FILESYSTEM",
+                        "help": "Only on ESP32 with large flash",
+                        "depend": {
+                            "id": "targetmcu",
+                            "value": [
+                                "esp32",
+                                "esp32s2",
+                                "esp32s3",
+                                "esp32c3"
+                            ]
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "flashTimestamp",
+                "define": "FILESYSTEM_TIMESTAMP_FEATURE",
+                "label": "Enable date/time on files",
+                "description": "Set date/time on files using SNTP or last webui connection",
+                "type": "boolean",
+                "value": false,
+                "disableiffalse": true,
+                "setting": true
+            }
+        ]
+    },
+    {
+        "id": "sd",
+        "description": "Filesystem on SD card",
+        "label": "SD filesystem",
+        "setting": true,
+        "type": "group",
+        "depend": {
+            "id": "formfactor",
+            "notvalue": [
+                "esp01"
+            ]
+        },
+        "value": [
+            {
+                "id": "sdconnection",
+                "define": "SD_DEVICE_CONNECTION",
+                "label": "SD card connection",
+                "description": "Does your system has SD card and how it is connected to your ESP3D",
+                "type": "select",
+                "value": "-1",
+                "setting": true,
+                "usedescforoptions": true,
+                "options": [
+                    {
+                        "label": "None",
+                        "value": "-1",
+                        "help": "Your ESP does not have SDcard but your system may have one"
+                    },
+                    {
+                        "label": "Direct connection",
+                        "value": "ESP_NOT_SHARED_SD",
+                        "help": "Only your ESP board is connected to SDCard"
+                    },
+                    {
+                        "label": "Shared connection",
+                        "value": "ESP_SHARED_SD",
+                        "help": "Your system has SDCard and your ESP is connected to it using sharing solution"
+                    }
+                ]
+            },
+            {
+                "id": "sdfs",
+                "define": "SD_DEVICE",
+                "label": "SD card library",
+                "description": "Library used by SD card driver",
+                "type": "select",
+                "value": "ESP_SDFAT2",
+                "depend": {
+                    "id": "sdconnection",
+                    "value": [
+                        "ESP_SHARED_SD",
+                        "ESP_NOT_SHARED_SD"
+                    ]
+                },
+                "setting": true,
+                "options": [
+                    {
+                        "label": "Native from core",
+                        "value": "ESP_SD_NATIVE",
+                        "help": "No additionnal library required"
+                    },
+                    {
+                        "label": "SDFat",
+                        "value": "ESP_SDFAT2",
+                        "help": "SDFat 2 library required"
+                    },
+                    {
+                        "label": "SDIO",
+                        "value": "ESP_SDIO",
+                        "help": "Used by SDMMC",
+                        "depend": {
+                            "id": "targetmcu",
+                            "value": [
+                                "esp32",
+                                "esp32s2",
+                                "esp32s3",
+                                "esp32c3"
+                            ]
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "sdio",
+                "define": "SDIO_BIT_MODE",
+                "label": "Sdio bit mode",
+                "description": "Mode used by SDIO library",
+                "type": "select",
+                "value": "SD_FOUR_BIT_MODE",
+                "depend": {
+                    "id": "sdfs",
+                    "value": [
+                        "ESP_SDIO"
+                    ]
+                },
+                "setting": true,
+                "options": [
+                    {
+                        "label": "1 bit",
+                        "value": "SD_ONE_BIT_MODE"
+                    },
+                    {
+                        "label": "4 bits",
+                        "value": "SD_FOUR_BIT_MODE"
+                    }
+                ]
+            },
+            {
+                "id": "sdtimestamp",
+                "define": "SD_TIMESTAMP_FEATURE",
+                "label": "Enable date/time on files",
+                "description": "Set date/time on files using SNTP or last webui connection",
+                "type": "boolean",
+                "value": false,
+                "disableiffalse": true,
+                "setting": true
+            }
+        ]
+    },
+    {
+        "id": "sdpins",
+        "description": "SD card pins",
+        "label": "SD card pins",
+        "setting": true,
+        "type": "group",
+        "depend": {
+            "id": "sdconnection",
+            "value": [
+                "ESP_SHARED_SD",
+                "ESP_NOT_SHARED_SD"
+            ]
+        },
+        "value": [
+            {
+                "id": "detectsdpin",
+                "define": "ESP_SD_DETECT_PIN",
+                "label": "SD card detect pin",
+                "description": "The pin used to detect SD card",
+                "type": "select",
+                "ispin": true,
+                "value": "-1",
+                "depend": {
+                    "id": "sdconnection",
+                    "value": [
+                        "ESP_SHARED_SD",
+                        "ESP_NOT_SHARED_SD"
+                    ]
+                },
+                "setting": true,
+                "usedescforoptions": true,
+                "pinRole": "input"
+            },
+            {
+                "id": "sddetectvalue",
+                "define": "ESP_SD_DETECT_VALUE",
+                "label": "Pin value",
+                "description": "State of SD card detect pin when card is present",
+                "type": "select",
+                "value": "0",
+                "depend": {
+                    "id": "detectsdpin",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "setting": true,
+                "usedescforoptions": true,
+                "options": [
+                    {
+                        "label": "High",
+                        "value": "1"
+                    },
+                    {
+                        "label": "Low",
+                        "value": "0"
+                    }
+                ]
+            },
+            {
+                "id": "shareflagsdpin",
+                "define": "ESP_FLAG_SHARED_SD_PIN",
+                "label": "SD shared flag pin",
+                "description": "The pin used to enable SD card for ESP board",
+                "type": "select",
+                "ispin": true,
+                "value": "-1",
+                "depend": {
+                    "id": "sdconnection",
+                    "value": [
+                        "ESP_SHARED_SD"
+                    ]
+                },
+                "setting": true,
+                "usedescforoptions": true,
+                "pinRole": "output"
+            },
+            {
+                "id": "shareflagsdvalue",
+                "define": "ESP_FLAG_SHARED_SD_VALUE",
+                "label": "Pin value",
+                "description": "State of SD card share pin for ESP board",
+                "type": "select",
+                "value": "0",
+                "depend": {
+                    "id": "shareflagsdpin",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "setting": true,
+                "usedescforoptions": true,
+                "options": [
+                    {
+                        "label": "High",
+                        "value": "1"
+                    },
+                    {
+                        "label": "Low",
+                        "value": "0"
+                    }
+                ]
+            },
+            {
+                "id": "sdcspin",
+                "define": "ESP_SD_CS_PIN",
+                "label": "SD card CS pin",
+                "description": "The pin used to select SD card in SPI mode",
+                "type": "select",
+                "ispin": true,
+                "usedefault": true,
+                "value": "-1",
+                "depend": {
+                    "id": "sdfs",
+                    "notvalue": [
+                        "ESP_SDIO"
+                    ]
+                },
+                "setting": true,
+                "usedescforoptions": true,
+                "pinRole": "output"
+            },
+            {
+                "id": "sdmosipin",
+                "define": "ESP_SD_MOSI_PIN",
+                "label": "SD card Mosi pin",
+                "description": "The Mosi pin used by SD in SPI mode",
+                "type": "select",
+                "ispin": true,
+                "usedefault": true,
+                "value": "-1",
+                "depend": [
+                    {
+                        "id": "sdfs",
+                        "notvalue": [
+                            "ESP_SDIO"
+                        ]
+                    },
+                    {
+                        "id": "targetmcu",
+                        "notvalue": [
+                            "esp8266",
+                            "esp8285"
+                        ]
+                    }
+                ],
+                "setting": true,
+                "usedescforoptions": true,
+                "pinRole": "bidirectional"
+            },
+            {
+                "id": "sdmisopin",
+                "define": "ESP_SD_MISO_PIN",
+                "label": "SD card Miso pin",
+                "description": "The Miso pin used by SD in SPI mode",
+                "type": "select",
+                "ispin": true,
+                "usedefault": true,
+                "value": "-1",
+                "depend": [
+                    {
+                        "id": "sdfs",
+                        "notvalue": [
+                            "ESP_SDIO"
+                        ]
+                    },
+                    {
+                        "id": "targetmcu",
+                        "notvalue": [
+                            "esp8266",
+                            "esp8285"
+                        ]
+                    }
+                ],
+                "setting": true,
+                "usedescforoptions": true,
+                "pinRole": "bidirectional"
+            },
+            {
+                "id": "sdsckpin",
+                "define": "ESP_SD_SCK_PIN",
+                "label": "SD card Sck pin",
+                "description": "The Sck pin used by SD in SPI mode",
+                "type": "select",
+                "ispin": true,
+                "usedefault": true,
+                "value": "-1",
+                "depend": [
+                    {
+                        "id": "sdfs",
+                        "notvalue": [
+                            "ESP_SDIO"
+                        ]
+                    },
+                    {
+                        "id": "targetmcu",
+                        "notvalue": [
+                            "esp8266",
+                            "esp8285"
+                        ]
+                    }
+                ],
+                "setting": true,
+                "usedescforoptions": true,
+                "pinRole": "output"
+            },
+            {
+                "id": "sdioclkpin",
+                "define": "ESP_SDIO_CLK_PIN",
+                "label": "SDIO card clk pin",
+                "description": "The clk pin used by SD card in SDIO mode",
+                "type": "select",
+                "ispin": true,
+                "usedefault": true,
+                "value": "-1",
+                "depend": {
+                    "id": "sdfs",
+                    "value": [
+                        "ESP_SDIO"
+                    ]
+                },
+                "setting": true,
+                "usedescforoptions": true,
+                "pinRole": "output"
+            },
+            {
+                "id": "sdiocmdpin",
+                "define": "ESP_SDIO_CMD_PIN",
+                "label": "SDIO card cmd pin",
+                "description": "The cmd pin used by SD card in SDIO mode",
+                "type": "select",
+                "ispin": true,
+                "usedefault": true,
+                "value": "-1",
+                "depend": {
+                    "id": "sdfs",
+                    "value": [
+                        "ESP_SDIO"
+                    ]
+                },
+                "setting": true,
+                "usedescforoptions": true,
+                "pinRole": "bidirectional"
+            },
+            {
+                "id": "sdiod0pin",
+                "define": "ESP_SDIO_D0_PIN",
+                "label": "SDIO card data 0 pin",
+                "description": "The d0 pin used by SD card in SDIO mode",
+                "type": "select",
+                "ispin": true,
+                "usedefault": true,
+                "value": "-1",
+                "depend": {
+                    "id": "sdfs",
+                    "value": [
+                        "ESP_SDIO"
+                    ]
+                },
+                "setting": true,
+                "usedescforoptions": true,
+                "pinRole": "bidirectional"
+            },
+            {
+                "id": "sdiod1pin",
+                "define": "ESP_SDIO_D1_PIN",
+                "label": "SDIO card data 1 pin",
+                "description": "The d1 pin used by SD card in SDIO mode",
+                "type": "select",
+                "ispin": true,
+                "usedefault": true,
+                "value": "-1",
+                "depend": [
+                    {
+                        "id": "sdfs",
+                        "value": [
+                            "ESP_SDIO"
+                        ]
+                    },
+                    {
+                        "id": "sdio",
+                        "value": [
+                            "SD_FOUR_BIT_MODE"
+                        ]
+                    }
+                ],
+                "setting": true,
+                "usedescforoptions": true,
+                "pinRole": "bidirectional"
+            },
+            {
+                "id": "sdiod2pin",
+                "define": "ESP_SDIO_D2_PIN",
+                "label": "SDIO card data 2 pin",
+                "description": "The d2 pin used by SD card in SDIO mode",
+                "type": "select",
+                "ispin": true,
+                "usedefault": true,
+                "value": "-1",
+                "depend": [
+                    {
+                        "id": "sdfs",
+                        "value": [
+                            "ESP_SDIO"
+                        ]
+                    },
+                    {
+                        "id": "sdio",
+                        "value": [
+                            "SD_FOUR_BIT_MODE"
+                        ]
+                    }
+                ],
+                "setting": true,
+                "usedescforoptions": true,
+                "pinRole": "bidirectional"
+            },
+            {
+                "id": "sdiod3pin",
+                "define": "ESP_SDIO_D3_PIN",
+                "label": "SDIO card data 3 pin",
+                "description": "The d3 pin used by SD card in SDIO mode",
+                "type": "select",
+                "ispin": true,
+                "usedefault": true,
+                "value": "-1",
+                "depend": [
+                    {
+                        "id": "sdfs",
+                        "value": [
+                            "ESP_SDIO"
+                        ]
+                    },
+                    {
+                        "id": "sdio",
+                        "value": [
+                            "SD_FOUR_BIT_MODE"
+                        ]
+                    }
+                ],
+                "setting": true,
+                "usedescforoptions": true,
+                "pinRole": "bidirectional"
+            }
+        ]
+    },
+    {
+        "id": "remote",
+        "description": "Remote filesystem access",
+        "label": "Remote access",
+        "setting": true,
+        "type": "group",
+        "value": [
+            {
+                "id": "globalFS",
+                "define": "GLOBAL_FILESYSTEM_FEATURE",
+                "label": "Enable global filesystem",
+                "description": "Allows to access to all filesystems fromsame location",
+                "type": "boolean",
+                "value": false,
+                "depend": {
+                    "id": "sdconnection",
+                    "notvalue": [
+                        "-1"
+                    ]
+                },
+                "disableiffalse": true,
+                "setting": true
+            },
+            {
+                "id": "webdav",
+                "define": "WEBDAV_FEATURE",
+                "label": "WebDav access",
+                "description": "Use WebDav to access to your filesystem",
+                "type": "select",
+                "value": "-1",
+                "setting": true,
+                "usedescforoptions": true,
+                "options": [
+                    {
+                        "label": "None",
+                        "value": "-1"
+                    },
+                    {
+                        "label": "All filesystems",
+                        "value": "FS_ROOT",
+                        "depend": {
+                            "id": "globalFS",
+                            "value": [
+                                true
+                            ]
+                        }
+                    },
+                    {
+                        "label": "ESP3D Flash",
+                        "value": "FS_FLASH"
+                    },
+                    {
+                        "label": "ESP3D SD",
+                        "value": "FS_SD",
+                        "depend": {
+                            "id": "sdconnection",
+                            "notvalue": [
+                                "-1"
+                            ]
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "ftp",
+                "define": "FTP_FEATURE",
+                "label": "FTP access",
+                "description": "Use FTP to access to your filesystem (1 connection only)",
+                "type": "select",
+                "value": "-1",
+                "setting": true,
+                "usedescforoptions": true,
+                "options": [
+                    {
+                        "label": "None",
+                        "value": "-1"
+                    },
+                    {
+                        "label": "All filesystems",
+                        "value": "FS_ROOT",
+                        "depend": {
+                            "id": "globalFS",
+                            "value": [
+                                true
+                            ]
+                        }
+                    },
+                    {
+                        "label": "ESP3D Flash",
+                        "value": "FS_FLASH"
+                    },
+                    {
+                        "label": "ESP3D SD",
+                        "value": "FS_SD",
+                        "depend": {
+                            "id": "sdconnection",
+                            "notvalue": [
+                                "-1"
+                            ]
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+]

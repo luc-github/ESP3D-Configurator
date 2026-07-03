@@ -210,7 +210,7 @@
                 "id": "has_psram",
                 "define": "BOARD_HAS_PSRAM",
                 "description": "Enable if your module includes PSRAM (required for camera).",
-                "footnote": "With PSRAM enabled: ESP32 (WROVER) reserves GPIO 16–17; ESP32-S3 reserves GPIO 26–32 (and 33–37 with octal PSRAM). These GPIO are tracked for conflicts.",
+                "footnote": "With PSRAM enabled: ESP32 (WROVER) reserves GPIO 16-17; ESP32-S3 reserves GPIO 26-32 (and 33-37 with octal PSRAM). These GPIO are tracked for conflicts.",
                 "footnoteWhenActive": true,
                 "label": "Has PSRAM",
                 "type": "boolean",

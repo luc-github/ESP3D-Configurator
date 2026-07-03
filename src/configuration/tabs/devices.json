@@ -412,7 +412,7 @@
     },
     {
         "id": "camera",
-        "description": "Connected camera — only boards with PSRAM are supported. Enable Has PSRAM on Features first.",
+        "description": "Connected camera - only boards with PSRAM are supported. Enable Has PSRAM on Features first.",
         "label": "Camera settings",
         "setting": true,
         "depend": [

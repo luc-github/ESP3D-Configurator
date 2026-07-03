@@ -22,7 +22,7 @@ const collectConfigurationSnapshot = (configuration) => {
 const formatSnapshotComment = (snapshot) =>
     "\n\n/************************************\n" +
     " * ESP3D-Configurator settings snapshot\n" +
-    " * Re-import: Features tab → Board preset → Import configuration.h\n" +
+    " * Re-import: Features tab -> Board preset -> Import configuration.h\n" +
     " ************************************/\n" +
     `/* ${SNAPSHOT_BEGIN}\n` +
     `${JSON.stringify(snapshot, null, 2)}\n` +

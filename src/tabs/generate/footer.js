@@ -30,17 +30,18 @@ const footer =
 //Enable debug mode\n\
 //Do not do this when connected to printer !!!\n\
 //be noted all upload may failed if enabled\n\
-//DEBUG_OUTPUT_SERIAL0\n\
-//DEBUG_OUTPUT_SERIAL1\n\
-//DEBUG_OUTPUT_SERIAL2\n\
-//DEBUG_OUTPUT_TELNET\n\
-//DEBUG_OUTPUT_WEBSOCKET\n\
-//#define ESP_DEBUG_FEATURE DEBUG_OUTPUT_SERIAL0\n\
+//LOG_OUTPUT_SERIAL0\n\
+//LOG_OUTPUT_SERIAL1\n\
+//LOG_OUTPUT_SERIAL2\n\
+//LOG_OUTPUT_TELNET\n\
+//LOG_OUTPUT_WEBSOCKET\n\
+//#define ESP_LOG_FEATURE LOG_OUTPUT_SERIAL0\n\
+//#define ESP3D_LOG_LEVEL LOG_LEVEL_DEBUG\n\
 \n\
-#ifdef ESP_DEBUG_FEATURE\n\
-#define DEBUG_BAUDRATE 115200\n\
-#define DEBUG_ESP3D_OUTPUT_PORT  8000\n\
-#endif //ESP_DEBUG_FEATURE\n\
+#ifdef ESP_LOG_FEATURE\n\
+#define LOG_ESP3D_BAUDRATE 115200\n\
+#define LOG_ESP3D_OUTPUT_PORT  8000\n\
+#endif //ESP_LOG_FEATURE\n\
 \n\
 //Enable benchmark report in dev console\n\
 //#define ESP_BENCHMARK_FEATURE\n\
